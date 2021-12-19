@@ -10,7 +10,6 @@ export function activate(context: vscode.ExtensionContext) {
 		editor!.selection = new vscode.Selection(newPosition!, newPosition!);
 		editor!.options.cursorStyle = vscode.TextEditorCursorStyle.Block;
 		vscode.commands.registerCommand("type", e => {
-			console.log(e);
 			e.preventDefault();
 		});
 	});
