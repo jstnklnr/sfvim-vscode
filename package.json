@@ -19,6 +19,23 @@
 				"command": "sfvim-vscode.helloWorld",
 				"title": "Hello World"
 			}
+		],
+		"configuration":[
+			{
+				"title": "sfvim",
+				"properties": {
+					"sfvim.normalModeKeybindings": {
+						"type": "array",
+						"default": [],
+						"description": "SFVim specific commands can be mapped to any key using this."
+					},
+					"sfvim.insertModeKeybindings": {
+						"type": "array",
+						"default": [],
+						"description": "SFVim specific commands can be mapped to any key using this."
+					}
+				}
+			}
 		]
 	},
 	"scripts": {

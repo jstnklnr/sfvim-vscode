@@ -8,6 +8,11 @@ export function activate(context: vscode.ExtensionContext) {
 		let newPosition = vscode.window.activeTextEditor?.selection.active.with(3, 2);
 		let editor = vscode.window.activeTextEditor;
 		editor!.selection = new vscode.Selection(newPosition!, newPosition!);
+		editor!.options.cursorStyle = vscode.TextEditorCursorStyle.Block;
+		vscode.commands.registerCommand("type", e => {
+			console.log(e);
+			e.preventDefault();
+		});
 	});
 
 	context.subscriptions.push(disposable);
