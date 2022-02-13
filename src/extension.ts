@@ -1,19 +1,14 @@
 import * as vscode from 'vscode';
+import { handleKeys, loadConfig, setup } from './handlers/key.handler';
 
 export function activate(context: vscode.ExtensionContext) {
-	console.log('Congratulations, your extension "sfvim-vscode" is now active!');
+	const disposable = vscode.commands.registerCommand('type', (event) => {
+		handleKeys(event);
+        return vscode.commands.executeCommand('default:type', event);
+    });
 
-	let disposable = vscode.commands.registerCommand('sfvim-vscode.helloWorld', () => {
-		vscode.window.showInformationMessage(`Hello World from SFVim! ${vscode.window.activeTextEditor?.selection.active.line}`);
-		let newPosition = vscode.window.activeTextEditor?.selection.active.with(3, 2);
-		let editor = vscode.window.activeTextEditor;
-		editor!.selection = new vscode.Selection(newPosition!, newPosition!);
-		editor!.options.cursorStyle = vscode.TextEditorCursorStyle.Block;
-		vscode.commands.registerCommand("type", e => {
-			e.preventDefault();
-		});
-	});
-
+	setup();
+	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(loadConfig));
 	context.subscriptions.push(disposable);
 }
 

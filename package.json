@@ -10,7 +10,7 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:sfvim-vscode.helloWorld"
+        "onStartupFinished"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -26,12 +26,23 @@
 				"properties": {
 					"sfvim.normalModeKeybindings": {
 						"type": "array",
-						"default": [],
+						"default": [
+							{
+								"command": "mode.insert",
+								"bind": "r"
+							}
+						],
 						"description": "SFVim specific commands can be mapped to any key using this."
 					},
 					"sfvim.insertModeKeybindings": {
 						"type": "array",
-						"default": [],
+						"default": [
+							{
+								"command": "mode.normal",
+								"bind": "qq",
+								"delay": 500
+							}
+						],
 						"description": "SFVim specific commands can be mapped to any key using this."
 					}
 				}

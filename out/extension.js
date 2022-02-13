@@ -2,18 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deactivate = exports.activate = void 0;
 const vscode = require("vscode");
+const key_handler_1 = require("./handlers/key.handler");
 function activate(context) {
-    console.log('Congratulations, your extension "sfvim-vscode" is now active!');
-    let disposable = vscode.commands.registerCommand('sfvim-vscode.helloWorld', () => {
-        vscode.window.showInformationMessage(`Hello World from SFVim! ${vscode.window.activeTextEditor?.selection.active.line}`);
-        let newPosition = vscode.window.activeTextEditor?.selection.active.with(3, 2);
-        let editor = vscode.window.activeTextEditor;
-        editor.selection = new vscode.Selection(newPosition, newPosition);
-        editor.options.cursorStyle = vscode.TextEditorCursorStyle.Block;
-        vscode.commands.registerCommand("type", e => {
-            e.preventDefault();
-        });
+    const disposable = vscode.commands.registerCommand('type', (event) => {
+        (0, key_handler_1.handleKeys)(event);
+        return vscode.commands.executeCommand('default:type', event);
     });
+    (0, key_handler_1.setup)();
+    context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(key_handler_1.loadConfig));
     context.subscriptions.push(disposable);
 }
 exports.activate = activate;
