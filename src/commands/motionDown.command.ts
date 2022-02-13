@@ -1,6 +1,10 @@
 import * as vscode from "vscode";
 
 export function executeMotionDown(editor: vscode.TextEditor, amplifier: number) {
+    if(amplifier == 0) {
+        amplifier = 1;
+    }
+
     const lineCount = editor.document.lineCount;
 
     const currentPosition = editor.selection.active;
