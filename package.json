@@ -24,12 +24,28 @@
 			{
 				"title": "sfvim",
 				"properties": {
+					"sfvim.normalModeLineNumberRelative": {
+						"type":	"boolean",
+						"default": true
+					},
+					"sfvim.insertModeLineNumberRelative": {
+						"type":	"boolean",
+						"default": false
+					},
 					"sfvim.normalModeKeybindings": {
 						"type": "array",
 						"default": [
 							{
 								"command": "mode.insert",
-								"bind": "r"
+								"bind": "e"
+							},
+							{
+								"command": "motion.up",
+								"bind": "i"
+							},
+							{
+								"command": "motion.down",
+								"bind": "k"
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."
@@ -39,8 +55,7 @@
 						"default": [
 							{
 								"command": "mode.normal",
-								"bind": "qq",
-								"delay": 500
+								"bind": "qq"
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."

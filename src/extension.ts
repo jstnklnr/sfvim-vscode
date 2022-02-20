@@ -1,15 +1,8 @@
 import * as vscode from 'vscode';
-import { handleKeys, loadConfig, setup } from './handlers/key.handler';
+import { SFVim } from './sfvim';
 
 export function activate(context: vscode.ExtensionContext) {
-	const disposable = vscode.commands.registerCommand('type', (event) => {
-		handleKeys(event);
-        return vscode.commands.executeCommand('default:type', event);
-    });
-
-	setup();
-	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(loadConfig));
-	context.subscriptions.push(disposable);
+	new SFVim(context);
 }
 
 // this method is called when your extension is deactivated

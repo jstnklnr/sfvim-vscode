@@ -1,15 +1,16 @@
 import * as vscode from "vscode";
+import { SFVimEditor } from "../types/SFVimEditor";
 
-export function executeMotionDown(editor: vscode.TextEditor, amplifier: number) {
+export function executeMotionDown(vimEditor: SFVimEditor, amplifier: number) {
     if(amplifier == 0) {
         amplifier = 1;
     }
 
-    const lineCount = editor.document.lineCount;
+    const lineCount = vimEditor.editor.document.lineCount;
 
-    const currentPosition = editor.selection.active;
+    const currentPosition = vimEditor.editor.selection.active;
     const offset = currentPosition.line + amplifier >= lineCount ? lineCount - currentPosition.line : amplifier;
 
-    const newPosition = editor.selection.active.with(currentPosition.line + offset, currentPosition.character);
-    editor.selection = new vscode.Selection(newPosition, newPosition);
+    const newPosition = vimEditor.editor.selection.active.with(currentPosition.line + offset, currentPosition.character);
+    vimEditor.editor.selection = new vscode.Selection(newPosition, newPosition);
 }
