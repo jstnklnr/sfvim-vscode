@@ -10,6 +10,8 @@ export function executeMotionSkipRight(vimEditor: SFVimEditor, amplifier: number
     const lineText = vimEditor.editor.document.lineAt(currentPosition.line).text;
     let character = currentPosition.character;
 
+    //TODO: handle ö, ä, ü, ... and line breaks
+
     for(let i = 0; i < amplifier; i++) {
         let j = character;
         let skipType = 0;
