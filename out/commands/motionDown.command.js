@@ -9,7 +9,8 @@ function executeMotionDown(vimEditor, amplifier) {
     const lineCount = vimEditor.editor.document.lineCount;
     const currentPosition = vimEditor.editor.selection.active;
     const offset = currentPosition.line + amplifier >= lineCount ? lineCount - currentPosition.line : amplifier;
-    const newPosition = vimEditor.editor.selection.active.with(currentPosition.line + offset, currentPosition.character);
+    const character = vimEditor.tags.get("lastCharacter") || currentPosition.character;
+    const newPosition = vimEditor.editor.selection.active.with(currentPosition.line + offset, character);
     vimEditor.editor.selection = new vscode.Selection(newPosition, newPosition);
 }
 exports.executeMotionDown = executeMotionDown;

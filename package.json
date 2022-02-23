@@ -46,6 +46,22 @@
 							{
 								"command": "motion.down",
 								"bind": "k"
+							},
+							{
+								"command": "motion.left",
+								"bind": "j"
+							},
+							{
+								"command": "motion.right",
+								"bind": "l"
+							},
+							{
+								"command": "motion.skipLeft",
+								"bind": "s"
+							},
+							{
+								"command": "motion.skipRight",
+								"bind": "f"
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."

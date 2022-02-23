@@ -2,6 +2,10 @@ import { executeMotionDown } from "../commands/motionDown.command";
 import { executeMotionUp } from "../commands/motionUp.command";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
 import * as vscode from "vscode";
+import { executeMotionLeft } from "../commands/motionLeft.command";
+import { executeMotionRight } from "../commands/motionRight.command";
+import { executeMotionSkipLeft } from "../commands/motionSkipLeft.command";
+import { executeMotionSkipRight } from "../commands/motionSkipRight.command";
 
 interface SFVimCommand {
     name: string;
@@ -39,6 +43,30 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Moves the cursor to the line below",
         handler: executeMotionDown
+    },
+    {
+        name: "motion.left",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the character to the left",
+        handler: executeMotionLeft
+    },
+    {
+        name: "motion.right",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the character to the right",
+        handler: executeMotionRight
+    },
+    {
+        name: "motion.skipLeft",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the word to the left",
+        handler: executeMotionSkipLeft
+    },
+    {
+        name: "motion.skipRight",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the word to the right",
+        handler: executeMotionSkipRight
     }
 ];
 
@@ -143,5 +171,4 @@ export class CommandHandler {
             event.preventDefault();
         }
     }
-
 }

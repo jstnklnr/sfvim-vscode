@@ -53,7 +53,6 @@ export class SFVim {
             return undefined;
         }
 
-        //TODO: fix creating new editors when switching windows
         let vimEditor = this.editors.find(vimEditor => vimEditor.editor.document === editor.document);
 
         if(!vimEditor) {

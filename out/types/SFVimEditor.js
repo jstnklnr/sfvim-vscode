@@ -12,7 +12,7 @@ class SFVimEditor {
         this.editor = editor;
         this.config = config;
         this.mode = SFVimMode.NORMAL;
-        this.tags = new Set();
+        this.tags = new Map();
         this.amplifier = 0;
         this.stringAmplifier = "";
         this.statusCallback = statusCallback;

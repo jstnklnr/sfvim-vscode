@@ -5,6 +5,10 @@ const motionDown_command_1 = require("../commands/motionDown.command");
 const motionUp_command_1 = require("../commands/motionUp.command");
 const SFVimEditor_1 = require("../types/SFVimEditor");
 const vscode = require("vscode");
+const motionLeft_command_1 = require("../commands/motionLeft.command");
+const motionRight_command_1 = require("../commands/motionRight.command");
+const motionSkipLeft_command_1 = require("../commands/motionSkipLeft.command");
+const motionSkipRight_command_1 = require("../commands/motionSkipRight.command");
 const commands = [
     {
         name: "mode.normal",
@@ -29,6 +33,30 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Moves the cursor to the line below",
         handler: motionDown_command_1.executeMotionDown
+    },
+    {
+        name: "motion.left",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the character to the left",
+        handler: motionLeft_command_1.executeMotionLeft
+    },
+    {
+        name: "motion.right",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the character to the right",
+        handler: motionRight_command_1.executeMotionRight
+    },
+    {
+        name: "motion.skipLeft",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the word to the left",
+        handler: motionSkipLeft_command_1.executeMotionSkipLeft
+    },
+    {
+        name: "motion.skipRight",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the word to the right",
+        handler: motionSkipRight_command_1.executeMotionSkipRight
     }
 ];
 class CommandHandler {

@@ -11,7 +11,7 @@ export class SFVimEditor {
     editor: vscode.TextEditor;
     config: any;
     mode: SFVimMode;
-    tags: Set<any>;
+    tags: Map<string, any>;
     amplifier: number;
     stringAmplifier: string;
     statusCallback: StatusCallback;
@@ -20,7 +20,7 @@ export class SFVimEditor {
         this.editor = editor;
         this.config = config;
         this.mode = SFVimMode.NORMAL;
-        this.tags = new Set<any>();
+        this.tags = new Map<string, any>();
         this.amplifier = 0;
         this.stringAmplifier = "";
         this.statusCallback = statusCallback;
