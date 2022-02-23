@@ -19,10 +19,10 @@ export class SFVim {
         this.currentEditor = this.getEditor(vscode.window.activeTextEditor);
         this.commandHandler = new CommandHandler(this.config);
 
-        context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(this.loadConfig));
-        context.subscriptions.push(vscode.window.onDidChangeVisibleTextEditors(this.checkEditors));
-        context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(editor => {
-            this.currentEditor = this.getEditor(vscode.window.activeTextEditor);
+        context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(() => this.loadConfig));
+        context.subscriptions.push(vscode.workspace.onDidCloseTextDocument(() => this.checkEditors()));
+        context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor((editor) => {
+            this.currentEditor = this.getEditor(editor);
             this.updateStatus(this.currentEditor);
         }));
         context.subscriptions.push(vscode.commands.registerCommand('type', (event) => {
@@ -44,8 +44,8 @@ export class SFVim {
         Object.assign(this.config, vscode.workspace.getConfiguration("sfvim"));
     }
 
-    checkEditors(visibleTextEditors: readonly vscode.TextEditor[]) {
-        this.editors = this.editors.filter(vimEditor => visibleTextEditors.includes(vimEditor.editor));
+    checkEditors() {
+        this.editors = this.editors.filter(vimEditor => vscode.workspace.textDocuments.includes(vimEditor.editor.document));
     }
 
     getEditor(editor?: vscode.TextEditor): SFVimEditor | undefined {
@@ -54,12 +54,13 @@ export class SFVim {
         }
 
         //TODO: fix creating new editors when switching windows
-        let vimEditor = this.editors.find(vimEditor => vimEditor.editor === editor);
+        let vimEditor = this.editors.find(vimEditor => vimEditor.editor.document === editor.document);
 
         if(!vimEditor) {
             vimEditor = new SFVimEditor(editor, this.config, (_vimEditor) => {
                 this.updateStatus(vimEditor);
             });
+
             this.editors.push(vimEditor);
         }
 

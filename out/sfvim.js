@@ -13,10 +13,10 @@ class SFVim {
         this.loadConfig();
         this.currentEditor = this.getEditor(vscode.window.activeTextEditor);
         this.commandHandler = new command_handler_1.CommandHandler(this.config);
-        context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(this.loadConfig));
-        context.subscriptions.push(vscode.window.onDidChangeVisibleTextEditors(this.checkEditors));
-        context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(editor => {
-            this.currentEditor = this.getEditor(vscode.window.activeTextEditor);
+        context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(() => this.loadConfig));
+        context.subscriptions.push(vscode.workspace.onDidCloseTextDocument(() => this.checkEditors()));
+        context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor((editor) => {
+            this.currentEditor = this.getEditor(editor);
             this.updateStatus(this.currentEditor);
         }));
         context.subscriptions.push(vscode.commands.registerCommand('type', (event) => {
@@ -33,15 +33,15 @@ class SFVim {
         }
         Object.assign(this.config, vscode.workspace.getConfiguration("sfvim"));
     }
-    checkEditors(visibleTextEditors) {
-        this.editors = this.editors.filter(vimEditor => visibleTextEditors.includes(vimEditor.editor));
+    checkEditors() {
+        this.editors = this.editors.filter(vimEditor => vscode.workspace.textDocuments.includes(vimEditor.editor.document));
     }
     getEditor(editor) {
         if (!editor) {
             return undefined;
         }
         //TODO: fix creating new editors when switching windows
-        let vimEditor = this.editors.find(vimEditor => vimEditor.editor === editor);
+        let vimEditor = this.editors.find(vimEditor => vimEditor.editor.document === editor.document);
         if (!vimEditor) {
             vimEditor = new SFVimEditor_1.SFVimEditor(editor, this.config, (_vimEditor) => {
                 this.updateStatus(vimEditor);
