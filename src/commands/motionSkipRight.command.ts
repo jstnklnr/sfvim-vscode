@@ -37,7 +37,6 @@ export function executeMotionSkipRight(vimEditor: SFVimEditor, amplifier: number
 
         character = j;
     }
-
     
     const newPosition = vimEditor.editor.selection.active.with(line, character);
     vimEditor.editor.selection = new vscode.Selection(newPosition, newPosition);
