@@ -11,10 +11,12 @@ function executeMotionSkipRight(vimEditor, amplifier) {
     let character = currentPosition.character;
     let lineText = vimEditor.editor.document.lineAt(line).text;
     for (let i = 0; i < amplifier; i++) {
+        let lineBreak = false;
         if (character >= lineText.length) {
             line++;
             character = 0;
             lineText = vimEditor.editor.document.lineAt(line).text;
+            lineBreak = true;
         }
         let j = character;
         let skipType = 0;
@@ -25,6 +27,9 @@ function executeMotionSkipRight(vimEditor, amplifier) {
             else if (/^\s$/.exec(lineText[j])?.length) {
                 skipType = 2;
             }
+        }
+        if (lineBreak) {
+            skipType = 2;
         }
         while (j < lineText.length && (skipType == 0 && /^[^a-zA-Z0-9\u00C0-\u02DB8_ ]$/.exec(lineText[j])?.length
             || skipType == 1 && /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j])?.length

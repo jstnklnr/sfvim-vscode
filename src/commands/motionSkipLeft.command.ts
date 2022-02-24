@@ -12,12 +12,15 @@ export function executeMotionSkipLeft(vimEditor: SFVimEditor, amplifier: number)
     let lineText = vimEditor.editor.document.lineAt(line).text;
 
     for(let i = 0; i < amplifier; i++) {
+        let lineBreak = false;
+
         if(character <= 0) {
             line--;
             lineText = vimEditor.editor.document.lineAt(line).text;
             character = lineText.length;
+            lineBreak = true;
         }
-
+        
         let j = character;
         let skipType = 0;
 
@@ -29,7 +32,11 @@ export function executeMotionSkipLeft(vimEditor: SFVimEditor, amplifier: number)
             }
         }
 
-        while(j > 0 && (j >= lineText.length || skipType == 0 && /^[^a-zA-Z0-9\u00C0-\u02DB8_ ]$/.exec(lineText[j - 1])?.length
+        if(lineBreak) {
+            skipType = 2;
+        }
+
+        while(j > 0 && (j > lineText.length || skipType == 0 && /^[^a-zA-Z0-9\u00C0-\u02DB8_ ]$/.exec(lineText[j - 1])?.length
         || skipType == 1 && /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j - 1])?.length
         || skipType == 2 && /^\s$/.exec(lineText[j - 1])?.length)) {
             j--;

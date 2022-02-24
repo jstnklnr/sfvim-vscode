@@ -1,11 +1,13 @@
 import { executeMotionDown } from "../commands/motionDown.command";
 import { executeMotionUp } from "../commands/motionUp.command";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
-import * as vscode from "vscode";
 import { executeMotionLeft } from "../commands/motionLeft.command";
 import { executeMotionRight } from "../commands/motionRight.command";
 import { executeMotionSkipLeft } from "../commands/motionSkipLeft.command";
 import { executeMotionSkipRight } from "../commands/motionSkipRight.command";
+import { executeMotionTop } from "../commands/motionTop.command";
+import { executeMotionBottom } from "../commands/motionBottom.command";
+import * as vscode from "vscode";
 
 interface SFVimCommand {
     name: string;
@@ -67,6 +69,18 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Moves the cursor to the word to the right",
         handler: executeMotionSkipRight
+    },
+    {
+        name: "motion.top",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the top of the document",
+        handler: executeMotionTop
+    },
+    {
+        name: "motion.bottom",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the bottom of the document",
+        handler: executeMotionBottom
     }
 ];
 

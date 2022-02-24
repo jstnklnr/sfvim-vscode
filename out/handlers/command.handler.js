@@ -4,11 +4,13 @@ exports.CommandHandler = void 0;
 const motionDown_command_1 = require("../commands/motionDown.command");
 const motionUp_command_1 = require("../commands/motionUp.command");
 const SFVimEditor_1 = require("../types/SFVimEditor");
-const vscode = require("vscode");
 const motionLeft_command_1 = require("../commands/motionLeft.command");
 const motionRight_command_1 = require("../commands/motionRight.command");
 const motionSkipLeft_command_1 = require("../commands/motionSkipLeft.command");
 const motionSkipRight_command_1 = require("../commands/motionSkipRight.command");
+const motionTop_command_1 = require("../commands/motionTop.command");
+const motionBottom_command_1 = require("../commands/motionBottom.command");
+const vscode = require("vscode");
 const commands = [
     {
         name: "mode.normal",
@@ -57,6 +59,18 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Moves the cursor to the word to the right",
         handler: motionSkipRight_command_1.executeMotionSkipRight
+    },
+    {
+        name: "motion.top",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the top of the document",
+        handler: motionTop_command_1.executeMotionTop
+    },
+    {
+        name: "motion.bottom",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the bottom of the document",
+        handler: motionBottom_command_1.executeMotionBottom
     }
 ];
 class CommandHandler {
