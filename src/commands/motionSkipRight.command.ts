@@ -7,25 +7,30 @@ export function executeMotionSkipRight(vimEditor: SFVimEditor, amplifier: number
     }
 
     const currentPosition = vimEditor.editor.selection.active;
-    const lineText = vimEditor.editor.document.lineAt(currentPosition.line).text;
+    let line = currentPosition.line;
     let character = currentPosition.character;
-
-    //TODO: handle ö, ä, ü, ... and line breaks
+    let lineText = vimEditor.editor.document.lineAt(line).text;
 
     for(let i = 0; i < amplifier; i++) {
+        if(character >= lineText.length) {
+            line++;
+            character = 0;
+            lineText = vimEditor.editor.document.lineAt(line).text;
+        }
+        
         let j = character;
         let skipType = 0;
 
         if(j < lineText.length) {
-            if(/^[a-zA-Z0-9_]$/.exec(lineText[j])?.length) {
+            if(/^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j])?.length) {
                 skipType = 1;
             }else if(/^\s$/.exec(lineText[j])?.length) {
                 skipType = 2;
             }
         }
 
-        while(j < lineText.length && (skipType == 0 && /^[^a-zA-Z0-9_ ]$/.exec(lineText[j])?.length
-        || skipType == 1 && /^[a-zA-Z0-9_]$/.exec(lineText[j])?.length
+        while(j < lineText.length && (skipType == 0 && /^[^a-zA-Z0-9\u00C0-\u02DB8_ ]$/.exec(lineText[j])?.length
+        || skipType == 1 && /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j])?.length
         || skipType == 2 && /^\s$/.exec(lineText[j])?.length)) {
             j++;
         }
@@ -34,7 +39,7 @@ export function executeMotionSkipRight(vimEditor: SFVimEditor, amplifier: number
     }
 
     
-    const newPosition = vimEditor.editor.selection.active.with(currentPosition.line, character);
+    const newPosition = vimEditor.editor.selection.active.with(line, character);
     vimEditor.editor.selection = new vscode.Selection(newPosition, newPosition);
     vimEditor.tags.set("lastCharacter", newPosition.character);
 }
