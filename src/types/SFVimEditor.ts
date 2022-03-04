@@ -33,6 +33,8 @@ export class SFVimEditor {
         this.callStatusCallback();
 
         this.editor.options.cursorStyle = mode & SFVimMode.NORMAL ? vscode.TextEditorCursorStyle.Block : vscode.TextEditorCursorStyle.Line;
+
+        //TODO: move cursor when mode changed to normal
     }
 
     callStatusCallback() {

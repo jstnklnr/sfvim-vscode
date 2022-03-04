@@ -23,6 +23,7 @@ class SFVimEditor {
         this.editor.options.lineNumbers = isRelative ? vscode.TextEditorLineNumbersStyle.Relative : vscode.TextEditorLineNumbersStyle.On;
         this.callStatusCallback();
         this.editor.options.cursorStyle = mode & SFVimMode.NORMAL ? vscode.TextEditorCursorStyle.Block : vscode.TextEditorCursorStyle.Line;
+        //TODO: move cursor when mode changed to normal
     }
     callStatusCallback() {
         this.statusCallback(this);

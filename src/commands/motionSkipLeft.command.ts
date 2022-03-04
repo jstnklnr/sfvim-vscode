@@ -36,9 +36,10 @@ export function executeMotionSkipLeft(vimEditor: SFVimEditor, amplifier: number)
             skipType = 2;
         }
 
-        while(j > 0 && (j > lineText.length || skipType == 0 && /^[^a-zA-Z0-9\u00C0-\u02DB8_ ]$/.exec(lineText[j - 1])?.length
-        || skipType == 1 && /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j - 1])?.length
-        || skipType == 2 && /^\s$/.exec(lineText[j - 1])?.length)) {
+        while(j > 0 
+            && (j > lineText.length || skipType == 0 && /^[^a-zA-Z0-9\u00C0-\u02DB8_ ]$/.exec(lineText[j - 1])?.length
+            || skipType == 1 && /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j - 1])?.length
+            || skipType == 2 && (/^\s$/.exec(lineText[j])?.length || j == character))) {
             j--;
         }
 

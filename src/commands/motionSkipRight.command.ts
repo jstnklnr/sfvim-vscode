@@ -24,10 +24,10 @@ export function executeMotionSkipRight(vimEditor: SFVimEditor, amplifier: number
         let j = character;
         let skipType = 0;
 
-        if(j < lineText.length) {
-            if(/^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j])?.length) {
+        if(j < lineText.length - 1) {
+            if(/^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j + 1])?.length) {
                 skipType = 1;
-            }else if(/^\s$/.exec(lineText[j])?.length) {
+            }else if(/^\s$/.exec(lineText[j + 1])?.length) {
                 skipType = 2;
             }
         }
@@ -36,9 +36,10 @@ export function executeMotionSkipRight(vimEditor: SFVimEditor, amplifier: number
             skipType = 2;
         }
 
-        while(j < lineText.length && (skipType == 0 && /^[^a-zA-Z0-9\u00C0-\u02DB8_ ]$/.exec(lineText[j])?.length
-        || skipType == 1 && /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j])?.length
-        || skipType == 2 && /^\s$/.exec(lineText[j])?.length)) {
+        while(j < lineText.length - 1
+            && (skipType == 0 && /^[^a-zA-Z0-9\u00C0-\u02DB8_ ]$/.exec(lineText[j + 1])?.length
+            || skipType == 1 && /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j + 1])?.length
+            || skipType == 2 && (/^\s$/.exec(lineText[j])?.length || j == character))) {
             j++;
         }
 
