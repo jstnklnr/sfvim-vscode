@@ -22,6 +22,7 @@ class SFVimEditor {
         const isRelative = mode === SFVimMode.NORMAL ? this.config["normalModeLineNumberRelative"] : this.config["insertModeLineNumberRelative"];
         this.editor.options.lineNumbers = isRelative ? vscode.TextEditorLineNumbersStyle.Relative : vscode.TextEditorLineNumbersStyle.On;
         this.callStatusCallback();
+        this.editor.options.cursorStyle = mode & SFVimMode.NORMAL ? vscode.TextEditorCursorStyle.Block : vscode.TextEditorCursorStyle.Line;
     }
     callStatusCallback() {
         this.statusCallback(this);

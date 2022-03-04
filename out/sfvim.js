@@ -47,6 +47,7 @@ class SFVim {
             });
             this.editors.push(vimEditor);
         }
+        vimEditor.editor = editor;
         return vimEditor;
     }
     updateStatus(vimEditor) {

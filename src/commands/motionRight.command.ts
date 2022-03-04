@@ -7,8 +7,14 @@ export function executeMotionRight(vimEditor: SFVimEditor, amplifier: number) {
     }
 
     const currentPosition = vimEditor.editor.selection.active;
-    
-    const newPosition = vimEditor.editor.selection.active.with(currentPosition.line, currentPosition.character + amplifier);
+    const lineLength = vimEditor.editor.document.lineAt(currentPosition.line).text.length;
+    let newCharacter = currentPosition.character + amplifier;
+
+    if(newCharacter >= lineLength) {
+        newCharacter = lineLength - 1;
+    }
+
+    const newPosition = vimEditor.editor.selection.active.with(currentPosition.line, newCharacter);
     vimEditor.editor.selection = new vscode.Selection(newPosition, newPosition);
     vimEditor.tags.set("lastCharacter", newPosition.character);
 }
