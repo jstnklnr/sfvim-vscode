@@ -2,7 +2,8 @@ import * as vscode from "vscode";
 
 export enum SFVimMode {
     NORMAL = 1,
-    INSERT = 1 << 1
+    INSERT = 1 << 1,
+    VISUAL = 1 << 2
 }
 
 export type StatusCallback = (vimEditor: SFVimEditor) => void;

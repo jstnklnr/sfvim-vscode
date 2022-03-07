@@ -72,7 +72,9 @@ export class SFVim {
             return;
         }
 
-        this.modeStatus.text = vimEditor.mode === SFVimMode.NORMAL ? "-- NORMAL --" : "-- INSERT --";
+        const status = vimEditor.mode === SFVimMode.INSERT ? "-- INSERT --" : (vimEditor.mode & SFVimMode.VISUAL ? "-- VISUAL --" : "-- NORMAL --");
+
+        this.modeStatus.text = status;
         this.modeStatus.show();
 
         this.amplifierStatus.text = vimEditor.amplifier.toString();
