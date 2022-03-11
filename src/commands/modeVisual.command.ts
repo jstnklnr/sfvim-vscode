@@ -2,7 +2,7 @@ import { TextEditorCursorStyle } from "vscode";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
 
 export function executeModeChangeVisual(vimEditor: SFVimEditor) {
-    if(vimEditor.mode !& SFVimMode.NORMAL) {
+    if(!(vimEditor.mode & SFVimMode.NORMAL)) {
         vimEditor.mode &= ~SFVimMode.VISUAL;
         return;
     }

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.executeMotionSkipRight = void 0;
 const vscode = require("vscode");
+const SFVimEditor_1 = require("../types/SFVimEditor");
 function executeMotionSkipRight(vimEditor, amplifier) {
     if (amplifier == 0) {
         amplifier = 1;
@@ -40,7 +41,11 @@ function executeMotionSkipRight(vimEditor, amplifier) {
         character = j;
     }
     const newPosition = vimEditor.editor.selection.active.with(line, character);
-    vimEditor.editor.selection = new vscode.Selection(newPosition, newPosition);
+    let anchor = newPosition;
+    if (vimEditor.mode & SFVimEditor_1.SFVimMode.VISUAL) {
+        anchor = vimEditor.tags.get("anchor") || newPosition;
+    }
+    vimEditor.editor.selection = new vscode.Selection(anchor, newPosition);
     vimEditor.tags.set("lastCharacter", newPosition.character);
 }
 exports.executeMotionSkipRight = executeMotionSkipRight;

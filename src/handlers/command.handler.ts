@@ -133,7 +133,7 @@ export class CommandHandler {
             return;
         }
     
-        if(currentMode === SFVimMode.NORMAL && /^\d+$/.exec(key)?.length) {
+        if(currentMode & SFVimMode.NORMAL && /^\d+$/.exec(key)?.length) {
             this.updateAmplifier(vimEditor, key);
             this.lastKeyPress = currentTime;
     
@@ -141,7 +141,7 @@ export class CommandHandler {
             return;
         }
     
-        const binds: Array<SFVimBind> = currentMode === SFVimMode.NORMAL ? this.config["normalModeKeybindings"] : this.config["insertModeKeybindings"];
+        const binds: Array<SFVimBind> = currentMode & SFVimMode.NORMAL ? this.config["normalModeKeybindings"] : this.config["insertModeKeybindings"];
     
         if(binds === undefined) {
             if(currentMode & SFVimMode.NORMAL) {

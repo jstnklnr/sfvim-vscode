@@ -40,6 +40,10 @@
 								"bind": "e"
 							},
 							{
+								"command": "mode.visual",
+								"bind": "v"
+							},
+							{
 								"command": "motion.up",
 								"bind": "i"
 							},

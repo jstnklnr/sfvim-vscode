@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { SFVimEditor } from "../types/SFVimEditor";
+import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
 
 export function executeMotionSkipLeft(vimEditor: SFVimEditor, amplifier: number) {
     if(amplifier == 0) {
@@ -47,6 +47,12 @@ export function executeMotionSkipLeft(vimEditor: SFVimEditor, amplifier: number)
     }
     
     const newPosition = vimEditor.editor.selection.active.with(line, character);
-    vimEditor.editor.selection = new vscode.Selection(newPosition, newPosition);
+    let anchor = newPosition;
+
+    if(vimEditor.mode & SFVimMode.VISUAL) {
+        anchor = vimEditor.tags.get("anchor") || newPosition;
+    }
+
+    vimEditor.editor.selection = new vscode.Selection(anchor, newPosition);
     vimEditor.tags.set("lastCharacter", newPosition.character);
 }

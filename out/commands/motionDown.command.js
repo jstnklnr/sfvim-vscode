@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.executeMotionDown = void 0;
 const vscode = require("vscode");
+const SFVimEditor_1 = require("../types/SFVimEditor");
 function executeMotionDown(vimEditor, amplifier) {
     if (amplifier == 0) {
         amplifier = 1;
@@ -11,7 +12,11 @@ function executeMotionDown(vimEditor, amplifier) {
     const offset = currentPosition.line + amplifier >= lineCount ? lineCount - currentPosition.line : amplifier;
     const character = vimEditor.tags.get("lastCharacter") || currentPosition.character;
     const newPosition = vimEditor.editor.selection.active.with(currentPosition.line + offset, character);
-    vimEditor.editor.selection = new vscode.Selection(newPosition, newPosition);
+    let anchor = newPosition;
+    if (vimEditor.mode & SFVimEditor_1.SFVimMode.VISUAL) {
+        anchor = vimEditor.tags.get("anchor") || newPosition;
+    }
+    vimEditor.editor.selection = new vscode.Selection(anchor, newPosition);
 }
 exports.executeMotionDown = executeMotionDown;
 //# sourceMappingURL=motionDown.command.js.map

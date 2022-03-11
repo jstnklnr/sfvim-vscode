@@ -11,18 +11,27 @@ const motionSkipRight_command_1 = require("../commands/motionSkipRight.command")
 const motionTop_command_1 = require("../commands/motionTop.command");
 const motionBottom_command_1 = require("../commands/motionBottom.command");
 const vscode = require("vscode");
+const modeNormal_command_1 = require("../commands/modeNormal.command");
+const modeInsert_command_1 = require("../commands/modeInsert.command");
+const modeVisual_command_1 = require("../commands/modeVisual.command");
 const commands = [
     {
         name: "mode.normal",
         mode: SFVimEditor_1.SFVimMode.INSERT,
         description: "Switches the current editor mode to NORMAL",
-        handler: (editor) => editor.changeMode(SFVimEditor_1.SFVimMode.NORMAL)
+        handler: (editor) => (0, modeNormal_command_1.executeModeChangeNormal)(editor)
     },
     {
         name: "mode.insert",
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Switches the current editor mode to INSERT",
-        handler: (editor) => editor.changeMode(SFVimEditor_1.SFVimMode.INSERT)
+        handler: (editor) => (0, modeInsert_command_1.executeModeChangeInsert)(editor)
+    },
+    {
+        name: "mode.visual",
+        mode: SFVimEditor_1.SFVimMode.NORMAL & SFVimEditor_1.SFVimMode.VISUAL,
+        description: "Toggles between visual and normal mode",
+        handler: (editor) => (0, modeVisual_command_1.executeModeChangeVisual)(editor)
     },
     {
         name: "motion.up",
@@ -96,20 +105,20 @@ class CommandHandler {
         const currentMode = vimEditor.mode;
         const key = event.text;
         if (key === undefined || key === "\n") {
-            if (currentMode === SFVimEditor_1.SFVimMode.NORMAL) {
+            if (currentMode & SFVimEditor_1.SFVimMode.NORMAL) {
                 event.preventDefault();
             }
             return;
         }
-        if (currentMode === SFVimEditor_1.SFVimMode.NORMAL && /^\d+$/.exec(key)?.length) {
+        if (currentMode & SFVimEditor_1.SFVimMode.NORMAL && /^\d+$/.exec(key)?.length) {
             this.updateAmplifier(vimEditor, key);
             this.lastKeyPress = currentTime;
             event.preventDefault();
             return;
         }
-        const binds = currentMode === SFVimEditor_1.SFVimMode.NORMAL ? this.config["normalModeKeybindings"] : this.config["insertModeKeybindings"];
+        const binds = currentMode & SFVimEditor_1.SFVimMode.NORMAL ? this.config["normalModeKeybindings"] : this.config["insertModeKeybindings"];
         if (binds === undefined) {
-            if (currentMode === SFVimEditor_1.SFVimMode.NORMAL) {
+            if (currentMode & SFVimEditor_1.SFVimMode.NORMAL) {
                 event.preventDefault();
             }
             return;
@@ -141,7 +150,7 @@ class CommandHandler {
             this.lastKeys = "";
             event.preventDefault();
         }
-        if (currentMode === SFVimEditor_1.SFVimMode.NORMAL) {
+        if (currentMode & SFVimEditor_1.SFVimMode.NORMAL) {
             event.preventDefault();
         }
     }

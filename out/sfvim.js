@@ -4,6 +4,7 @@ exports.SFVim = void 0;
 const SFVimEditor_1 = require("./types/SFVimEditor");
 const command_handler_1 = require("./handlers/command.handler");
 const vscode = require("vscode");
+const modeNormal_command_1 = require("./commands/modeNormal.command");
 class SFVim {
     constructor(context) {
         this.editors = [];
@@ -25,7 +26,7 @@ class SFVim {
             }
             return vscode.commands.executeCommand('default:type', event);
         }));
-        this.currentEditor?.changeMode(SFVimEditor_1.SFVimMode.NORMAL);
+        (0, modeNormal_command_1.executeModeChangeNormal)(this.currentEditor);
     }
     loadConfig() {
         for (const key of Object.keys(this.config)) {
@@ -54,7 +55,8 @@ class SFVim {
         if (!vimEditor || !this.modeStatus || !this.amplifierStatus) {
             return;
         }
-        this.modeStatus.text = vimEditor.mode === SFVimEditor_1.SFVimMode.NORMAL ? "-- NORMAL --" : "-- INSERT --";
+        const status = vimEditor.mode === SFVimEditor_1.SFVimMode.INSERT ? "-- INSERT --" : (vimEditor.mode & SFVimEditor_1.SFVimMode.VISUAL ? "-- VISUAL --" : "-- NORMAL --");
+        this.modeStatus.text = status;
         this.modeStatus.show();
         this.amplifierStatus.text = vimEditor.amplifier.toString();
         if (vimEditor.amplifier == 0) {

@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SFVimEditor = exports.SFVimMode = void 0;
-const vscode = require("vscode");
 var SFVimMode;
 (function (SFVimMode) {
     SFVimMode[SFVimMode["NORMAL"] = 1] = "NORMAL";
     SFVimMode[SFVimMode["INSERT"] = 2] = "INSERT";
+    SFVimMode[SFVimMode["VISUAL"] = 4] = "VISUAL";
 })(SFVimMode = exports.SFVimMode || (exports.SFVimMode = {}));
 class SFVimEditor {
     constructor(editor, config, statusCallback) {
@@ -16,14 +16,6 @@ class SFVimEditor {
         this.amplifier = 0;
         this.stringAmplifier = "";
         this.statusCallback = statusCallback;
-    }
-    changeMode(mode) {
-        this.mode = mode;
-        const isRelative = mode === SFVimMode.NORMAL ? this.config["normalModeLineNumberRelative"] : this.config["insertModeLineNumberRelative"];
-        this.editor.options.lineNumbers = isRelative ? vscode.TextEditorLineNumbersStyle.Relative : vscode.TextEditorLineNumbersStyle.On;
-        this.callStatusCallback();
-        this.editor.options.cursorStyle = mode & SFVimMode.NORMAL ? vscode.TextEditorCursorStyle.Block : vscode.TextEditorCursorStyle.Line;
-        //TODO: move cursor when mode changed to normal
     }
     callStatusCallback() {
         this.statusCallback(this);

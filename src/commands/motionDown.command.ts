@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { SFVimEditor } from "../types/SFVimEditor";
+import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
 
 export function executeMotionDown(vimEditor: SFVimEditor, amplifier: number) {
     if(amplifier == 0) {
@@ -13,5 +13,11 @@ export function executeMotionDown(vimEditor: SFVimEditor, amplifier: number) {
     const character = vimEditor.tags.get("lastCharacter") || currentPosition.character;
 
     const newPosition = vimEditor.editor.selection.active.with(currentPosition.line + offset, character);
-    vimEditor.editor.selection = new vscode.Selection(newPosition, newPosition);
+    let anchor = newPosition;
+
+    if(vimEditor.mode & SFVimMode.VISUAL) {
+        anchor = vimEditor.tags.get("anchor") || newPosition;
+    }
+
+    vimEditor.editor.selection = new vscode.Selection(anchor, newPosition);
 }
