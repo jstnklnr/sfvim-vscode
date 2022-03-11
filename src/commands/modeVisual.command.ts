@@ -10,7 +10,9 @@ export function executeModeChangeVisual(vimEditor: SFVimEditor) {
     vimEditor.mode ^= SFVimMode.VISUAL;
 
     if(vimEditor.mode & SFVimMode.VISUAL) {
-        
+        vimEditor.tags.set("anchor", vimEditor.editor.selection.active.with());
+    }else {
+        vimEditor.tags.delete("anchor");
     }
 
     const isRelative = vimEditor.config["normalModeLineNumberRelative"];

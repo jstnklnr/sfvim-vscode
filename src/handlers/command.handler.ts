@@ -8,6 +8,9 @@ import { executeMotionSkipRight } from "../commands/motionSkipRight.command";
 import { executeMotionTop } from "../commands/motionTop.command";
 import { executeMotionBottom } from "../commands/motionBottom.command";
 import * as vscode from "vscode";
+import { executeModeChangeNormal } from "../commands/modeNormal.command";
+import { executeModeChangeInsert } from "../commands/modeInsert.command";
+import { executeModeChangeVisual } from "../commands/modeVisual.command";
 
 interface SFVimCommand {
     name: string;
@@ -26,13 +29,19 @@ const commands: Array<SFVimCommand> = [
         name: "mode.normal",
         mode: SFVimMode.INSERT,
         description: "Switches the current editor mode to NORMAL",
-        handler: (editor) => editor.changeMode(SFVimMode.NORMAL)
+        handler: (editor) => executeModeChangeNormal(editor)
     },
     {
         name: "mode.insert",
         mode: SFVimMode.NORMAL,
         description: "Switches the current editor mode to INSERT",
-        handler: (editor) => editor.changeMode(SFVimMode.INSERT)
+        handler: (editor) => executeModeChangeInsert(editor)
+    },
+    {
+        name: "mode.visual",
+        mode: SFVimMode.NORMAL & SFVimMode.VISUAL,
+        description: "Toggles between visual and normal mode",
+        handler: (editor) => executeModeChangeVisual(editor)
     },
     {
         name: "motion.up",
@@ -117,7 +126,7 @@ export class CommandHandler {
         const key: string = event.text;
     
         if(key === undefined || key === "\n") {
-            if(currentMode === SFVimMode.NORMAL) {
+            if(currentMode & SFVimMode.NORMAL) {
                 event.preventDefault();
             }
     
@@ -135,7 +144,7 @@ export class CommandHandler {
         const binds: Array<SFVimBind> = currentMode === SFVimMode.NORMAL ? this.config["normalModeKeybindings"] : this.config["insertModeKeybindings"];
     
         if(binds === undefined) {
-            if(currentMode === SFVimMode.NORMAL) {
+            if(currentMode & SFVimMode.NORMAL) {
                 event.preventDefault();
             }
     
@@ -181,7 +190,7 @@ export class CommandHandler {
             event.preventDefault();
         }
     
-        if(currentMode === SFVimMode.NORMAL) {
+        if(currentMode & SFVimMode.NORMAL) {
             event.preventDefault();
         }
     }

@@ -1,6 +1,7 @@
 import { SFVimEditor, SFVimMode } from "./types/SFVimEditor";
 import { CommandHandler } from "./handlers/command.handler";
 import * as vscode from "vscode";
+import { executeModeChangeNormal } from "./commands/modeNormal.command";
 
 export class SFVim {
     currentEditor?: SFVimEditor;
@@ -33,7 +34,7 @@ export class SFVim {
             return vscode.commands.executeCommand('default:type', event);
         }));
 
-        this.currentEditor?.changeMode(SFVimMode.NORMAL);
+        executeModeChangeNormal(this.currentEditor!);
     }
 
     loadConfig() {
