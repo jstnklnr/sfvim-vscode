@@ -11,4 +11,5 @@ export function executeModeChangeNormal(vimEditor: SFVimEditor) {
     vimEditor.editor.options.cursorStyle = TextEditorCursorStyle.Block;
     const newPosition = getLeftPosition(vimEditor.editor.selection.active);
     vimEditor.editor.selection = new Selection(newPosition, newPosition);
+    vimEditor.tags.set("lastCharacter", newPosition.character);
 }

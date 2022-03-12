@@ -17,6 +17,5 @@ export function executeMotionLeft(vimEditor: SFVimEditor, amplifier: number) {
     }
 
     handleSelection(vimEditor, newPosition);
-    vimEditor.editor.selection.isReversed = true;
     vimEditor.tags.set("lastCharacter", newPosition.character);
 }

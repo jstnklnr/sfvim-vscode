@@ -1,5 +1,6 @@
 import { TextEditorCursorStyle, TextEditorLineNumbersStyle } from "vscode";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
+import { cursorDecoration } from "../utilities/selection.util";
 
 export function executeModeChangeInsert(vimEditor: SFVimEditor) {
     vimEditor.mode = SFVimMode.INSERT;
@@ -8,4 +9,5 @@ export function executeModeChangeInsert(vimEditor: SFVimEditor) {
     vimEditor.callStatusCallback();
 
     vimEditor.editor.options.cursorStyle = TextEditorCursorStyle.Line;
+    vimEditor.editor.setDecorations(cursorDecoration, []);
 }

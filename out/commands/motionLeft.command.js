@@ -15,7 +15,6 @@ function executeMotionLeft(vimEditor, amplifier) {
         anchor = vimEditor.tags.get("anchor") || newPosition;
     }
     (0, selection_handler_1.handleSelection)(vimEditor, newPosition);
-    vimEditor.editor.selection.isReversed = true;
     vimEditor.tags.set("lastCharacter", newPosition.character);
 }
 exports.executeMotionLeft = executeMotionLeft;
