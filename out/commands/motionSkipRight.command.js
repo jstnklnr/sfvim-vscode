@@ -16,7 +16,7 @@ function executeMotionSkipRight(vimEditor, amplifier) {
     if (vimEditor.mode & SFVimEditor_1.SFVimMode.VISUAL) {
         anchor = vimEditor.tags.get("anchor") || currentPosition;
     }
-    const isPositionAdjusted = vimEditor.mode & SFVimEditor_1.SFVimMode.VISUAL && (0, selection_util_1.isAdjustedPostion)(anchor, currentPosition);
+    let isPositionAdjusted = vimEditor.mode & SFVimEditor_1.SFVimMode.VISUAL && (0, selection_util_1.isAdjustedPostion)(anchor, currentPosition);
     if (isPositionAdjusted) {
         character -= character > 0 ? 1 : 0;
     }
@@ -30,21 +30,32 @@ function executeMotionSkipRight(vimEditor, amplifier) {
         }
         let j = character;
         let skipType = 0;
-        if (j < lineText.length - 1) {
-            if (/^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j + 1])?.length) {
+        if (i < lineText.length - 1) {
+            if (/^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j])?.length) {
                 skipType = 1;
             }
-            else if (/^\s$/.exec(lineText[j + 1])?.length) {
+            else if (!/^\s$/.exec(lineText[j])?.length) {
                 skipType = 2;
             }
         }
-        if (lineBreak) {
-            skipType = 2;
-        }
-        while (j < lineText.length - 1
-            && (skipType == 0 && /^[^a-zA-Z0-9\u00C0-\u02DB8_ ]$/.exec(lineText[j + 1])?.length
-                || skipType == 1 && /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j + 1])?.length
-                || skipType == 2 && (/^\s$/.exec(lineText[j])?.length || j == character && !lineBreak))) {
+        while (j < lineText.length - 1) {
+            const isLetter = /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j])?.length;
+            const isSpace = /^\s$/.exec(lineText[j])?.length;
+            if (skipType == 0 && !isSpace) {
+                break;
+            }
+            else if (skipType == 1 && !isLetter) {
+                if (!isSpace) {
+                    break;
+                }
+                skipType = 0;
+            }
+            else if (skipType == 2 && (isSpace || isLetter)) {
+                if (isLetter) {
+                    break;
+                }
+                skipType = 0;
+            }
             j++;
         }
         character = j;
@@ -53,6 +64,7 @@ function executeMotionSkipRight(vimEditor, amplifier) {
     if (!(vimEditor.mode & SFVimEditor_1.SFVimMode.VISUAL)) {
         anchor = newPosition;
     }
+    isPositionAdjusted = vimEditor.mode & SFVimEditor_1.SFVimMode.VISUAL && (0, selection_util_1.isAdjustedPostion)(anchor, newPosition);
     if (isPositionAdjusted) {
         newPosition = (0, selection_util_1.getRightPosition)(newPosition);
     }

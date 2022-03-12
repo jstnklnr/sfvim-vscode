@@ -18,7 +18,7 @@ export function executeMotionSkipRight(vimEditor: SFVimEditor, amplifier: number
         anchor = vimEditor.tags.get("anchor") || currentPosition;
     }
 
-    const isPositionAdjusted = vimEditor.mode & SFVimMode.VISUAL && isAdjustedPostion(anchor, currentPosition);
+    let isPositionAdjusted = vimEditor.mode & SFVimMode.VISUAL && isAdjustedPostion(anchor, currentPosition);
     
     if(isPositionAdjusted) {
         character -= character > 0 ? 1 : 0;
@@ -37,34 +37,48 @@ export function executeMotionSkipRight(vimEditor: SFVimEditor, amplifier: number
         let j = character;
         let skipType = 0;
 
-        if(j < lineText.length - 1) {
-            if(/^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j + 1])?.length) {
+        if(i < lineText.length - 1) {
+            if(/^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j])?.length) {
                 skipType = 1;
-            }else if(/^\s$/.exec(lineText[j + 1])?.length) {
+            }else if(!/^\s$/.exec(lineText[j])?.length) {
                 skipType = 2;
             }
         }
 
-        if(lineBreak) {
-            skipType = 2;
-        }
+        while(j < lineText.length - 1) {
+            const isLetter = /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j])?.length;
+            const isSpace = /^\s$/.exec(lineText[j])?.length;
 
-        while(j < lineText.length - 1
-            && (skipType == 0 && /^[^a-zA-Z0-9\u00C0-\u02DB8_ ]$/.exec(lineText[j + 1])?.length
-            || skipType == 1 && /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j + 1])?.length
-            || skipType == 2 && (/^\s$/.exec(lineText[j])?.length || j == character && !lineBreak))) {
+            if(skipType == 0 && !isSpace) {
+                break;
+            }
+            else if(skipType == 1 && !isLetter) {
+                if(!isSpace) {
+                    break;
+                }
+
+                skipType = 0;
+            }else if(skipType == 2 && (isSpace || isLetter)) {
+                if(isLetter) {
+                    break;
+                }
+
+                skipType = 0;
+            }
+
             j++;
         }
 
         character = j;
     }
-
     
     let newPosition = vimEditor.editor.selection.active.with(line, character);
     
     if(!(vimEditor.mode & SFVimMode.VISUAL)) {
         anchor = newPosition;
     }
+    
+    isPositionAdjusted = vimEditor.mode & SFVimMode.VISUAL && isAdjustedPostion(anchor, newPosition);
 
     if(isPositionAdjusted) {
         newPosition = getRightPosition(newPosition);
