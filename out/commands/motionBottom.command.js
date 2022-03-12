@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.executeMotionBottom = void 0;
-const vscode = require("vscode");
+const selection_handler_1 = require("../handlers/selection.handler");
 const SFVimEditor_1 = require("../types/SFVimEditor");
 function executeMotionBottom(vimEditor) {
     const lineCount = vimEditor.editor.document.lineCount;
@@ -12,8 +12,7 @@ function executeMotionBottom(vimEditor) {
     if (vimEditor.mode & SFVimEditor_1.SFVimMode.VISUAL) {
         anchor = vimEditor.tags.get("anchor") || newPosition;
     }
-    vimEditor.editor.selection = new vscode.Selection(anchor, newPosition);
-    //vimEditor.editor.selections = [new vscode.Selection(anchor, newPosition), new vscode.Selection(anchor.with(anchor.line, anchor.character - 2), anchor.with(anchor.line, anchor.character - 1))];
+    (0, selection_handler_1.handleSelection)(vimEditor, newPosition);
 }
 exports.executeMotionBottom = executeMotionBottom;
 //# sourceMappingURL=motionBottom.command.js.map

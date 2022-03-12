@@ -1,4 +1,4 @@
-import * as vscode from "vscode";
+import { handleSelection } from "../handlers/selection.handler";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
 
 export function executeMotionBottom(vimEditor: SFVimEditor) {
@@ -13,6 +13,5 @@ export function executeMotionBottom(vimEditor: SFVimEditor) {
         anchor = vimEditor.tags.get("anchor") || newPosition;
     }
 
-    vimEditor.editor.selection = new vscode.Selection(anchor, newPosition);
-    //vimEditor.editor.selections = [new vscode.Selection(anchor, newPosition), new vscode.Selection(anchor.with(anchor.line, anchor.character - 2), anchor.with(anchor.line, anchor.character - 1))];
+    handleSelection(vimEditor, newPosition);
 }

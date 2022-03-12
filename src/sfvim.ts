@@ -33,7 +33,7 @@ export class SFVim {
 
             return vscode.commands.executeCommand('default:type', event);
         }));
-
+        
         executeModeChangeNormal(this.currentEditor!);
     }
 

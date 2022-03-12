@@ -1,5 +1,6 @@
-import * as vscode from "vscode";
+import { handleSelection } from "../handlers/selection.handler";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
+import { getRightPosition, isAdjustedPostion } from "../utilities/selection.util";
 
 export function executeMotionSkipLeft(vimEditor: SFVimEditor, amplifier: number) {
     if(amplifier == 0) {
@@ -10,6 +11,18 @@ export function executeMotionSkipLeft(vimEditor: SFVimEditor, amplifier: number)
     let line = currentPosition.line;
     let character = currentPosition.character;
     let lineText = vimEditor.editor.document.lineAt(line).text;
+
+    let anchor = currentPosition;
+
+    if(vimEditor.mode & SFVimMode.VISUAL) {
+        anchor = vimEditor.tags.get("anchor") || currentPosition;
+    }
+
+    const isPositionAdjusted = vimEditor.mode & SFVimMode.VISUAL && isAdjustedPostion(anchor, currentPosition);
+    
+    if(isPositionAdjusted) {
+        character -= character > 0 ? 1 : 0;
+    }
 
     for(let i = 0; i < amplifier; i++) {
         let lineBreak = false;
@@ -46,13 +59,16 @@ export function executeMotionSkipLeft(vimEditor: SFVimEditor, amplifier: number)
         character = j;
     }
     
-    const newPosition = vimEditor.editor.selection.active.with(line, character);
-    let anchor = newPosition;
-
-    if(vimEditor.mode & SFVimMode.VISUAL) {
-        anchor = vimEditor.tags.get("anchor") || newPosition;
+    let newPosition = vimEditor.editor.selection.active.with(line, character);
+    
+    if(!(vimEditor.mode & SFVimMode.VISUAL)) {
+        anchor = newPosition;
     }
 
-    vimEditor.editor.selection = new vscode.Selection(anchor, newPosition);
+    if(isPositionAdjusted) {
+        newPosition = getRightPosition(newPosition);
+    }
+
+    handleSelection(vimEditor, newPosition);
     vimEditor.tags.set("lastCharacter", newPosition.character);
 }

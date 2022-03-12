@@ -1,5 +1,6 @@
-import * as vscode from "vscode";
+import { handleSelection } from "../handlers/selection.handler";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
+import { getOffsetPosition } from "../utilities/selection.util";
 
 export function executeMotionRight(vimEditor: SFVimEditor, amplifier: number) {
     if(amplifier == 0) {
@@ -7,20 +8,13 @@ export function executeMotionRight(vimEditor: SFVimEditor, amplifier: number) {
     }
 
     const currentPosition = vimEditor.editor.selection.active;
-    const lineLength = vimEditor.editor.document.lineAt(currentPosition.line).text.length;
-    let newCharacter = currentPosition.character + amplifier;
-
-    if(newCharacter >= lineLength) {
-        newCharacter = lineLength - 1;
-    }
-
-    const newPosition = vimEditor.editor.selection.active.with(currentPosition.line, newCharacter);
+    const newPosition = getOffsetPosition(currentPosition, 0, amplifier);
     let anchor = newPosition;
 
     if(vimEditor.mode & SFVimMode.VISUAL) {
         anchor = vimEditor.tags.get("anchor") || newPosition;
     }
 
-    vimEditor.editor.selection = new vscode.Selection(anchor, newPosition);
+    handleSelection(vimEditor, newPosition);
     vimEditor.tags.set("lastCharacter", newPosition.character);
 }

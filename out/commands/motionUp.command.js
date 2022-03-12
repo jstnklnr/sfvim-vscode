@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.executeMotionUp = void 0;
-const vscode = require("vscode");
+const selection_handler_1 = require("../handlers/selection.handler");
 const SFVimEditor_1 = require("../types/SFVimEditor");
 function executeMotionUp(vimEditor, amplifier) {
     if (amplifier == 0) {
@@ -15,7 +15,7 @@ function executeMotionUp(vimEditor, amplifier) {
     if (vimEditor.mode & SFVimEditor_1.SFVimMode.VISUAL) {
         anchor = vimEditor.tags.get("anchor") || newPosition;
     }
-    vimEditor.editor.selection = new vscode.Selection(anchor, newPosition);
+    (0, selection_handler_1.handleSelection)(vimEditor, newPosition);
 }
 exports.executeMotionUp = executeMotionUp;
 //# sourceMappingURL=motionUp.command.js.map

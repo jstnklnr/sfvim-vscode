@@ -1,5 +1,6 @@
-import * as vscode from "vscode";
+import { handleSelection } from "../handlers/selection.handler";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
+import { getRightPosition, isAdjustedPostion } from "../utilities/selection.util";
 
 export function executeMotionSkipRight(vimEditor: SFVimEditor, amplifier: number) {
     if(amplifier == 0) {
@@ -11,10 +12,22 @@ export function executeMotionSkipRight(vimEditor: SFVimEditor, amplifier: number
     let character = currentPosition.character;
     let lineText = vimEditor.editor.document.lineAt(line).text;
     
+    let anchor = currentPosition;
+
+    if(vimEditor.mode & SFVimMode.VISUAL) {
+        anchor = vimEditor.tags.get("anchor") || currentPosition;
+    }
+
+    const isPositionAdjusted = vimEditor.mode & SFVimMode.VISUAL && isAdjustedPostion(anchor, currentPosition);
+    
+    if(isPositionAdjusted) {
+        character -= character > 0 ? 1 : 0;
+    }
+
     for(let i = 0; i < amplifier; i++) {
         let lineBreak = false;
 
-        if(character >= lineText.length) {
+        if(character >= lineText.length - 1) {
             line++;
             character = 0;
             lineText = vimEditor.editor.document.lineAt(line).text;
@@ -39,20 +52,24 @@ export function executeMotionSkipRight(vimEditor: SFVimEditor, amplifier: number
         while(j < lineText.length - 1
             && (skipType == 0 && /^[^a-zA-Z0-9\u00C0-\u02DB8_ ]$/.exec(lineText[j + 1])?.length
             || skipType == 1 && /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j + 1])?.length
-            || skipType == 2 && (/^\s$/.exec(lineText[j])?.length || j == character))) {
+            || skipType == 2 && (/^\s$/.exec(lineText[j])?.length || j == character && !lineBreak))) {
             j++;
         }
 
         character = j;
     }
-    
-    const newPosition = vimEditor.editor.selection.active.with(line, character);
-    let anchor = newPosition;
 
-    if(vimEditor.mode & SFVimMode.VISUAL) {
-        anchor = vimEditor.tags.get("anchor") || newPosition;
+    
+    let newPosition = vimEditor.editor.selection.active.with(line, character);
+    
+    if(!(vimEditor.mode & SFVimMode.VISUAL)) {
+        anchor = newPosition;
     }
 
-    vimEditor.editor.selection = new vscode.Selection(anchor, newPosition);
+    if(isPositionAdjusted) {
+        newPosition = getRightPosition(newPosition);
+    }
+    
+    handleSelection(vimEditor, newPosition);
     vimEditor.tags.set("lastCharacter", newPosition.character);
 }

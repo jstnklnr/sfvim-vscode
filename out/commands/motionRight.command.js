@@ -1,24 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.executeMotionRight = void 0;
-const vscode = require("vscode");
+const selection_handler_1 = require("../handlers/selection.handler");
 const SFVimEditor_1 = require("../types/SFVimEditor");
+const selection_util_1 = require("../utilities/selection.util");
 function executeMotionRight(vimEditor, amplifier) {
     if (amplifier == 0) {
         amplifier = 1;
     }
     const currentPosition = vimEditor.editor.selection.active;
-    const lineLength = vimEditor.editor.document.lineAt(currentPosition.line).text.length;
-    let newCharacter = currentPosition.character + amplifier;
-    if (newCharacter >= lineLength) {
-        newCharacter = lineLength - 1;
-    }
-    const newPosition = vimEditor.editor.selection.active.with(currentPosition.line, newCharacter);
+    const newPosition = (0, selection_util_1.getOffsetPosition)(currentPosition, 0, amplifier);
     let anchor = newPosition;
     if (vimEditor.mode & SFVimEditor_1.SFVimMode.VISUAL) {
         anchor = vimEditor.tags.get("anchor") || newPosition;
     }
-    vimEditor.editor.selection = new vscode.Selection(anchor, newPosition);
+    (0, selection_handler_1.handleSelection)(vimEditor, newPosition);
     vimEditor.tags.set("lastCharacter", newPosition.character);
 }
 exports.executeMotionRight = executeMotionRight;

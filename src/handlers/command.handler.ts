@@ -168,6 +168,9 @@ export class CommandHandler {
             vimEditor.editor.edit(editBuilder => {
                 editBuilder.delete(new vscode.Range(line, character - (pressedKeys.length - 1), line, character));
             });
+
+            const newPosition = new vscode.Position(line, Math.max(character - (pressedKeys.length - 1)));
+            vimEditor.editor.selection = new vscode.Selection(newPosition, newPosition);
         }
     
         for(const command of trigger) {

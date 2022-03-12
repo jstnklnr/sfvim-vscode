@@ -1,5 +1,6 @@
-import * as vscode from "vscode";
+import { handleSelection } from "../handlers/selection.handler";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
+import { getLeftPosition, getOffsetPosition } from "../utilities/selection.util";
 
 export function executeMotionLeft(vimEditor: SFVimEditor, amplifier: number) {
     if(amplifier == 0) {
@@ -8,14 +9,14 @@ export function executeMotionLeft(vimEditor: SFVimEditor, amplifier: number) {
 
     const currentPosition = vimEditor.editor.selection.active;
     
-    const newPosition = vimEditor.editor.selection.active.with(currentPosition.line, currentPosition.character - amplifier);
+    const newPosition = getOffsetPosition(currentPosition, 0, -amplifier);
     let anchor = newPosition;
 
     if(vimEditor.mode & SFVimMode.VISUAL) {
         anchor = vimEditor.tags.get("anchor") || newPosition;
     }
 
-    vimEditor.editor.selection = new vscode.Selection(anchor, newPosition);
+    handleSelection(vimEditor, newPosition);
     vimEditor.editor.selection.isReversed = true;
     vimEditor.tags.set("lastCharacter", newPosition.character);
 }

@@ -1,4 +1,4 @@
-import * as vscode from "vscode";
+import { handleSelection } from "../handlers/selection.handler";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
 
 export function executeMotionUp(vimEditor: SFVimEditor, amplifier: number) {
@@ -17,5 +17,5 @@ export function executeMotionUp(vimEditor: SFVimEditor, amplifier: number) {
         anchor = vimEditor.tags.get("anchor") || newPosition;
     }
 
-    vimEditor.editor.selection = new vscode.Selection(anchor, newPosition);
+    handleSelection(vimEditor, newPosition);
 }
