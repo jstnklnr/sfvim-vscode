@@ -87,6 +87,14 @@
 							{
 								"command": "motion.bottom",
 								"bind": "K"
+							},
+							{
+								"command": "motion.lineStart",
+								"bind": "J"
+							},
+							{
+								"command": "motion.lineEnd",
+								"bind": "L"
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."

@@ -17,6 +17,8 @@ const modeVisual_command_1 = require("../commands/modeVisual.command");
 const motionSkipEndRight_command_1 = require("../commands/motionSkipEndRight.command");
 const jump_command_1 = require("../commands/jump.command");
 const modeInsertAppend_command_1 = require("../commands/modeInsertAppend.command");
+const motionLineStart_command_1 = require("../commands/motionLineStart.command");
+const motionLineEnd_command_1 = require("../commands/motionLineEnd.command");
 const commands = [
     {
         name: "mode.normal",
@@ -101,6 +103,18 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Moves the cursor to the bottom of the document",
         handler: motionBottom_command_1.executeMotionBottom
+    },
+    {
+        name: "motion.lineStart",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the start of the line",
+        handler: motionLineStart_command_1.executeMotionLineStart
+    },
+    {
+        name: "motion.lineEnd",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the end of the line",
+        handler: motionLineEnd_command_1.executeMotionLineEnd
     }
 ];
 class CommandHandler {

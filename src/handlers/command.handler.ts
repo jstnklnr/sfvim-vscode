@@ -14,6 +14,8 @@ import { executeModeChangeVisual } from "../commands/modeVisual.command";
 import { executeMotionSkipEndRight } from "../commands/motionSkipEndRight.command";
 import { executeMotionJump } from "../commands/jump.command";
 import { executeModeChangeInsertAppend } from "../commands/modeInsertAppend.command";
+import { executeMotionLineStart } from "../commands/motionLineStart.command";
+import { executeMotionLineEnd } from "../commands/motionLineEnd.command";
 
 interface SFVimCommand {
     name: string;
@@ -111,6 +113,18 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Moves the cursor to the bottom of the document",
         handler: executeMotionBottom
+    },
+    {
+        name: "motion.lineStart",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the start of the line",
+        handler: executeMotionLineStart
+    },
+    {
+        name: "motion.lineEnd",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the end of the line",
+        handler: executeMotionLineEnd
     }
 ];
 
