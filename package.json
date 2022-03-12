@@ -68,6 +68,10 @@
 								"bind": "f"
 							},
 							{
+								"command": "motion.skipEndRight",
+								"bind": "w"
+							},
+							{
 								"command": "motion.top",
 								"bind": "I"
 							}

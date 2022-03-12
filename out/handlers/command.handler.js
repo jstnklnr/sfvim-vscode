@@ -14,6 +14,7 @@ const vscode = require("vscode");
 const modeNormal_command_1 = require("../commands/modeNormal.command");
 const modeInsert_command_1 = require("../commands/modeInsert.command");
 const modeVisual_command_1 = require("../commands/modeVisual.command");
+const motionSkipEndRight_command_1 = require("../commands/motionSkipEndRight.command");
 const commands = [
     {
         name: "mode.normal",
@@ -60,14 +61,20 @@ const commands = [
     {
         name: "motion.skipLeft",
         mode: SFVimEditor_1.SFVimMode.NORMAL,
-        description: "Moves the cursor to the word to the left",
+        description: "Moves the cursor to the beginning of the previous word",
         handler: motionSkipLeft_command_1.executeMotionSkipLeft
     },
     {
         name: "motion.skipRight",
         mode: SFVimEditor_1.SFVimMode.NORMAL,
-        description: "Moves the cursor to the word to the right",
+        description: "Moves the cursor to the beginning of the next word",
         handler: motionSkipRight_command_1.executeMotionSkipRight
+    },
+    {
+        name: "motion.skipEndRight",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the end of the next word",
+        handler: motionSkipEndRight_command_1.executeMotionSkipEndRight
     },
     {
         name: "motion.top",

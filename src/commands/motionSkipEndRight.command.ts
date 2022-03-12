@@ -2,7 +2,7 @@ import { handleSelection } from "../handlers/selection.handler";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
 import { getRightPosition, isAdjustedPostion } from "../utilities/selection.util";
 
-export function executeMotionSkipRight(vimEditor: SFVimEditor, amplifier: number) {
+export function executeMotionSkipEndRight(vimEditor: SFVimEditor, amplifier: number) {
     if(amplifier == 0) {
         amplifier = 1;
     }
@@ -38,31 +38,21 @@ export function executeMotionSkipRight(vimEditor: SFVimEditor, amplifier: number
         let skipType = 0;
 
         if(i < lineText.length - 1) {
-            if(/^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j])?.length) {
+            if(/^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j + 1])?.length) {
                 skipType = 1;
-            }else if(!/^\s$/.exec(lineText[j])?.length) {
+            }else if(!/^\s$/.exec(lineText[j + 1])?.length) {
                 skipType = 2;
             }
         }
 
         while(j < lineText.length - 1) {
-            const isLetter = /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j])?.length;
-            const isSpace = /^\s$/.exec(lineText[j])?.length;
+            const isLetter = /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j + 1])?.length;
+            const isSpace = /^\s$/.exec(lineText[j + 1])?.length;
 
             if(skipType == 0 && !isSpace) {
+                skipType = isLetter ? 1 : 2;
+            }else if(skipType == 1 && !isLetter || skipType == 2 && (isLetter || isSpace)) {
                 break;
-            }else if(skipType == 1 && !isLetter) {
-                if(!isSpace) {
-                    break;
-                }
-
-                skipType = 0;
-            }else if(skipType == 2 && (isSpace || isLetter)) {
-                if(isLetter) {
-                    break;
-                }
-
-                skipType = 0;
             }
 
             j++;

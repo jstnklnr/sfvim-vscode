@@ -11,6 +11,7 @@ import * as vscode from "vscode";
 import { executeModeChangeNormal } from "../commands/modeNormal.command";
 import { executeModeChangeInsert } from "../commands/modeInsert.command";
 import { executeModeChangeVisual } from "../commands/modeVisual.command";
+import { executeMotionSkipEndRight } from "../commands/motionSkipEndRight.command";
 
 interface SFVimCommand {
     name: string;
@@ -70,14 +71,20 @@ const commands: Array<SFVimCommand> = [
     {
         name: "motion.skipLeft",
         mode: SFVimMode.NORMAL,
-        description: "Moves the cursor to the word to the left",
+        description: "Moves the cursor to the beginning of the previous word",
         handler: executeMotionSkipLeft
     },
     {
         name: "motion.skipRight",
         mode: SFVimMode.NORMAL,
-        description: "Moves the cursor to the word to the right",
+        description: "Moves the cursor to the beginning of the next word",
         handler: executeMotionSkipRight
+    },
+    {
+        name: "motion.skipEndRight",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the end of the next word",
+        handler: executeMotionSkipEndRight
     },
     {
         name: "motion.top",
