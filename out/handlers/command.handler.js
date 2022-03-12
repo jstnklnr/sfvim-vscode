@@ -15,24 +15,32 @@ const modeNormal_command_1 = require("../commands/modeNormal.command");
 const modeInsert_command_1 = require("../commands/modeInsert.command");
 const modeVisual_command_1 = require("../commands/modeVisual.command");
 const motionSkipEndRight_command_1 = require("../commands/motionSkipEndRight.command");
+const jump_command_1 = require("../commands/jump.command");
+const modeInsertAppend_command_1 = require("../commands/modeInsertAppend.command");
 const commands = [
     {
         name: "mode.normal",
         mode: SFVimEditor_1.SFVimMode.INSERT,
         description: "Switches the current editor mode to NORMAL",
-        handler: (editor) => (0, modeNormal_command_1.executeModeChangeNormal)(editor)
+        handler: modeNormal_command_1.executeModeChangeNormal
     },
     {
         name: "mode.insert",
         mode: SFVimEditor_1.SFVimMode.NORMAL,
-        description: "Switches the current editor mode to INSERT",
-        handler: (editor) => (0, modeInsert_command_1.executeModeChangeInsert)(editor)
+        description: "Switches the current editor to INSERT mode and puts the cursor in front of the currently selected character",
+        handler: modeInsert_command_1.executeModeChangeInsert
+    },
+    {
+        name: "mode.append",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Switches the current editor to INSERT mode and puts the cursor behind the currently selected character",
+        handler: modeInsertAppend_command_1.executeModeChangeInsertAppend
     },
     {
         name: "mode.visual",
         mode: SFVimEditor_1.SFVimMode.NORMAL & SFVimEditor_1.SFVimMode.VISUAL,
         description: "Toggles between visual and normal mode",
-        handler: (editor) => (0, modeVisual_command_1.executeModeChangeVisual)(editor)
+        handler: modeVisual_command_1.executeModeChangeVisual
     },
     {
         name: "motion.up",
@@ -45,6 +53,12 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Moves the cursor to the line below",
         handler: motionDown_command_1.executeMotionDown
+    },
+    {
+        name: "motion.jump",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Jumps to the beginning of specified line",
+        handler: jump_command_1.executeMotionJump
     },
     {
         name: "motion.left",

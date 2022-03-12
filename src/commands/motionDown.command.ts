@@ -6,7 +6,7 @@ export function executeMotionDown(vimEditor: SFVimEditor, amplifier: number) {
         amplifier = 1;
     }
 
-    const lineCount = vimEditor.editor.document.lineCount;
+    const lineCount = vimEditor.editor.document.lineCount - 1;
 
     const currentPosition = vimEditor.editor.selection.active;
     const offset = currentPosition.line + amplifier >= lineCount ? lineCount - currentPosition.line : amplifier;

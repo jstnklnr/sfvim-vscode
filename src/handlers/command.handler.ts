@@ -12,6 +12,8 @@ import { executeModeChangeNormal } from "../commands/modeNormal.command";
 import { executeModeChangeInsert } from "../commands/modeInsert.command";
 import { executeModeChangeVisual } from "../commands/modeVisual.command";
 import { executeMotionSkipEndRight } from "../commands/motionSkipEndRight.command";
+import { executeMotionJump } from "../commands/jump.command";
+import { executeModeChangeInsertAppend } from "../commands/modeInsertAppend.command";
 
 interface SFVimCommand {
     name: string;
@@ -30,19 +32,25 @@ const commands: Array<SFVimCommand> = [
         name: "mode.normal",
         mode: SFVimMode.INSERT,
         description: "Switches the current editor mode to NORMAL",
-        handler: (editor) => executeModeChangeNormal(editor)
+        handler: executeModeChangeNormal
     },
     {
         name: "mode.insert",
         mode: SFVimMode.NORMAL,
-        description: "Switches the current editor mode to INSERT",
-        handler: (editor) => executeModeChangeInsert(editor)
+        description: "Switches the current editor to INSERT mode and puts the cursor in front of the currently selected character",
+        handler: executeModeChangeInsert
+    },
+    {
+        name: "mode.append",
+        mode: SFVimMode.NORMAL,
+        description: "Switches the current editor to INSERT mode and puts the cursor behind the currently selected character",
+        handler: executeModeChangeInsertAppend
     },
     {
         name: "mode.visual",
         mode: SFVimMode.NORMAL & SFVimMode.VISUAL,
         description: "Toggles between visual and normal mode",
-        handler: (editor) => executeModeChangeVisual(editor)
+        handler: executeModeChangeVisual
     },
     {
         name: "motion.up",
@@ -55,6 +63,12 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Moves the cursor to the line below",
         handler: executeMotionDown
+    },
+    {
+        name: "motion.jump",
+        mode: SFVimMode.NORMAL,
+        description: "Jumps to the beginning of specified line",
+        handler: executeMotionJump
     },
     {
         name: "motion.left",

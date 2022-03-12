@@ -26,7 +26,7 @@
 				"properties": {
 					"sfvim.normalModeLineNumberRelative": {
 						"type":	"boolean",
-						"default": true
+						"default": false
 					},
 					"sfvim.insertModeLineNumberRelative": {
 						"type":	"boolean",
@@ -40,6 +40,10 @@
 								"bind": "e"
 							},
 							{
+								"command": "mode.append",
+								"bind": "a"
+							},
+							{
 								"command": "mode.visual",
 								"bind": "v"
 							},
@@ -50,6 +54,10 @@
 							{
 								"command": "motion.down",
 								"bind": "k"
+							},
+							{
+								"command": "motion.jump",
+								"bind": "G"
 							},
 							{
 								"command": "motion.left",
