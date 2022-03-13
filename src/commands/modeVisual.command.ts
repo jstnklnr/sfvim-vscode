@@ -37,7 +37,7 @@ export function executeModeChangeVisual(vimEditor: SFVimEditor, amplifier: numbe
         vimEditor.editor.selection = new vscode.Selection(active, active);
     }
 
-    const isRelative = vimEditor.config["normalModeLineNumberRelative"];
+    const isRelative = vimEditor.sfvim.sfvimConfig["normalModeLineNumberRelative"];
     vimEditor.editor.options.lineNumbers = isRelative ? vscode.TextEditorLineNumbersStyle.Relative : vscode.TextEditorLineNumbersStyle.On;
     vimEditor.callStatusCallback();
 

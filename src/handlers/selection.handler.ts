@@ -1,6 +1,6 @@
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
 import * as vscode from "vscode";
-import { cursorDecoration, getLeftPosition, getOffsetPosition, getRelativePosition as getRelativeDirection, getRightPosition, RelativeDirection } from "../utilities/selection.util";
+import { calculateScroll, cursorDecoration, getLeftPosition, getOffsetPosition, getRelativePosition as getRelativeDirection, getRightPosition, RelativeDirection, scroll } from "../utilities/selection.util";
 
 /**
  * When in visual mode there are certain conditions when the anchor needs to be shifted
@@ -77,20 +77,5 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
      * Scroll if cursor is out of range
      */
 
-    const visibleRanges = vimEditor.editor.visibleRanges;
-    
-    if(visibleRanges === undefined || visibleRanges.length == 0) {
-        return;
-    }
-    
-    const view = visibleRanges[0];
-    const scrollOffset = vscode.workspace.getConfiguration("editor").get("cursorSurroundingLines") as number || 0;
-    const currentLine = newPosition.line;
-    const lineCount = vimEditor.editor.document.lineCount;
-
-    if(view.start.line > 0 && currentLine < view.start.line + scrollOffset) {
-        vscode.commands.executeCommand('editorScroll', {to: 'up', by: 'line', value: (view.start.line + scrollOffset) - currentLine, revealCursor: false});
-    }else if(view.end.line < lineCount - 1 && currentLine > view.end.line - scrollOffset) {
-        vscode.commands.executeCommand('editorScroll', {to: 'down', by: 'line', value: currentLine - (view.end.line - scrollOffset), revealCursor: false});
-    }
+    scroll(calculateScroll(vimEditor, newPosition));
 }

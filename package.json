@@ -150,6 +150,14 @@
 							{
 								"command": "motion.middleView",
 								"bind": "m"
+							},
+							{
+								"command": "motion.scrollHalfPageUp",
+								"bind": ")"
+							},
+							{
+								"command": "motion.scrollHalfPageDown",
+								"bind": "("
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."

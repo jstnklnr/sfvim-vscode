@@ -33,6 +33,8 @@ const motionSkipEndLeft_command_1 = require("../commands/motionSkipEndLeft.comma
 const motionHighestView_command_1 = require("../commands/motionHighestView.command");
 const motionLowestView_command_1 = require("../commands/motionLowestView.command");
 const motionMiddleView_command_1 = require("../commands/motionMiddleView.command");
+const motionScrollHalfPageDown_command_1 = require("../commands/motionScrollHalfPageDown.command");
+const motionScrollHalfPageUp_command_1 = require("../commands/motionScrollHalfPageUp.command");
 const commands = [
     {
         name: "mode.normal",
@@ -213,6 +215,18 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Moves the cursor to the middle line of the current viewport",
         handler: motionMiddleView_command_1.executeMotionMiddleView
+    },
+    {
+        name: "motion.scrollHalfPageUp",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor half a page up and will set the scroll view to the cursor",
+        handler: motionScrollHalfPageUp_command_1.executeMotionScrollHalfPageUp
+    },
+    {
+        name: "motion.scrollHalfPageDown",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor half a page down and will set the scroll view to the cursor",
+        handler: motionScrollHalfPageDown_command_1.executeMotionScrollHalfPageDown
     }
 ];
 class CommandHandler {

@@ -10,10 +10,11 @@ class SFVim {
         this.editors = [];
         this.modeStatus = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
         this.amplifierStatus = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
-        this.config = {};
+        this.sfvimConfig = {};
+        this.editorConfig = {};
         this.loadConfig();
         this.currentEditor = this.getEditor(vscode.window.activeTextEditor);
-        this.commandHandler = new command_handler_1.CommandHandler(this.config);
+        this.commandHandler = new command_handler_1.CommandHandler(this.sfvimConfig);
         context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(() => this.loadConfig));
         context.subscriptions.push(vscode.workspace.onDidCloseTextDocument(() => this.checkEditors()));
         context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor((editor) => {
@@ -29,10 +30,14 @@ class SFVim {
         (0, modeNormal_command_1.executeModeChangeNormal)(this.currentEditor, 0);
     }
     loadConfig() {
-        for (const key of Object.keys(this.config)) {
-            delete this.config[key];
+        for (const key of Object.keys(this.sfvimConfig)) {
+            delete this.sfvimConfig[key];
         }
-        Object.assign(this.config, vscode.workspace.getConfiguration("sfvim"));
+        for (const key of Object.keys(this.editorConfig)) {
+            delete this.editorConfig[key];
+        }
+        Object.assign(this.sfvimConfig, vscode.workspace.getConfiguration("sfvim"));
+        Object.assign(this.editorConfig, vscode.workspace.getConfiguration("editor"));
     }
     checkEditors() {
         this.editors = this.editors.filter(vimEditor => vscode.workspace.textDocuments.includes(vimEditor.editor.document));
@@ -43,7 +48,7 @@ class SFVim {
         }
         let vimEditor = this.editors.find(vimEditor => vimEditor.editor.document === editor.document);
         if (!vimEditor) {
-            vimEditor = new SFVimEditor_1.SFVimEditor(editor, this.config, (_vimEditor) => {
+            vimEditor = new SFVimEditor_1.SFVimEditor(editor, this, (_vimEditor) => {
                 this.updateStatus(vimEditor);
             });
             this.editors.push(vimEditor);

@@ -8,7 +8,7 @@ export function executeModeChangeNormal(vimEditor: SFVimEditor, amplifier: numbe
     }
 
     vimEditor.mode = SFVimMode.NORMAL;
-    const isRelative = vimEditor.config["normalModeLineNumberRelative"];
+    const isRelative = vimEditor.sfvim.sfvimConfig["normalModeLineNumberRelative"];
     vimEditor.editor.options.lineNumbers = isRelative ? TextEditorLineNumbersStyle.Relative : TextEditorLineNumbersStyle.On;
     vimEditor.callStatusCallback();
 

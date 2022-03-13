@@ -30,6 +30,8 @@ import { executeMotionSkipEndLeft } from "../commands/motionSkipEndLeft.command"
 import { executeMotionHighestView } from "../commands/motionHighestView.command";
 import { executeMotionLowestView } from "../commands/motionLowestView.command";
 import { executeMotionMiddleView } from "../commands/motionMiddleView.command";
+import { executeMotionScrollHalfPageDown } from "../commands/motionScrollHalfPageDown.command";
+import { executeMotionScrollHalfPageUp } from "../commands/motionScrollHalfPageUp.command";
 
 interface SFVimCommand {
     name: string;
@@ -223,6 +225,18 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Moves the cursor to the middle line of the current viewport",
         handler: executeMotionMiddleView
+    },
+    {
+        name: "motion.scrollHalfPageUp",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor half a page up and will set the scroll view to the cursor",
+        handler: executeMotionScrollHalfPageUp
+    },
+    {
+        name: "motion.scrollHalfPageDown",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor half a page down and will set the scroll view to the cursor",
+        handler: executeMotionScrollHalfPageDown
     }
 ];
 

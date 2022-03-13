@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { SFVim } from "../sfvim";
 
 export enum SFVimMode {
     NORMAL = 1,
@@ -10,16 +11,16 @@ export type StatusCallback = (vimEditor: SFVimEditor) => void;
 
 export class SFVimEditor {
     editor: vscode.TextEditor;
-    config: any;
+    sfvim: SFVim;
     mode: SFVimMode;
     tags: Map<string, any>;
     amplifier: number;
     stringAmplifier: string;
     statusCallback: StatusCallback;
 
-    constructor(editor: vscode.TextEditor, config: any, statusCallback: StatusCallback) {
+    constructor(editor: vscode.TextEditor, sfvim: SFVim, statusCallback: StatusCallback) {
         this.editor = editor;
-        this.config = config;
+        this.sfvim = sfvim;
         this.mode = SFVimMode.NORMAL;
         this.tags = new Map<string, any>();
         this.amplifier = 0;
