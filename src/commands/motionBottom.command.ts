@@ -1,5 +1,5 @@
 import { SFVimEditor } from "../types/SFVimEditor";
-import { executeMotionJump } from "./jump.command";
+import { executeMotionJump } from "./motionJump.command";
 
 export function executeMotionBottom(vimEditor: SFVimEditor, amplifier: number) {
     if(amplifier != 0) {

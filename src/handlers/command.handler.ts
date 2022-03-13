@@ -12,13 +12,19 @@ import { executeModeChangeNormal } from "../commands/modeNormal.command";
 import { executeModeChangeInsert } from "../commands/modeInsert.command";
 import { executeModeChangeVisual } from "../commands/modeVisual.command";
 import { executeMotionSkipEndRight } from "../commands/motionSkipEndRight.command";
-import { executeMotionJump } from "../commands/jump.command";
+import { executeMotionJump } from "../commands/motionJump.command";
 import { executeModeChangeInsertAppend } from "../commands/modeInsertAppend.command";
 import { executeMotionLineStart } from "../commands/motionLineStart.command";
 import { executeMotionLineEnd } from "../commands/motionLineEnd.command";
 import { executeMotionSkipEndRightSpecial } from "../commands/motionSkipEndRightSpecial.command";
 import { executeMotionSkipRightSpecial } from "../commands/motionSkipRightSpecial.command";
 import { executeMotionSkipLeftSpecial } from "../commands/motionSkipLeftSpecial.command";
+import { executeMotionNextEmptyLine } from "../commands/motionNextEmptyLine.command";
+import { executeMotionPreviousEmptyLine } from "../commands/motionPreviousEmptyLine.command";
+import { executeMotionRealLineStart } from "../commands/motionRealLineStart.command";
+import { executeMotionRealLineEnd } from "../commands/motionRealLineEnd.command";
+import { executeModeChangeInsertLineStart } from "../commands/modeInsertLineStart.command";
+import { executeModeChangeInsertAppendLineEnd } from "../commands/modeInsertAppendLineEnd.command";
 
 interface SFVimCommand {
     name: string;
@@ -50,6 +56,18 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Switches the current editor to INSERT mode and puts the cursor behind the currently selected character",
         handler: executeModeChangeInsertAppend
+    },
+    {
+        name: "mode.insertLineStart",
+        mode: SFVimMode.NORMAL,
+        description: "Switches the current editor to INSERT mode and puts the cursor in front of the first character of the line",
+        handler: executeModeChangeInsertLineStart
+    },
+    {
+        name: "mode.appendLineEnd",
+        mode: SFVimMode.NORMAL,
+        description: "Switches the current editor to INSERT mode and puts the cursor at the end of the line",
+        handler: executeModeChangeInsertAppendLineEnd
     },
     {
         name: "mode.visual",
@@ -138,14 +156,38 @@ const commands: Array<SFVimCommand> = [
     {
         name: "motion.lineStart",
         mode: SFVimMode.NORMAL,
-        description: "Moves the cursor to the start of the line",
+        description: "Moves the cursor to the first character of the line",
         handler: executeMotionLineStart
     },
     {
         name: "motion.lineEnd",
         mode: SFVimMode.NORMAL,
-        description: "Moves the cursor to the end of the line",
+        description: "Moves the cursor to the last character of the line",
         handler: executeMotionLineEnd
+    },
+    {
+        name: "motion.realLineStart",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the start of the line",
+        handler: executeMotionRealLineStart
+    },
+    {
+        name: "motion.realLineEnd",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the end of the line",
+        handler: executeMotionRealLineEnd
+    },
+    {
+        name: "motion.previousEmptyLine",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the previous empty line",
+        handler: executeMotionPreviousEmptyLine
+    },
+    {
+        name: "motion.nextEmptyLine",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the next empty line",
+        handler: executeMotionNextEmptyLine
     }
 ];
 

@@ -15,13 +15,19 @@ const modeNormal_command_1 = require("../commands/modeNormal.command");
 const modeInsert_command_1 = require("../commands/modeInsert.command");
 const modeVisual_command_1 = require("../commands/modeVisual.command");
 const motionSkipEndRight_command_1 = require("../commands/motionSkipEndRight.command");
-const jump_command_1 = require("../commands/jump.command");
+const motionJump_command_1 = require("../commands/motionJump.command");
 const modeInsertAppend_command_1 = require("../commands/modeInsertAppend.command");
 const motionLineStart_command_1 = require("../commands/motionLineStart.command");
 const motionLineEnd_command_1 = require("../commands/motionLineEnd.command");
 const motionSkipEndRightSpecial_command_1 = require("../commands/motionSkipEndRightSpecial.command");
 const motionSkipRightSpecial_command_1 = require("../commands/motionSkipRightSpecial.command");
 const motionSkipLeftSpecial_command_1 = require("../commands/motionSkipLeftSpecial.command");
+const motionNextEmptyLine_command_1 = require("../commands/motionNextEmptyLine.command");
+const motionPreviousEmptyLine_command_1 = require("../commands/motionPreviousEmptyLine.command");
+const motionRealLineStart_command_1 = require("../commands/motionRealLineStart.command");
+const motionRealLineEnd_command_1 = require("../commands/motionRealLineEnd.command");
+const modeInsertLineStart_command_1 = require("../commands/modeInsertLineStart.command");
+const modeInsertAppendLineEnd_command_1 = require("../commands/modeInsertAppendLineEnd.command");
 const commands = [
     {
         name: "mode.normal",
@@ -40,6 +46,18 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Switches the current editor to INSERT mode and puts the cursor behind the currently selected character",
         handler: modeInsertAppend_command_1.executeModeChangeInsertAppend
+    },
+    {
+        name: "mode.insertLineStart",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Switches the current editor to INSERT mode and puts the cursor in front of the first character of the line",
+        handler: modeInsertLineStart_command_1.executeModeChangeInsertLineStart
+    },
+    {
+        name: "mode.appendLineEnd",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Switches the current editor to INSERT mode and puts the cursor at the end of the line",
+        handler: modeInsertAppendLineEnd_command_1.executeModeChangeInsertAppendLineEnd
     },
     {
         name: "mode.visual",
@@ -63,7 +81,7 @@ const commands = [
         name: "motion.jump",
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Jumps to the beginning of specified line",
-        handler: jump_command_1.executeMotionJump
+        handler: motionJump_command_1.executeMotionJump
     },
     {
         name: "motion.left",
@@ -128,14 +146,38 @@ const commands = [
     {
         name: "motion.lineStart",
         mode: SFVimEditor_1.SFVimMode.NORMAL,
-        description: "Moves the cursor to the start of the line",
+        description: "Moves the cursor to the first character of the line",
         handler: motionLineStart_command_1.executeMotionLineStart
     },
     {
         name: "motion.lineEnd",
         mode: SFVimEditor_1.SFVimMode.NORMAL,
-        description: "Moves the cursor to the end of the line",
+        description: "Moves the cursor to the last character of the line",
         handler: motionLineEnd_command_1.executeMotionLineEnd
+    },
+    {
+        name: "motion.realLineStart",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the start of the line",
+        handler: motionRealLineStart_command_1.executeMotionRealLineStart
+    },
+    {
+        name: "motion.realLineEnd",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the end of the line",
+        handler: motionRealLineEnd_command_1.executeMotionRealLineEnd
+    },
+    {
+        name: "motion.previousEmptyLine",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the previous empty line",
+        handler: motionPreviousEmptyLine_command_1.executeMotionPreviousEmptyLine
+    },
+    {
+        name: "motion.nextEmptyLine",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the next empty line",
+        handler: motionNextEmptyLine_command_1.executeMotionNextEmptyLine
     }
 ];
 class CommandHandler {

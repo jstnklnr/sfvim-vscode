@@ -44,6 +44,14 @@
 								"bind": "a"
 							},
 							{
+								"command": "mode.insertLineStart",
+								"bind": "E"
+							},
+							{
+								"command": "mode.appendLineEnd",
+								"bind": "A"
+							},
+							{
 								"command": "mode.visual",
 								"bind": "v"
 							},
@@ -107,6 +115,22 @@
 							{
 								"command": "motion.lineEnd",
 								"bind": "L"
+							},
+							{
+								"command": "motion.realLineStart",
+								"bind": "^"
+							},
+							{
+								"command": "motion.realLineEnd",
+								"bind": "$"
+							},
+							{
+								"command": "motion.previousEmptyLine",
+								"bind": "I"
+							},
+							{
+								"command": "motion.nextEmptyLine",
+								"bind": "K"
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."

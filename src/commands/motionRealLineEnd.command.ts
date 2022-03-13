@@ -2,22 +2,16 @@ import { handleSelection } from "../handlers/selection.handler";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
 import { getRightPosition, isAdjustedPostion } from "../utilities/selection.util";
 
-export function executeMotionJump(vimEditor: SFVimEditor, line: number) {
-    if(line == 0) {
+export function executeMotionRealLineEnd(vimEditor: SFVimEditor, amplifier: number) {
+    if(amplifier != 0) {
         return;
     }
 
-    const lineCount = vimEditor.editor.document.lineCount;
-    line = line > lineCount ? lineCount : line;
-    
-    const lineText = vimEditor.editor.document.lineAt(line - 1).text;
-    let character = 0;
-    
-    while(character < lineText.length - 1 && /^\s$/.exec(lineText[character])?.length) {
-        character++;
-    }
+    const currentPosition = vimEditor.editor.selection.active;
+    const lineText = vimEditor.editor.document.lineAt(currentPosition.line).text;
+    let character = lineText.length == 0 ? 0 : lineText.length - 1;
 
-    let newPosition = vimEditor.editor.selection.active.with(line - 1, character);
+    let newPosition = vimEditor.editor.selection.active.with(currentPosition.line, character);
     let anchor = newPosition;
 
     if(vimEditor.mode & SFVimMode.VISUAL) {
