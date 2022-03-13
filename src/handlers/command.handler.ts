@@ -16,6 +16,9 @@ import { executeMotionJump } from "../commands/jump.command";
 import { executeModeChangeInsertAppend } from "../commands/modeInsertAppend.command";
 import { executeMotionLineStart } from "../commands/motionLineStart.command";
 import { executeMotionLineEnd } from "../commands/motionLineEnd.command";
+import { executeMotionSkipEndRightSpecial } from "../commands/motionSkipEndRightSpecial.command";
+import { executeMotionSkipRightSpecial } from "../commands/motionSkipRightSpecial.command";
+import { executeMotionSkipLeftSpecial } from "../commands/motionSkipLeftSpecial.command";
 
 interface SFVimCommand {
     name: string;
@@ -101,6 +104,24 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Moves the cursor to the end of the next word",
         handler: executeMotionSkipEndRight
+    },
+    {
+        name: "motion.skipLeftSpecial",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the beginning of the previous word (including special characters)",
+        handler: executeMotionSkipLeftSpecial
+    },
+    {
+        name: "motion.skipRightSpecial",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the beginning of the next word (including special characters)",
+        handler: executeMotionSkipRightSpecial
+    },
+    {
+        name: "motion.skipEndRightSpecial",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the end of the next word (including special characters)",
+        handler: executeMotionSkipEndRightSpecial
     },
     {
         name: "motion.top",

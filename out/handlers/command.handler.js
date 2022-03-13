@@ -19,6 +19,9 @@ const jump_command_1 = require("../commands/jump.command");
 const modeInsertAppend_command_1 = require("../commands/modeInsertAppend.command");
 const motionLineStart_command_1 = require("../commands/motionLineStart.command");
 const motionLineEnd_command_1 = require("../commands/motionLineEnd.command");
+const motionSkipEndRightSpecial_command_1 = require("../commands/motionSkipEndRightSpecial.command");
+const motionSkipRightSpecial_command_1 = require("../commands/motionSkipRightSpecial.command");
+const motionSkipLeftSpecial_command_1 = require("../commands/motionSkipLeftSpecial.command");
 const commands = [
     {
         name: "mode.normal",
@@ -91,6 +94,24 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Moves the cursor to the end of the next word",
         handler: motionSkipEndRight_command_1.executeMotionSkipEndRight
+    },
+    {
+        name: "motion.skipLeftSpecial",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the beginning of the previous word (including special characters)",
+        handler: motionSkipLeftSpecial_command_1.executeMotionSkipLeftSpecial
+    },
+    {
+        name: "motion.skipRightSpecial",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the beginning of the next word (including special characters)",
+        handler: motionSkipRightSpecial_command_1.executeMotionSkipRightSpecial
+    },
+    {
+        name: "motion.skipEndRightSpecial",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the end of the next word (including special characters)",
+        handler: motionSkipEndRightSpecial_command_1.executeMotionSkipEndRightSpecial
     },
     {
         name: "motion.top",

@@ -80,6 +80,18 @@
 								"bind": "w"
 							},
 							{
+								"command": "motion.skipLeftSpecial",
+								"bind": "S"
+							},
+							{
+								"command": "motion.skipRightSpecial",
+								"bind": "F"
+							},
+							{
+								"command": "motion.skipEndRightSpecial",
+								"bind": "W"
+							},
+							{
 								"command": "motion.top",
 								"bind": "I"
 							}
