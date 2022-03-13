@@ -26,7 +26,7 @@ class SFVim {
             }
             return vscode.commands.executeCommand('default:type', event);
         }));
-        (0, modeNormal_command_1.executeModeChangeNormal)(this.currentEditor);
+        (0, modeNormal_command_1.executeModeChangeNormal)(this.currentEditor, 0);
     }
     loadConfig() {
         for (const key of Object.keys(this.config)) {

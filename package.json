@@ -93,12 +93,12 @@
 							},
 							{
 								"command": "motion.top",
-								"bind": "I"
+								"bind": "gg"
 							}
 							,
 							{
 								"command": "motion.bottom",
-								"bind": "K"
+								"bind": "G"
 							},
 							{
 								"command": "motion.lineStart",

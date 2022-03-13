@@ -4,7 +4,11 @@ import { handleSelection } from "../handlers/selection.handler";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
 import { cursorDecoration, getLeftPosition, isAdjustedPostion } from "../utilities/selection.util";
 
-export function executeModeChangeVisual(vimEditor: SFVimEditor) {
+export function executeModeChangeVisual(vimEditor: SFVimEditor, amplifier: number) {
+    if(amplifier != 0) {
+        return;
+    }
+
     if(!(vimEditor.mode & SFVimMode.NORMAL)) {
         vimEditor.mode &= ~SFVimMode.VISUAL;
         return;

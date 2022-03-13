@@ -2,7 +2,11 @@ import { handleSelection } from "../handlers/selection.handler";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
 import { getRightPosition, isAdjustedPostion } from "../utilities/selection.util";
 
-export function executeMotionLineEnd(vimEditor: SFVimEditor) {
+export function executeMotionLineEnd(vimEditor: SFVimEditor, amplifier: number) {
+    if(amplifier != 0) {
+        return;
+    }
+
     const currentPosition = vimEditor.editor.selection.active;
     const lineText = vimEditor.editor.document.lineAt(currentPosition.line).text;
     let character = lineText.length - 1;

@@ -1,17 +1,10 @@
-import { handleSelection } from "../handlers/selection.handler";
-import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
+import { SFVimEditor } from "../types/SFVimEditor";
+import { executeMotionJump } from "./jump.command";
 
-export function executeMotionBottom(vimEditor: SFVimEditor) {
-    const lineCount = vimEditor.editor.document.lineCount;
-    const currentPosition = vimEditor.editor.selection.active;
-    const character = vimEditor.tags.get("lastCharacter") || currentPosition.character;
-
-    const newPosition = vimEditor.editor.selection.active.with(lineCount - 1, character);
-    let anchor = newPosition;
-
-    if(vimEditor.mode & SFVimMode.VISUAL) {
-        anchor = vimEditor.tags.get("anchor") || newPosition;
+export function executeMotionBottom(vimEditor: SFVimEditor, amplifier: number) {
+    if(amplifier != 0) {
+        return;
     }
 
-    handleSelection(vimEditor, newPosition);
+    executeMotionJump(vimEditor, vimEditor.editor.document.lineCount);
 }

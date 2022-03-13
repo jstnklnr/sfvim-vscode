@@ -2,7 +2,11 @@ import { Selection, TextEditorCursorStyle, TextEditorLineNumbersStyle } from "vs
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
 import { getLeftPosition } from "../utilities/selection.util";
 
-export function executeModeChangeNormal(vimEditor: SFVimEditor) {
+export function executeModeChangeNormal(vimEditor: SFVimEditor, amplifier: number) {
+    if(amplifier != 0) {
+        return;
+    }
+
     vimEditor.mode = SFVimMode.NORMAL;
     const isRelative = vimEditor.config["normalModeLineNumberRelative"];
     vimEditor.editor.options.lineNumbers = isRelative ? TextEditorLineNumbersStyle.Relative : TextEditorLineNumbersStyle.On;
