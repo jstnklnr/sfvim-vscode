@@ -88,9 +88,9 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
     const currentLine = newPosition.line;
     const lineCount = vimEditor.editor.document.lineCount;
 
-    if(view.start.line > 0 && currentLine <= view.start.line + scrollOffset) {
-        vscode.commands.executeCommand('editorScroll', {to: 'up', by: 'line', value: (view.start.line + scrollOffset + 1) - currentLine, revealCursor: false});
-    }else if(view.end.line < lineCount - 1 && currentLine >= view.end.line - scrollOffset) {
-        vscode.commands.executeCommand('editorScroll', {to: 'down', by: 'line', value: (currentLine + 1) - (view.end.line - scrollOffset), revealCursor: false});
+    if(view.start.line > 0 && currentLine < view.start.line + scrollOffset) {
+        vscode.commands.executeCommand('editorScroll', {to: 'up', by: 'line', value: (view.start.line + scrollOffset) - currentLine, revealCursor: false});
+    }else if(view.end.line < lineCount - 1 && currentLine > view.end.line - scrollOffset) {
+        vscode.commands.executeCommand('editorScroll', {to: 'down', by: 'line', value: currentLine - (view.end.line - scrollOffset), revealCursor: false});
     }
 }
