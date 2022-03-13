@@ -25,6 +25,11 @@ import { executeMotionRealLineStart } from "../commands/motionRealLineStart.comm
 import { executeMotionRealLineEnd } from "../commands/motionRealLineEnd.command";
 import { executeModeChangeInsertLineStart } from "../commands/modeInsertLineStart.command";
 import { executeModeChangeInsertAppendLineEnd } from "../commands/modeInsertAppendLineEnd.command";
+import { executeMotionSkipEndLeftSpecial } from "../commands/motionSkipEndLeftSpecial.command";
+import { executeMotionSkipEndLeft } from "../commands/motionSkipEndLeft.command";
+import { executeMotionHighestView } from "../commands/motionHighestView.command";
+import { executeMotionLowestView } from "../commands/motionLowestView.command";
+import { executeMotionMiddleView } from "../commands/motionMiddleView.command";
 
 interface SFVimCommand {
     name: string;
@@ -118,6 +123,12 @@ const commands: Array<SFVimCommand> = [
         handler: executeMotionSkipRight
     },
     {
+        name: "motion.skipEndLeft",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the end of the previous word",
+        handler: executeMotionSkipEndLeft
+    },
+    {
         name: "motion.skipEndRight",
         mode: SFVimMode.NORMAL,
         description: "Moves the cursor to the end of the next word",
@@ -134,6 +145,12 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Moves the cursor to the beginning of the next word (including special characters)",
         handler: executeMotionSkipRightSpecial
+    },
+    {
+        name: "motion.skipEndLeftSpecial",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the end of the previous word (including special characters)",
+        handler: executeMotionSkipEndLeftSpecial
     },
     {
         name: "motion.skipEndRightSpecial",
@@ -188,6 +205,24 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Moves the cursor to the next empty line",
         handler: executeMotionNextEmptyLine
+    },
+    {
+        name: "motion.highestView",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the highest line of the current viewport",
+        handler: executeMotionHighestView
+    },
+    {
+        name: "motion.lowestView",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the lowest line of the current viewport",
+        handler: executeMotionLowestView
+    },
+    {
+        name: "motion.middleView",
+        mode: SFVimMode.NORMAL,
+        description: "Moves the cursor to the middle line of the current viewport",
+        handler: executeMotionMiddleView
     }
 ];
 

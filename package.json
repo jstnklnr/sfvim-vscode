@@ -84,8 +84,12 @@
 								"bind": "f"
 							},
 							{
+								"command": "motion.skipEndLeft",
+								"bind": "gs"
+							},
+							{
 								"command": "motion.skipEndRight",
-								"bind": "w"
+								"bind": "gf"
 							},
 							{
 								"command": "motion.skipLeftSpecial",
@@ -96,14 +100,17 @@
 								"bind": "F"
 							},
 							{
+								"command": "motion.skipEndLeftSpecial",
+								"bind": "gS"
+							},
+							{
 								"command": "motion.skipEndRightSpecial",
-								"bind": "W"
+								"bind": "gF"
 							},
 							{
 								"command": "motion.top",
 								"bind": "gg"
-							}
-							,
+							},
 							{
 								"command": "motion.bottom",
 								"bind": "G"
@@ -131,6 +138,18 @@
 							{
 								"command": "motion.nextEmptyLine",
 								"bind": "K"
+							},
+							{
+								"command": "motion.highestView",
+								"bind": "h"
+							},
+							{
+								"command": "motion.lowestView",
+								"bind": "H"
+							},
+							{
+								"command": "motion.middleView",
+								"bind": "m"
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."

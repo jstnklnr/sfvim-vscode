@@ -72,4 +72,25 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
     if(visualMode) {
         vimEditor.editor.setDecorations(cursorDecoration, [range]);
     }
+
+    /**
+     * Scroll if cursor is out of range
+     */
+
+    const visibleRanges = vimEditor.editor.visibleRanges;
+    
+    if(visibleRanges === undefined || visibleRanges.length == 0) {
+        return;
+    }
+    
+    const view = visibleRanges[0];
+    const scrollOffset = vscode.workspace.getConfiguration("editor").get("cursorSurroundingLines") as number || 0;
+    const currentLine = newPosition.line;
+    const lineCount = vimEditor.editor.document.lineCount;
+
+    if(view.start.line > 0 && currentLine <= view.start.line + scrollOffset) {
+        vscode.commands.executeCommand('editorScroll', {to: 'up', by: 'line', value: (view.start.line + scrollOffset + 1) - currentLine, revealCursor: false});
+    }else if(view.end.line < lineCount - 1 && currentLine >= view.end.line - scrollOffset) {
+        vscode.commands.executeCommand('editorScroll', {to: 'down', by: 'line', value: (currentLine + 1) - (view.end.line - scrollOffset), revealCursor: false});
+    }
 }

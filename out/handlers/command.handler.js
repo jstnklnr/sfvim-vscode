@@ -28,6 +28,11 @@ const motionRealLineStart_command_1 = require("../commands/motionRealLineStart.c
 const motionRealLineEnd_command_1 = require("../commands/motionRealLineEnd.command");
 const modeInsertLineStart_command_1 = require("../commands/modeInsertLineStart.command");
 const modeInsertAppendLineEnd_command_1 = require("../commands/modeInsertAppendLineEnd.command");
+const motionSkipEndLeftSpecial_command_1 = require("../commands/motionSkipEndLeftSpecial.command");
+const motionSkipEndLeft_command_1 = require("../commands/motionSkipEndLeft.command");
+const motionHighestView_command_1 = require("../commands/motionHighestView.command");
+const motionLowestView_command_1 = require("../commands/motionLowestView.command");
+const motionMiddleView_command_1 = require("../commands/motionMiddleView.command");
 const commands = [
     {
         name: "mode.normal",
@@ -108,6 +113,12 @@ const commands = [
         handler: motionSkipRight_command_1.executeMotionSkipRight
     },
     {
+        name: "motion.skipEndLeft",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the end of the previous word",
+        handler: motionSkipEndLeft_command_1.executeMotionSkipEndLeft
+    },
+    {
         name: "motion.skipEndRight",
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Moves the cursor to the end of the next word",
@@ -124,6 +135,12 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Moves the cursor to the beginning of the next word (including special characters)",
         handler: motionSkipRightSpecial_command_1.executeMotionSkipRightSpecial
+    },
+    {
+        name: "motion.skipEndLeftSpecial",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the end of the previous word (including special characters)",
+        handler: motionSkipEndLeftSpecial_command_1.executeMotionSkipEndLeftSpecial
     },
     {
         name: "motion.skipEndRightSpecial",
@@ -178,6 +195,24 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Moves the cursor to the next empty line",
         handler: motionNextEmptyLine_command_1.executeMotionNextEmptyLine
+    },
+    {
+        name: "motion.highestView",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the highest line of the current viewport",
+        handler: motionHighestView_command_1.executeMotionHighestView
+    },
+    {
+        name: "motion.lowestView",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the lowest line of the current viewport",
+        handler: motionLowestView_command_1.executeMotionLowestView
+    },
+    {
+        name: "motion.middleView",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Moves the cursor to the middle line of the current viewport",
+        handler: motionMiddleView_command_1.executeMotionMiddleView
     }
 ];
 class CommandHandler {
