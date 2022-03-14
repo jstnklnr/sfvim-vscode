@@ -141,7 +141,7 @@
 							},
 							{
 								"command": "motion.highestView",
-								"bind": "h"
+								"bind": "hh"
 							},
 							{
 								"command": "motion.lowestView",
@@ -149,7 +149,7 @@
 							},
 							{
 								"command": "motion.middleView",
-								"bind": "m"
+								"bind": "h"
 							},
 							{
 								"command": "motion.scrollHalfPageUp",
@@ -158,6 +158,18 @@
 							{
 								"command": "motion.scrollHalfPageDown",
 								"bind": "("
+							},
+							{
+								"command": "copy",
+								"bind": "gc"
+							},
+							{
+								"command": "copyMoveFirst",
+								"bind": "c"
+							},
+							{
+								"command": "copyMoveLast",
+								"bind": "C"
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."

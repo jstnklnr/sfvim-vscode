@@ -32,6 +32,9 @@ import { executeMotionLowestView } from "../commands/motionLowestView.command";
 import { executeMotionMiddleView } from "../commands/motionMiddleView.command";
 import { executeMotionScrollHalfPageDown } from "../commands/motionScrollHalfPageDown.command";
 import { executeMotionScrollHalfPageUp } from "../commands/motionScrollHalfPageUp.command";
+import { executeCopy } from "../commands/copy.command";
+import { executeCopyMoveLast } from "../commands/copyMoveLast.command";
+import { executeCopyMoveFirst } from "../commands/copyMoveFirst.command";
 
 interface SFVimCommand {
     name: string;
@@ -78,165 +81,183 @@ const commands: Array<SFVimCommand> = [
     },
     {
         name: "mode.visual",
-        mode: SFVimMode.NORMAL & SFVimMode.VISUAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Toggles between visual and normal mode",
         handler: executeModeChangeVisual
     },
     {
         name: "motion.up",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the line above",
         handler: executeMotionUp
     },
     {
         name: "motion.down",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the line below",
         handler: executeMotionDown
     },
     {
         name: "motion.jump",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Jumps to the beginning of specified line",
         handler: executeMotionJump
     },
     {
         name: "motion.left",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the character to the left",
         handler: executeMotionLeft
     },
     {
         name: "motion.right",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the character to the right",
         handler: executeMotionRight
     },
     {
         name: "motion.skipLeft",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the beginning of the previous word",
         handler: executeMotionSkipLeft
     },
     {
         name: "motion.skipRight",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the beginning of the next word",
         handler: executeMotionSkipRight
     },
     {
         name: "motion.skipEndLeft",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the end of the previous word",
         handler: executeMotionSkipEndLeft
     },
     {
         name: "motion.skipEndRight",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the end of the next word",
         handler: executeMotionSkipEndRight
     },
     {
         name: "motion.skipLeftSpecial",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the beginning of the previous word (including special characters)",
         handler: executeMotionSkipLeftSpecial
     },
     {
         name: "motion.skipRightSpecial",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the beginning of the next word (including special characters)",
         handler: executeMotionSkipRightSpecial
     },
     {
         name: "motion.skipEndLeftSpecial",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the end of the previous word (including special characters)",
         handler: executeMotionSkipEndLeftSpecial
     },
     {
         name: "motion.skipEndRightSpecial",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the end of the next word (including special characters)",
         handler: executeMotionSkipEndRightSpecial
     },
     {
         name: "motion.top",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the top of the document",
         handler: executeMotionTop
     },
     {
         name: "motion.bottom",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the bottom of the document",
         handler: executeMotionBottom
     },
     {
         name: "motion.lineStart",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the first character of the line",
         handler: executeMotionLineStart
     },
     {
         name: "motion.lineEnd",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the last character of the line",
         handler: executeMotionLineEnd
     },
     {
         name: "motion.realLineStart",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the start of the line",
         handler: executeMotionRealLineStart
     },
     {
         name: "motion.realLineEnd",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the end of the line",
         handler: executeMotionRealLineEnd
     },
     {
         name: "motion.previousEmptyLine",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the previous empty line",
         handler: executeMotionPreviousEmptyLine
     },
     {
         name: "motion.nextEmptyLine",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the next empty line",
         handler: executeMotionNextEmptyLine
     },
     {
         name: "motion.highestView",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the highest line of the current viewport",
         handler: executeMotionHighestView
     },
     {
         name: "motion.lowestView",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the lowest line of the current viewport",
         handler: executeMotionLowestView
     },
     {
         name: "motion.middleView",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor to the middle line of the current viewport",
         handler: executeMotionMiddleView
     },
     {
         name: "motion.scrollHalfPageUp",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor half a page up and will set the scroll view to the cursor",
         handler: executeMotionScrollHalfPageUp
     },
     {
         name: "motion.scrollHalfPageDown",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Moves the cursor half a page down and will set the scroll view to the cursor",
         handler: executeMotionScrollHalfPageDown
+    },
+    {
+        name: "copy",
+        mode: SFVimMode.VISUAL,
+        description: "Copies the highlighted text",
+        handler: executeCopy
+    },
+    {
+        name: "copyMoveFirst",
+        mode: SFVimMode.VISUAL,
+        description: "Copies the highlighted text and jumps to first selected character",
+        handler: executeCopyMoveFirst
+    },
+    {
+        name: "copyMoveLast",
+        mode: SFVimMode.VISUAL,
+        description: "Copies the highlighted text and jumpts to the last selected character",
+        handler: executeCopyMoveLast
     }
 ];
 
@@ -273,14 +294,14 @@ export class CommandHandler {
         const key: string = event.text;
     
         if(key === undefined || key === "\n") {
-            if(currentMode & SFVimMode.NORMAL) {
+            if(currentMode & (SFVimMode.NORMAL | SFVimMode.VISUAL)) {
                 event.preventDefault();
             }
     
             return;
         }
     
-        if(currentMode & SFVimMode.NORMAL && /^\d+$/.exec(key)?.length) {
+        if(currentMode & (SFVimMode.NORMAL | SFVimMode.VISUAL) && /^\d+$/.exec(key)?.length) {
             this.updateAmplifier(vimEditor, key);
             this.lastKeyPress = currentTime;
     
@@ -288,25 +309,31 @@ export class CommandHandler {
             return;
         }
     
-        const binds: Array<SFVimBind> = currentMode & SFVimMode.NORMAL ? this.config["normalModeKeybindings"] : this.config["insertModeKeybindings"];
+        const binds: Array<SFVimBind> = currentMode & (SFVimMode.NORMAL | SFVimMode.VISUAL) ? this.config["normalModeKeybindings"] : this.config["insertModeKeybindings"];
     
         if(binds === undefined) {
-            if(currentMode & SFVimMode.NORMAL) {
+            if(currentMode & (SFVimMode.NORMAL | SFVimMode.VISUAL)) {
                 event.preventDefault();
             }
     
             return;
         }
     
-        const pressedKeys = `${this.lastKeys}${key}`;
-        const potential = binds.filter(bind => bind.bind.startsWith(pressedKeys));
+        let pressedKeys = `${this.lastKeys}${key}`;
+        let potential = binds.filter(bind => bind.bind.startsWith(pressedKeys));
+
+        if(pressedKeys.length > 1 && potential.length == 0) {
+            this.lastKeys = '';
+            pressedKeys = key;
+            potential = binds.filter(bind => bind.bind.startsWith(pressedKeys));
+        }
     
         const called = potential.filter(bind => 
             currentTime - 500 <= this.lastKeyPress && bind.bind === pressedKeys || bind.bind === key
         );
     
         const calledCommands = called.map(bind => bind.command);
-        const trigger = commands.filter(command => calledCommands.includes(command.name));
+        const trigger = commands.filter(command => calledCommands.includes(command.name) && command.mode & currentMode);
     
         if(currentMode === SFVimMode.INSERT && trigger.length > 0) {
             const line = vimEditor.editor.selection.active.line;
@@ -327,6 +354,7 @@ export class CommandHandler {
         vimEditor.amplifier = trigger.length > 0 ? 0 : vimEditor.amplifier;
         
         if(vimEditor.amplifier == 0) {
+            vimEditor.stringAmplifier = "";
             vimEditor.callStatusCallback();
         }
         
@@ -336,11 +364,14 @@ export class CommandHandler {
         }
         
         if(trigger.length > 0) {
-            this.lastKeys = "";
+            if(potential.length <= trigger.length) {
+                this.lastKeys = "";
+            }
+
             event.preventDefault();
         }
     
-        if(currentMode & SFVimMode.NORMAL) {
+        if(currentMode & (SFVimMode.NORMAL | SFVimMode.VISUAL)) {
             event.preventDefault();
         }
     }

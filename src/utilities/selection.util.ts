@@ -1,6 +1,12 @@
 import * as vscode from "vscode";
 import { SFVimEditor } from "../types/SFVimEditor";
 
+export enum RelativeDirection {
+    Left,
+    Right,
+    Equal
+}
+
 /**
  * A decoration used to draw a custom cursor
  */
@@ -9,11 +15,6 @@ export const cursorDecoration = vscode.window.createTextEditorDecorationType({
     backgroundColor: new vscode.ThemeColor("editorCursor.foreground")
 });
 
-export enum RelativeDirection {
-    Left,
-    Right,
-    Equal
-}
 
 /**
  * Returns The relative direction of the offset between the given and the anchor position
@@ -110,4 +111,23 @@ export function calculateScroll(vimEditor: SFVimEditor, position: vscode.Positio
     }
 
     return 0;
+}
+
+/**
+ * Converts a selection into a range
+ * @param selection the selection you want to convert
+ * @returns the converted selection
+ */
+export function selectionToRange(selection: vscode.Selection): vscode.Range {
+    return new vscode.Range(selection.start, selection.end);
+}
+
+/**
+ * Copies a given range of text
+ * @param vimEditor the editor that contains the text
+ * @param range the range in which to find the text
+ */
+export function copyRange(vimEditor: SFVimEditor, range: vscode.Range) {
+    const text = vimEditor.editor.document.getText(range);
+    vscode.env.clipboard.writeText(text);
 }
