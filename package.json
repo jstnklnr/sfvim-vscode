@@ -161,14 +161,22 @@
 							},
 							{
 								"command": "copy",
-								"bind": "gc"
+								"bind": "gy"
 							},
 							{
-								"command": "copyMoveFirst",
+								"command": "copy.moveFirst",
+								"bind": "y"
+							},
+							{
+								"command": "copy.moveLast",
+								"bind": "Y"
+							},
+							{
+								"command": "cut.moveBefore",
 								"bind": "c"
 							},
 							{
-								"command": "copyMoveLast",
+								"command": "cut.moveBehind",
 								"bind": "C"
 							}
 						],

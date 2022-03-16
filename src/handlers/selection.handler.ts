@@ -56,6 +56,7 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
             vimEditor.editor.options.cursorStyle = vscode.TextEditorCursorStyle.Line;
         }else if(newPosition.character > lineLength - 1) {
             newPosition = getOffsetPosition(newPosition, 0, (lineLength - 1) - newPosition.character);
+            anchor = newPosition;
         }
 
         vimEditor.editor.selection = new vscode.Selection(anchor, newPosition);

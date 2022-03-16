@@ -35,6 +35,8 @@ import { executeMotionScrollHalfPageUp } from "../commands/motionScrollHalfPageU
 import { executeCopy } from "../commands/copy.command";
 import { executeCopyMoveLast } from "../commands/copyMoveLast.command";
 import { executeCopyMoveFirst } from "../commands/copyMoveFirst.command";
+import { executeCutMoveBefore } from "../commands/cutMoveBefore.command";
+import { executeCutMoveBehind } from "../commands/cutMoveBehind.command";
 
 interface SFVimCommand {
     name: string;
@@ -248,16 +250,28 @@ const commands: Array<SFVimCommand> = [
         handler: executeCopy
     },
     {
-        name: "copyMoveFirst",
+        name: "copy.moveFirst",
         mode: SFVimMode.VISUAL,
         description: "Copies the highlighted text and jumps to first selected character",
         handler: executeCopyMoveFirst
     },
     {
-        name: "copyMoveLast",
+        name: "copy.moveLast",
         mode: SFVimMode.VISUAL,
-        description: "Copies the highlighted text and jumpts to the last selected character",
+        description: "Copies the highlighted text and jumps to the last selected character",
         handler: executeCopyMoveLast
+    },
+    {
+        name: "cut.moveBefore",
+        mode: SFVimMode.VISUAL,
+        description: "Copies the highlighted text and jumps to the character in front of the cut text",
+        handler: executeCutMoveBefore
+    },
+    {
+        name: "cut.moveBehind",
+        mode: SFVimMode.VISUAL,
+        description: "Copies the highlighted text and jumps to the character behind the cut text",
+        handler: executeCutMoveBehind
     }
 ];
 
