@@ -37,10 +37,8 @@ export function executeMotionSkipEndLeftSpecial(vimEditor: SFVimEditor, amplifie
         let j = character;
         let skipType = 0;
 
-        if(j > 0 && j <= lineText.length) {
-            if(!/^\s$/.exec(lineText[j])?.length) {
-                skipType = 1;
-            }
+        if(j > 0 && j <= lineText.length && !/^\s$/.exec(lineText[j])?.length) {
+            skipType = 1;
         }
 
         while(j > 0) {
