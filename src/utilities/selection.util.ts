@@ -131,3 +131,15 @@ export function copyRange(vimEditor: SFVimEditor, range: vscode.Range) {
     const text = vimEditor.editor.document.getText(range);
     vscode.env.clipboard.writeText(text);
 }
+
+/**
+ * Will insert the current text of the clipboard at the given location
+ * @param vimEditor the editor that contains the document
+ * @param location the position where to paste the clipboard content
+ */
+export async function paste(vimEditor: SFVimEditor, location: vscode.Position) {
+    const text = await vscode.env.clipboard.readText();
+    vimEditor.editor.edit(editBuilder => {
+        editBuilder.insert(location, text);
+    });
+}
