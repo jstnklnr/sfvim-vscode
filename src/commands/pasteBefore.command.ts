@@ -1,3 +1,4 @@
+import { handleSelection } from "../handlers/selection.handler";
 import { SFVimEditor } from "../types/SFVimEditor";
 import { paste } from "../utilities/selection.util";
 
@@ -7,5 +8,7 @@ export function executePasteBefore(vimEditor: SFVimEditor, amplifier: number) {
     }
 
     const location = vimEditor.editor.selection.active;
-    paste(vimEditor, location);
+    paste(vimEditor, location).then(() => {
+        handleSelection(vimEditor, location);
+    });
 }

@@ -178,6 +178,14 @@
 							{
 								"command": "cut.moveBehind",
 								"bind": "C"
+							},
+							{
+								"command": "paste.before",
+								"bind": "p"
+							},
+							{
+								"command": "paste.behind",
+								"bind": "P"
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."
