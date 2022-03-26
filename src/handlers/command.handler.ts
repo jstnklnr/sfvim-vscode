@@ -39,6 +39,8 @@ import { executeCutMoveBefore } from "../commands/cutMoveBefore.command";
 import { executeCutMoveBehind } from "../commands/cutMoveBehind.command";
 import { executePasteBefore } from "../commands/pasteBefore.command";
 import { executePasteBehind } from "../commands/pasteBehind.command";
+import { executePasteBeforeMoveBehind } from "../commands/pasteBeforeMoveBehind.command";
+import { executePasteBehindMoveBehind } from "../commands/pasteBehindMoveBehind.command";
 
 interface SFVimCommand {
     name: string;
@@ -286,6 +288,18 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Paste the content of the clipboard behind the cursor",
         handler: executePasteBehind
+    },
+    {
+        name: "paste.beforeMoveBehind",
+        mode: SFVimMode.NORMAL,
+        description: "Paste the content of the clipboard in front of the cursor, but move behind the pasted text",
+        handler: executePasteBeforeMoveBehind
+    },
+    {
+        name: "paste.behindMoveBehind",
+        mode: SFVimMode.NORMAL,
+        description: "Paste the content of the clipboard behind the cursor, but move behind the pasted text",
+        handler: executePasteBehindMoveBehind
     }
 ];
 

@@ -42,6 +42,8 @@ const cutMoveBefore_command_1 = require("../commands/cutMoveBefore.command");
 const cutMoveBehind_command_1 = require("../commands/cutMoveBehind.command");
 const pasteBefore_command_1 = require("../commands/pasteBefore.command");
 const pasteBehind_command_1 = require("../commands/pasteBehind.command");
+const pasteBeforeMoveBehind_command_1 = require("../commands/pasteBeforeMoveBehind.command");
+const pasteBehindMoveBehind_command_1 = require("../commands/pasteBehindMoveBehind.command");
 const commands = [
     {
         name: "mode.normal",
@@ -276,6 +278,18 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Paste the content of the clipboard behind the cursor",
         handler: pasteBehind_command_1.executePasteBehind
+    },
+    {
+        name: "paste.beforeMoveBehind",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Paste the content of the clipboard in front of the cursor, but move behind the pasted text",
+        handler: pasteBeforeMoveBehind_command_1.executePasteBeforeMoveBehind
+    },
+    {
+        name: "paste.behindMoveBehind",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Paste the content of the clipboard behind the cursor, but move behind the pasted text",
+        handler: pasteBehindMoveBehind_command_1.executePasteBehindMoveBehind
     }
 ];
 class CommandHandler {

@@ -186,6 +186,14 @@
 							{
 								"command": "paste.behind",
 								"bind": "P"
+							},
+							{
+								"command": "paste.beforeMoveBehind",
+								"bind": "gp"
+							},
+							{
+								"command": "paste.behindMoveBehind",
+								"bind": "gP"
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."
