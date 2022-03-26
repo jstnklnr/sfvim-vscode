@@ -179,3 +179,14 @@ export async function replace(vimEditor: SFVimEditor, location: vscode.Position 
         editBuilder.replace(location, text);
     });
 }
+
+/**
+ * Will delete the specified range
+ * @param vimEditor the editor that contains the document
+ * @param range the range or selection that should be deleted
+ */
+export async function deleteRange(vimEditor: SFVimEditor, range: vscode.Range | vscode.Selection) {
+    await vimEditor.editor.edit(editBuilder => {
+        editBuilder.delete(range);
+    })
+}
