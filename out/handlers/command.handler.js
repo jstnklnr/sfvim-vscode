@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommandHandler = void 0;
+const vscode = require("vscode");
 const motionDown_command_1 = require("../commands/motionDown.command");
 const motionUp_command_1 = require("../commands/motionUp.command");
 const SFVimEditor_1 = require("../types/SFVimEditor");
@@ -10,7 +11,6 @@ const motionSkipLeft_command_1 = require("../commands/motionSkipLeft.command");
 const motionSkipRight_command_1 = require("../commands/motionSkipRight.command");
 const motionTop_command_1 = require("../commands/motionTop.command");
 const motionBottom_command_1 = require("../commands/motionBottom.command");
-const vscode = require("vscode");
 const modeNormal_command_1 = require("../commands/modeNormal.command");
 const modeInsert_command_1 = require("../commands/modeInsert.command");
 const modeVisual_command_1 = require("../commands/modeVisual.command");
@@ -44,6 +44,8 @@ const pasteBefore_command_1 = require("../commands/pasteBefore.command");
 const pasteBehind_command_1 = require("../commands/pasteBehind.command");
 const pasteBeforeMoveBehind_command_1 = require("../commands/pasteBeforeMoveBehind.command");
 const pasteBehindMoveBehind_command_1 = require("../commands/pasteBehindMoveBehind.command");
+const pasteReplace_command_1 = require("../commands/pasteReplace.command");
+const pasteReplaceMoveBehind_command_1 = require("../commands/pasteReplaceMoveBehind.command");
 const commands = [
     {
         name: "mode.normal",
@@ -282,14 +284,26 @@ const commands = [
     {
         name: "paste.beforeMoveBehind",
         mode: SFVimEditor_1.SFVimMode.NORMAL,
-        description: "Paste the content of the clipboard in front of the cursor, but move behind the pasted text",
+        description: "Paste the content of the clipboard in front of the cursor, and move behind the pasted text",
         handler: pasteBeforeMoveBehind_command_1.executePasteBeforeMoveBehind
     },
     {
         name: "paste.behindMoveBehind",
         mode: SFVimEditor_1.SFVimMode.NORMAL,
-        description: "Paste the content of the clipboard behind the cursor, but move behind the pasted text",
+        description: "Paste the content of the clipboard behind the cursor, and move behind the pasted text",
         handler: pasteBehindMoveBehind_command_1.executePasteBehindMoveBehind
+    },
+    {
+        name: "paste.replace",
+        mode: SFVimEditor_1.SFVimMode.VISUAL,
+        description: "Replace the currently selected text with the contents of the clipboard",
+        handler: pasteReplace_command_1.executePasteReplace
+    },
+    {
+        name: "paste.replaceMoveBehind",
+        mode: SFVimEditor_1.SFVimMode.VISUAL,
+        description: "Replace the currently selected text with the contents of the clipboard, and move behind the pasted text",
+        handler: pasteReplaceMoveBehind_command_1.executePasteReplaceMoveBehind
     }
 ];
 class CommandHandler {

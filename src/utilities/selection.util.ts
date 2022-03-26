@@ -136,12 +136,46 @@ export function copyRange(vimEditor: SFVimEditor, range: vscode.Range) {
  * Will insert the current text of the clipboard at the given location
  * @param vimEditor the editor that contains the document
  * @param location the position where to paste the clipboard content
+ * @returns the text that was inserted
  */
 export async function paste(vimEditor: SFVimEditor, location: vscode.Position): Promise<string> {
     const text = await vscode.env.clipboard.readText();
+    await insert(vimEditor, location, text);
+    return text;
+}
+
+/**
+ * Will replace the specified range with the current contents of the clipboard
+ * @param vimEditor the editor that contains the document
+ * @param location the range or selection that should be replaced
+ * @returns the text the range was replaced with
+ */
+export async function pasteReplace(vimEditor: SFVimEditor, location: vscode.Position | vscode.Range | vscode.Selection): Promise<string> {
+    const text = await vscode.env.clipboard.readText();
+    await replace(vimEditor, location, text);
+    return text;
+}
+
+/**
+ * Will insert the given text at the specified location
+ * @param vimEditor the editor that contains the document
+ * @param location the position where to insert the given text
+ * @param text the text that should be inserted
+ */
+export async function insert(vimEditor: SFVimEditor, location: vscode.Position, text: string) {
     await vimEditor.editor.edit(editBuilder => {
         editBuilder.insert(location, text);
     });
+}
 
-    return text;
+/**
+ * Will replace the specified range with the given text
+ * @param vimEditor the editor that contains the document
+ * @param location the range or selection that should be replaced
+ * @param text the text to replace the given range with
+ */
+export async function replace(vimEditor: SFVimEditor, location: vscode.Position | vscode.Range | vscode.Selection, text: string) {
+    await vimEditor.editor.edit(editBuilder => {
+        editBuilder.replace(location, text);
+    });
 }

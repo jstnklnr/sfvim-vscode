@@ -1,3 +1,4 @@
+import * as vscode from "vscode";
 import { executeMotionDown } from "../commands/motionDown.command";
 import { executeMotionUp } from "../commands/motionUp.command";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
@@ -7,7 +8,6 @@ import { executeMotionSkipLeft } from "../commands/motionSkipLeft.command";
 import { executeMotionSkipRight } from "../commands/motionSkipRight.command";
 import { executeMotionTop } from "../commands/motionTop.command";
 import { executeMotionBottom } from "../commands/motionBottom.command";
-import * as vscode from "vscode";
 import { executeModeChangeNormal } from "../commands/modeNormal.command";
 import { executeModeChangeInsert } from "../commands/modeInsert.command";
 import { executeModeChangeVisual } from "../commands/modeVisual.command";
@@ -41,6 +41,8 @@ import { executePasteBefore } from "../commands/pasteBefore.command";
 import { executePasteBehind } from "../commands/pasteBehind.command";
 import { executePasteBeforeMoveBehind } from "../commands/pasteBeforeMoveBehind.command";
 import { executePasteBehindMoveBehind } from "../commands/pasteBehindMoveBehind.command";
+import { executePasteReplace } from "../commands/pasteReplace.command";
+import { executePasteReplaceMoveBehind } from "../commands/pasteReplaceMoveBehind.command";
 
 interface SFVimCommand {
     name: string;
@@ -292,14 +294,26 @@ const commands: Array<SFVimCommand> = [
     {
         name: "paste.beforeMoveBehind",
         mode: SFVimMode.NORMAL,
-        description: "Paste the content of the clipboard in front of the cursor, but move behind the pasted text",
+        description: "Paste the content of the clipboard in front of the cursor, and move behind the pasted text",
         handler: executePasteBeforeMoveBehind
     },
     {
         name: "paste.behindMoveBehind",
         mode: SFVimMode.NORMAL,
-        description: "Paste the content of the clipboard behind the cursor, but move behind the pasted text",
+        description: "Paste the content of the clipboard behind the cursor, and move behind the pasted text",
         handler: executePasteBehindMoveBehind
+    },
+    {
+        name: "paste.replace",
+        mode: SFVimMode.VISUAL,
+        description: "Replace the currently selected text with the contents of the clipboard",
+        handler: executePasteReplace
+    },
+    {
+        name: "paste.replaceMoveBehind",
+        mode: SFVimMode.VISUAL,
+        description: "Replace the currently selected text with the contents of the clipboard, and move behind the pasted text",
+        handler: executePasteReplaceMoveBehind
     }
 ];
 
