@@ -172,8 +172,16 @@
 								"bind": "Y"
 							},
 							{
+								"command": "copy.line",
+								"bind": "yl"
+							},
+							{
 								"command": "cut",
 								"bind": "c"
+							},
+							{
+								"command": "cut.line",
+								"bind": "cl"
 							},
 							{
 								"command": "paste.before",
@@ -198,6 +206,14 @@
 							{
 								"command": "paste.replaceMoveBehind",
 								"bind": "P"
+							},
+							{
+								"command": "delete",
+								"bind": "d"
+							},
+							{
+								"command": "delete.line",
+								"bind": "dl"
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."

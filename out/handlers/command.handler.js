@@ -45,6 +45,10 @@ const pasteBeforeMoveBehind_command_1 = require("../commands/pasteBeforeMoveBehi
 const pasteBehindMoveBehind_command_1 = require("../commands/pasteBehindMoveBehind.command");
 const pasteReplace_command_1 = require("../commands/pasteReplace.command");
 const pasteReplaceMoveBehind_command_1 = require("../commands/pasteReplaceMoveBehind.command");
+const delete_command_1 = require("../commands/delete.command");
+const deleteLine_command_1 = require("../commands/deleteLine.command");
+const cutLine_command_1 = require("../commands/cutLine.command");
+const copyLine_command_1 = require("../commands/copyLine.command");
 const commands = [
     {
         name: "mode.normal",
@@ -257,10 +261,22 @@ const commands = [
         handler: copyMoveLast_command_1.executeCopyMoveLast
     },
     {
+        name: "copy.line",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Copies the current line",
+        handler: copyLine_command_1.executeCopyLine
+    },
+    {
         name: "cut",
         mode: SFVimEditor_1.SFVimMode.VISUAL,
         description: "Cuts the highligted text",
         handler: cut_command_1.executeCut
+    },
+    {
+        name: "cut.line",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Cuts the current line",
+        handler: cutLine_command_1.executeCutLine
     },
     {
         name: "paste.before",
@@ -297,6 +313,18 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.VISUAL,
         description: "Replace the currently selected text with the contents of the clipboard, and move behind the pasted text",
         handler: pasteReplaceMoveBehind_command_1.executePasteReplaceMoveBehind
+    },
+    {
+        name: "delete",
+        mode: SFVimEditor_1.SFVimMode.VISUAL,
+        description: "Deletes the currently selected text",
+        handler: delete_command_1.executeDelete
+    },
+    {
+        name: "delete.line",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Deletes the current line",
+        handler: deleteLine_command_1.executeDeleteLine
     }
 ];
 class CommandHandler {

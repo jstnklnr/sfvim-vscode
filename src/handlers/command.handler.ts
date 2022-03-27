@@ -42,6 +42,10 @@ import { executePasteBeforeMoveBehind } from "../commands/pasteBeforeMoveBehind.
 import { executePasteBehindMoveBehind } from "../commands/pasteBehindMoveBehind.command";
 import { executePasteReplace } from "../commands/pasteReplace.command";
 import { executePasteReplaceMoveBehind } from "../commands/pasteReplaceMoveBehind.command";
+import { executeDelete } from "../commands/delete.command";
+import { executeDeleteLine } from "../commands/deleteLine.command";
+import { executeCutLine } from "../commands/cutLine.command";
+import { executeCopyLine } from "../commands/copyLine.command";
 
 interface SFVimCommand {
     name: string;
@@ -267,10 +271,22 @@ const commands: Array<SFVimCommand> = [
         handler: executeCopyMoveLast
     },
     {
+        name: "copy.line",
+        mode: SFVimMode.NORMAL,
+        description: "Copies the current line",
+        handler: executeCopyLine
+    },
+    {
         name: "cut",
         mode: SFVimMode.VISUAL,
         description: "Cuts the highligted text",
         handler: executeCut
+    },
+    {
+        name: "cut.line",
+        mode: SFVimMode.NORMAL,
+        description: "Cuts the current line",
+        handler: executeCutLine
     },
     {
         name: "paste.before",
@@ -307,6 +323,18 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.VISUAL,
         description: "Replace the currently selected text with the contents of the clipboard, and move behind the pasted text",
         handler: executePasteReplaceMoveBehind
+    },
+    {
+        name: "delete",
+        mode: SFVimMode.VISUAL,
+        description: "Deletes the currently selected text",
+        handler: executeDelete
+    },
+    {
+        name: "delete.line",
+        mode: SFVimMode.NORMAL,
+        description: "Deletes the current line",
+        handler: executeDeleteLine
     }
 ];
 
