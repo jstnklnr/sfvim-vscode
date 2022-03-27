@@ -172,12 +172,8 @@
 								"bind": "Y"
 							},
 							{
-								"command": "cut.moveBefore",
+								"command": "cut",
 								"bind": "c"
-							},
-							{
-								"command": "cut.moveBehind",
-								"bind": "C"
 							},
 							{
 								"command": "paste.before",

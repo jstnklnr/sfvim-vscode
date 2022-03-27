@@ -38,8 +38,7 @@ const motionScrollHalfPageUp_command_1 = require("../commands/motionScrollHalfPa
 const copy_command_1 = require("../commands/copy.command");
 const copyMoveLast_command_1 = require("../commands/copyMoveLast.command");
 const copyMoveFirst_command_1 = require("../commands/copyMoveFirst.command");
-const cutMoveBefore_command_1 = require("../commands/cutMoveBefore.command");
-const cutMoveBehind_command_1 = require("../commands/cutMoveBehind.command");
+const cut_command_1 = require("../commands/cut.command");
 const pasteBefore_command_1 = require("../commands/pasteBefore.command");
 const pasteBehind_command_1 = require("../commands/pasteBehind.command");
 const pasteBeforeMoveBehind_command_1 = require("../commands/pasteBeforeMoveBehind.command");
@@ -258,16 +257,10 @@ const commands = [
         handler: copyMoveLast_command_1.executeCopyMoveLast
     },
     {
-        name: "cut.moveBefore",
+        name: "cut",
         mode: SFVimEditor_1.SFVimMode.VISUAL,
-        description: "Copies the highlighted text and jumps to the character in front of the cut text",
-        handler: cutMoveBefore_command_1.executeCutMoveBefore
-    },
-    {
-        name: "cut.moveBehind",
-        mode: SFVimEditor_1.SFVimMode.VISUAL,
-        description: "Copies the highlighted text and jumps to the character behind the cut text",
-        handler: cutMoveBehind_command_1.executeCutMoveBehind
+        description: "Cuts the highligted text",
+        handler: cut_command_1.executeCut
     },
     {
         name: "paste.before",
