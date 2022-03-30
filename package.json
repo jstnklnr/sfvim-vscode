@@ -214,6 +214,10 @@
 							{
 								"command": "delete.line",
 								"bind": "dl"
+							},
+							{
+								"command": "delete.untilNextWord",
+								"bind": "df"
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."

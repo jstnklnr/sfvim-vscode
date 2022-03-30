@@ -49,6 +49,7 @@ const delete_command_1 = require("../commands/delete.command");
 const deleteLine_command_1 = require("../commands/deleteLine.command");
 const cutLine_command_1 = require("../commands/cutLine.command");
 const copyLine_command_1 = require("../commands/copyLine.command");
+const deleteUntilNext_command_1 = require("../commands/deleteUntilNext.command");
 const commands = [
     {
         name: "mode.normal",
@@ -325,6 +326,12 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Deletes the current line",
         handler: deleteLine_command_1.executeDeleteLine
+    },
+    {
+        name: "delete.untilNextWord",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Deletes all characters from the current to the next occuring word",
+        handler: deleteUntilNext_command_1.executeDeleteUntilNext
     }
 ];
 class CommandHandler {

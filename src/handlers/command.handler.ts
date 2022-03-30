@@ -46,6 +46,7 @@ import { executeDelete } from "../commands/delete.command";
 import { executeDeleteLine } from "../commands/deleteLine.command";
 import { executeCutLine } from "../commands/cutLine.command";
 import { executeCopyLine } from "../commands/copyLine.command";
+import { executeDeleteUntilNext } from "../commands/deleteUntilNext.command";
 
 interface SFVimCommand {
     name: string;
@@ -335,6 +336,12 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Deletes the current line",
         handler: executeDeleteLine
+    },
+    {
+        name: "delete.untilNextWord",
+        mode: SFVimMode.NORMAL,
+        description: "Deletes all characters from the current to the next occuring word",
+        handler: executeDeleteUntilNext
     }
 ];
 
