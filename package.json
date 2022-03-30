@@ -218,6 +218,18 @@
 							{
 								"command": "delete.untilNextWord",
 								"bind": "df"
+							},
+							{
+								"command": "delete.untilNextSpecialWord",
+								"bind": "dF"
+							},
+							{
+								"command": "delete.untilPreviousWord",
+								"bind": "ds"
+							},
+							{
+								"command": "delete.untilPreviousSpecialWord",
+								"bind": "dS"
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."
