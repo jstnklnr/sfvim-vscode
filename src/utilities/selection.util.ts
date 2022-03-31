@@ -1,3 +1,4 @@
+import { start } from "repl";
 import * as vscode from "vscode";
 import { SFVimEditor } from "../types/SFVimEditor";
 
@@ -71,6 +72,179 @@ export function getOffsetPosition(position: vscode.Position, line: number, chara
  */
 export function isAdjustedPostion(anchor: vscode.Position, position: vscode.Position): boolean {
     return getRelativePosition(anchor, position) === RelativeDirection.Right;
+}
+
+/**
+ * Resolves the start of the word that is at the given position
+ * @param vimEditor the editor that contains the document
+ * @param position the position at which to find the word
+ * @param includeSpecial true: words seperated by special characters will count as one, false: special characters will count as seperate words
+ * @returns the start of the word or undefined if there is no word found at the position
+ */
+export function getStartOfWord(vimEditor: SFVimEditor, position: vscode.Position, includeSpecial: boolean): vscode.Position | undefined {
+    const text = vimEditor.editor.document.lineAt(position.line).text;
+    let character = position.character;
+
+    let startType = 1;
+
+    if(/\s/.exec(text[character])?.length) {
+        return undefined;
+    }else if(!includeSpecial && !/^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(text[character])?.length) {
+        startType = 2;
+    }
+
+    while(character > 0) {
+        const isLetter = /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(text[character - 1])?.length;
+        const isSpace = /\s/.exec(text[character - 1])?.length;
+
+        if(startType | 1 | 2 && isSpace || startType == 1 && !includeSpecial && !isLetter || startType == 2 && !includeSpecial && isLetter) {
+            break;
+        }
+
+        character--;
+    }
+
+    return position.with(position.line, character);
+}
+
+/**
+ * Resolves the end of the word that is at the given position
+ * @param vimEditor the editor that contains the document
+ * @param position the posiition at which to find the word
+ * @param includeSpecial true: words seperated by special characters will count as one, false: special characters will count as seperate words
+ * @returns the end of the word or undefined if there is no word found at the position
+ */
+export function getEndOfWord(vimEditor: SFVimEditor, position: vscode.Position, includeSpecial: boolean): vscode.Position | undefined {
+    const text = vimEditor.editor.document.lineAt(position.line).text;
+    let character = position.character;
+
+    let startType = 1;
+
+    if(/\s/.exec(text[character])?.length) {
+        return undefined;
+    }else if(!includeSpecial && !/^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(text[character])?.length) {
+        startType = 2;
+    }
+
+    while(character < text.length) {
+        const isLetter = /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(text[character])?.length;
+        const isSpace = /\s/.exec(text[character])?.length;
+
+        if(startType | 1 | 2 && isSpace || startType == 1 && !includeSpecial && !isLetter || startType == 2 && !includeSpecial && isLetter) {
+            break;
+        }
+
+        character++;
+    }
+
+    return position.with(position.line, character);
+}
+
+export function getStartOfPreviousWord(vimEditor: SFVimEditor, position: vscode.Position, includeSpecial: boolean): vscode.Position | undefined {
+    const wordStart = getStartOfWord(vimEditor, position, includeSpecial);
+    position = wordStart ? getLeftPosition(wordStart) : position;
+
+    if(position.character == 0) {
+        if(position.line == 0) {
+            return undefined;
+        }
+
+        position.with(position.line - 1, vimEditor.editor.document.lineAt(position.line - 1).text.length - 1);
+    }
+
+    const text = vimEditor.editor.document.lineAt(position.line).text;
+    let character = position.character;
+
+    let startType = 1;
+
+    if(/\s/.exec(text[character])?.length) {
+        startType = 0;
+    }else if(!includeSpecial && !/^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(text[character])?.length) {
+        startType = 2;
+    }
+
+    while(character > 0) {
+        const isLetter = /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(text[character - 1])?.length;
+        const isSpace = /\s/.exec(text[character - 1])?.length;
+
+        if(startType == 0)
+
+        character--;
+    }
+
+    return position.with(position.line, character);
+}
+
+export function getRangeToNextWord(vimEditor: SFVimEditor, position: vscode.Position, words: number): vscode.Range | undefined {
+    const text = vimEditor.editor.document.lineAt(position.line).text;
+
+    let character = position.character;
+    let startType = 2;
+
+    if(/\s/.exec(text[character])?.length) {
+        startType = 0;
+    }else if(/^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(text[character])?.length) {
+        startType = 1;
+    }
+
+    while(character > 0) {
+        const isLetter = /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(text[character - 1])?.length;
+        const isSpace = /\s/.exec(text[character - 1])?.length;
+
+        if(startType == 0 && !isSpace) {
+            startType = isLetter ? 1 : 2;
+        }else if(startType == 1 && !isLetter || startType == 2 && (isLetter || isSpace)) {
+            break;
+        }
+
+        character--;
+    }
+
+    while(character < text.length && /\s/.exec(text[character])?.length) {
+        character++;
+    }
+    
+    const start = position.with(position.line, character);
+    
+    for(let i = 0; i < words; i++) {
+        let skipType = 2;
+    
+        if(/\s/.exec(text[character])?.length) {
+            return undefined;
+        }else if(/^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(text[character])?.length) {
+            skipType = 1;
+        }
+
+        while(character < text.length) {
+            const isLetter = /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(text[character])?.length;
+            const isSpace = /^\s$/.exec(text[character])?.length;
+
+            if(skipType == 0 && !isSpace) {
+                break;
+            }else if(skipType == 1 && !isLetter) {
+                if(!isSpace) {
+                    break;
+                }
+
+                skipType = 0;
+            }else if(skipType == 2) {
+                if(isLetter) {
+                    break;
+                }else if(isSpace) {
+                    skipType = 0;
+                }
+            }
+
+            character++;
+        }
+    }
+
+    if(start.character >= character) {
+        return undefined;
+    }
+
+    const end = start.with(start.line, character);
+    return new vscode.Range(start, end);
 }
 
 /**
