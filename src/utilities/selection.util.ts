@@ -176,7 +176,7 @@ export function getStartOfPreviousWord(vimEditor: SFVimEditor, position: vscode.
             return undefined;
         }
 
-        position.with(position.line - 1, vimEditor.editor.document.lineAt(position.line - 1).text.length - 1);
+        position = position.with(position.line - 1, vimEditor.editor.document.lineAt(position.line - 1).text.length - 1);
     }
 
     const text = vimEditor.editor.document.lineAt(position.line).text;
@@ -224,7 +224,7 @@ export function getStartOfNextWord(vimEditor: SFVimEditor, position: vscode.Posi
             return undefined;
         }
 
-        position.with(position.line + 1, 0);
+        position = position.with(position.line + 1, 0);
     }
 
     text = vimEditor.editor.document.lineAt(position.line).text;

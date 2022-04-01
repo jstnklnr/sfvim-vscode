@@ -1,6 +1,6 @@
-import { Range } from "vscode";
+import { Position, Range } from "vscode";
 import { SFVimEditor } from "../types/SFVimEditor";
-import { deleteRange, getEndOfWord, getLeftPosition, getRelativePosition, getStartOfLine, getStartOfNextWord, getStartOfPreviousWord, getStartOfWord, RelativeDirection } from "../utilities/selection.util";
+import { deleteRange, getEndOfWord, getLeftPosition, getRelativePosition, getStartOfLine, getStartOfPreviousWord, getStartOfWord, RelativeDirection } from "../utilities/selection.util";
 
 export function executeDeleteUntilPrevious(vimEditor: SFVimEditor, amplifier: number, includeSpecial: boolean = false) {
     if(amplifier == 0) {
@@ -14,15 +14,22 @@ export function executeDeleteUntilPrevious(vimEditor: SFVimEditor, amplifier: nu
         return;
     }
 
-    //TODO: fix wrong behaviour
-
     end = getEndOfWord(vimEditor, end, includeSpecial)!;
-    let current = getLeftPosition(end.with(end.line, end.character));
+    let current: Position | undefined = getLeftPosition(end.with(end.line, end.character));
+    let lastLine = current.line;
 
     for(let i = 0; i < amplifier; i++) {
-        const startOfLine = getStartOfLine(vimEditor, current.line);
-        current = getLeftPosition(getEndOfWord(vimEditor, getStartOfPreviousWord(vimEditor, current, includeSpecial) || startOfLine, includeSpecial) || startOfLine);
+        if(!current) {
+            break;
+        }
+
+        lastLine = current.line;
+        current = getStartOfPreviousWord(vimEditor, current, includeSpecial);
     }
+
+    //TODO: fix wrong behaviour with tabs
+
+    current = current ? getEndOfWord(vimEditor, current, includeSpecial)! : getStartOfLine(vimEditor, lastLine);
 
     if(getRelativePosition(end, current) & (RelativeDirection.Equal | RelativeDirection.Right)) {
         return;
