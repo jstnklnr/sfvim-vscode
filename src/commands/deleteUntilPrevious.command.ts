@@ -27,9 +27,7 @@ export function executeDeleteUntilPrevious(vimEditor: SFVimEditor, amplifier: nu
         current = getStartOfPreviousWord(vimEditor, current, includeSpecial);
     }
 
-    //TODO: fix wrong behaviour with tabs
-
-    current = current ? getEndOfWord(vimEditor, current, includeSpecial)! : getStartOfLine(vimEditor, lastLine);
+    current = current ? (getEndOfWord(vimEditor, current, includeSpecial) || current) : getStartOfLine(vimEditor, lastLine);
 
     if(getRelativePosition(end, current) & (RelativeDirection.Equal | RelativeDirection.Right)) {
         return;
