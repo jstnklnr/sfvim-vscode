@@ -230,6 +230,14 @@
 							{
 								"command": "delete.untilPreviousSpecialWord",
 								"bind": "dS"
+							},
+							{
+								"command": "delete.word",
+								"bind": "dw"
+							},
+							{
+								"command": "delete.specialWord",
+								"bind": "dW"
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."

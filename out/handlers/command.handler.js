@@ -53,6 +53,8 @@ const deleteUntilNext_command_1 = require("../commands/deleteUntilNext.command")
 const deleteUntilPrevious_command_1 = require("../commands/deleteUntilPrevious.command");
 const deleteUntilPreviousSpecial_command_1 = require("../commands/deleteUntilPreviousSpecial.command");
 const deleteUntilNextSpecial_command_1 = require("../commands/deleteUntilNextSpecial.command");
+const deleteWord_command_1 = require("../commands/deleteWord.command");
+const deleteSpecialWord_command_1 = require("../commands/deleteSpecialWord.command");
 const commands = [
     {
         name: "mode.normal",
@@ -353,6 +355,18 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Deletes all characters from the current to the previous occuring word (including special characters)",
         handler: deleteUntilPreviousSpecial_command_1.executeDeleteUntilPreviousSpecial
+    },
+    {
+        name: "delete.word",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Deletes the word that is currently under the cursor",
+        handler: deleteWord_command_1.executeDeleteWord
+    },
+    {
+        name: "delete.specialWord",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Deletes the word that is currently under the cursor (including special characters)",
+        handler: deleteSpecialWord_command_1.executeDeleteSpecialWord
     }
 ];
 class CommandHandler {
