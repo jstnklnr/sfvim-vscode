@@ -1,4 +1,3 @@
-import { start } from "repl";
 import * as vscode from "vscode";
 import { SFVimEditor } from "../types/SFVimEditor";
 
@@ -215,7 +214,7 @@ export function getStartOfPreviousWord(vimEditor: SFVimEditor, position: vscode.
  */
 export function getStartOfNextWord(vimEditor: SFVimEditor, position: vscode.Position, includeSpecial: boolean): vscode.Position | undefined {
     const wordEnd = getEndOfWord(vimEditor, position, includeSpecial);
-    position = wordEnd || position;
+    position = wordEnd || getRightPosition(position);
 
     let text = vimEditor.editor.document.lineAt(position.line).text;
 

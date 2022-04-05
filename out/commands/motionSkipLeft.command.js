@@ -4,63 +4,27 @@ exports.executeMotionSkipLeft = void 0;
 const selection_handler_1 = require("../handlers/selection.handler");
 const SFVimEditor_1 = require("../types/SFVimEditor");
 const selection_util_1 = require("../utilities/selection.util");
-function executeMotionSkipLeft(vimEditor, amplifier) {
+function executeMotionSkipLeft(vimEditor, amplifier, includeSpecial = false) {
     if (amplifier == 0) {
         amplifier = 1;
     }
-    const currentPosition = vimEditor.editor.selection.active;
-    let line = currentPosition.line;
-    let character = currentPosition.character;
-    let lineText = vimEditor.editor.document.lineAt(line).text;
-    let anchor = currentPosition;
-    if (vimEditor.mode & SFVimEditor_1.SFVimMode.VISUAL) {
-        anchor = vimEditor.tags.get("anchor") || currentPosition;
+    const visualMode = vimEditor.mode & SFVimEditor_1.SFVimMode.VISUAL;
+    const anchor = vimEditor.editor.selection.anchor;
+    let active = vimEditor.editor.selection.active;
+    if (visualMode && (0, selection_util_1.isAdjustedPostion)(anchor, active)) {
+        active = (0, selection_util_1.getLeftPosition)(active);
     }
-    let isPositionAdjusted = vimEditor.mode & SFVimEditor_1.SFVimMode.VISUAL && (0, selection_util_1.isAdjustedPostion)(anchor, currentPosition);
-    if (isPositionAdjusted) {
-        character -= character > 0 ? 1 : 0;
+    const startOfCurrent = (0, selection_util_1.getStartOfWord)(vimEditor, active, includeSpecial);
+    if (startOfCurrent && (0, selection_util_1.getRelativePosition)(startOfCurrent, active) == selection_util_1.RelativeDirection.Right) {
+        active = (0, selection_util_1.getStartOfWord)(vimEditor, active, includeSpecial);
+        amplifier--;
     }
     for (let i = 0; i < amplifier; i++) {
-        let lineBreak = false;
-        if (character <= 0) {
-            line--;
-            lineText = vimEditor.editor.document.lineAt(line).text;
-            character = lineText.length;
-            lineBreak = true;
-        }
-        let j = character;
-        let skipType = 0;
-        if (j > 0 && j <= lineText.length) {
-            if (/^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j - 1])?.length) {
-                skipType = 1;
-            }
-            else if (!/^\s$/.exec(lineText[j - 1])?.length) {
-                skipType = 2;
-            }
-        }
-        while (j > 0) {
-            const isLetter = /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(lineText[j - 1])?.length;
-            const isSpace = /^\s$/.exec(lineText[j - 1])?.length;
-            if (skipType == 0 && !isSpace) {
-                skipType = isLetter ? 1 : 2;
-            }
-            else if (skipType == 1 && !isLetter || skipType == 2 && (isLetter || isSpace)) {
-                break;
-            }
-            j--;
-        }
-        character = j;
+        active = (0, selection_util_1.getStartOfPreviousWord)(vimEditor, active, includeSpecial) || (0, selection_util_1.getStartOfLine)(vimEditor, active.line);
     }
-    let newPosition = vimEditor.editor.selection.active.with(line, character);
-    if (!(vimEditor.mode & SFVimEditor_1.SFVimMode.VISUAL)) {
-        anchor = newPosition;
-    }
-    isPositionAdjusted = vimEditor.mode & SFVimEditor_1.SFVimMode.VISUAL && (0, selection_util_1.isAdjustedPostion)(anchor, newPosition);
-    if (isPositionAdjusted) {
-        newPosition = (0, selection_util_1.getRightPosition)(newPosition);
-    }
-    (0, selection_handler_1.handleSelection)(vimEditor, newPosition);
-    vimEditor.tags.set("lastCharacter", newPosition.character);
+    active = visualMode && (0, selection_util_1.isAdjustedPostion)(anchor, active) ? (0, selection_util_1.getRightPosition)(active) : active;
+    (0, selection_handler_1.handleSelection)(vimEditor, active);
+    vimEditor.tags.set("lastCharacter", active.character);
 }
 exports.executeMotionSkipLeft = executeMotionSkipLeft;
 //# sourceMappingURL=motionSkipLeft.command.js.map
