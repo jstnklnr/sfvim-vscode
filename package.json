@@ -176,12 +176,60 @@
 								"bind": "yl"
 							},
 							{
+								"command": "copy.untilNextWord",
+								"bind": "yf"
+							},
+							{
+								"command": "copy.untilNextSpecialWord",
+								"bind": "yF"
+							},
+							{
+								"command": "copy.untilPreviousWord",
+								"bind": "ys"
+							},
+							{
+								"command": "copy.untilPreviousSpecialWord",
+								"bind": "yS"
+							},
+							{
+								"command": "copy.word",
+								"bind": "yw"
+							},
+							{
+								"command": "copy.specialWord",
+								"bind": "yW"
+							},
+							{
 								"command": "cut",
 								"bind": "c"
 							},
 							{
 								"command": "cut.line",
 								"bind": "cl"
+							},
+							{
+								"command": "cut.untilNextWord",
+								"bind": "cf"
+							},
+							{
+								"command": "cut.untilNextSpecialWord",
+								"bind": "cF"
+							},
+							{
+								"command": "cut.untilPreviousWord",
+								"bind": "cs"
+							},
+							{
+								"command": "cut.untilPreviousSpecialWord",
+								"bind": "cS"
+							},
+							{
+								"command": "cut.word",
+								"bind": "cw"
+							},
+							{
+								"command": "cut.specialWord",
+								"bind": "cW"
 							},
 							{
 								"command": "paste.before",

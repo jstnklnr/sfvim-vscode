@@ -55,6 +55,18 @@ const deleteUntilPreviousSpecial_command_1 = require("../commands/deleteUntilPre
 const deleteUntilNextSpecial_command_1 = require("../commands/deleteUntilNextSpecial.command");
 const deleteWord_command_1 = require("../commands/deleteWord.command");
 const deleteSpecialWord_command_1 = require("../commands/deleteSpecialWord.command");
+const cutUntilNext_command_1 = require("../commands/cutUntilNext.command");
+const cutUntilPrevious_command_1 = require("../commands/cutUntilPrevious.command");
+const cutUntilNextSpecial_command_1 = require("../commands/cutUntilNextSpecial.command");
+const cutUntilPreviousSpecial_command_1 = require("../commands/cutUntilPreviousSpecial.command");
+const cutWord_command_1 = require("../commands/cutWord.command");
+const cutSpecialWord_command_1 = require("../commands/cutSpecialWord.command");
+const copySpecialWord_command_1 = require("../commands/copySpecialWord.command");
+const copyWord_command_1 = require("../commands/copyWord.command");
+const copyUntilPreviousSpecial_command_1 = require("../commands/copyUntilPreviousSpecial.command");
+const copyUntilPrevious_command_1 = require("../commands/copyUntilPrevious.command");
+const copyUntilNextSpecial_command_1 = require("../commands/copyUntilNextSpecial.command");
+const copyUntilnext_command_1 = require("../commands/copyUntilnext.command");
 const commands = [
     {
         name: "mode.normal",
@@ -273,6 +285,42 @@ const commands = [
         handler: copyLine_command_1.executeCopyLine
     },
     {
+        name: "copy.untilNextWord",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Copies all characters from the current to the next occurring word",
+        handler: copyUntilnext_command_1.executeCopyUntilNext
+    },
+    {
+        name: "copy.untilNextSpecialWord",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Copies all characters from the current to the next occurring word (including special characters)",
+        handler: copyUntilNextSpecial_command_1.executeCopyUntilNextSpecial
+    },
+    {
+        name: "copy.untilPreviousWord",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Copies all characters from the current to the previous occurring word",
+        handler: copyUntilPrevious_command_1.executeCopyUntilPrevious
+    },
+    {
+        name: "copy.untilPreviousSpecialWord",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Copies all characters from the current to the previous occurring word (including special characters)",
+        handler: copyUntilPreviousSpecial_command_1.executeCopyUntilPreviousSpecial
+    },
+    {
+        name: "copy.word",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Copies all characters of the current word",
+        handler: copyWord_command_1.executeCopyWord
+    },
+    {
+        name: "copy.specialWord",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Copies all characters of the current word (including special characters)",
+        handler: copySpecialWord_command_1.executeCopySpecialWord
+    },
+    {
         name: "cut",
         mode: SFVimEditor_1.SFVimMode.VISUAL,
         description: "Cuts the highligted text",
@@ -283,6 +331,42 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Cuts the current line",
         handler: cutLine_command_1.executeCutLine
+    },
+    {
+        name: "cut.untilNextWord",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Cuts all characters from the current to the next occurring word",
+        handler: cutUntilNext_command_1.executeCutUntilNext
+    },
+    {
+        name: "cut.untilNextSpecialWord",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Cuts all characters from the current to the next occurring word (including special characters)",
+        handler: cutUntilNextSpecial_command_1.executeCutUntilNextSpecial
+    },
+    {
+        name: "cut.untilPreviousWord",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Cuts all characters from the current to the previous occurring word",
+        handler: cutUntilPrevious_command_1.executeCutUntilPrevious
+    },
+    {
+        name: "cut.untilPreviousSpecialWord",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Cuts all characters from the current to the previous occurring word (including special characters)",
+        handler: cutUntilPreviousSpecial_command_1.executeCutUntilPreviousSpecial
+    },
+    {
+        name: "cut.word",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Cuts all characters of the current word",
+        handler: cutWord_command_1.executeCutWord
+    },
+    {
+        name: "cut.specialWord",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Cuts all characters of the current word (including special characters)",
+        handler: cutSpecialWord_command_1.executeCutSpecialWord
     },
     {
         name: "paste.before",
