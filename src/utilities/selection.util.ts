@@ -107,7 +107,7 @@ export function getStartOfWord(vimEditor: SFVimEditor, position: vscode.Position
 
     let startType = 1;
 
-    if(/\s/.exec(text[character])?.length) {
+    if(!text.length || /\s/.exec(text[character])?.length) {
         return undefined;
     }else if(!includeSpecial && !/^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(text[character])?.length) {
         startType = 2;
@@ -176,7 +176,7 @@ export function getStartOfPreviousWord(vimEditor: SFVimEditor, position: vscode.
             return undefined;
         }
 
-        position = position.with(position.line - 1, vimEditor.editor.document.lineAt(position.line - 1).text.length - 1);
+        position = position.with(position.line - 1, Math.max(0, vimEditor.editor.document.lineAt(position.line - 1).text.length - 1));
     }
 
     const text = vimEditor.editor.document.lineAt(position.line).text;

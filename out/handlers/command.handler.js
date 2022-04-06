@@ -73,6 +73,7 @@ const selectUntilPrevious_command_1 = require("../commands/selectUntilPrevious.c
 const selectUntilPreviousSpecial_command_1 = require("../commands/selectUntilPreviousSpecial.command");
 const selectWord_command_1 = require("../commands/selectWord.command");
 const selectSpecialWord_command_1 = require("../commands/selectSpecialWord.command");
+const selectionSwap_command_1 = require("../commands/selectionSwap.command");
 const commands = [
     {
         name: "mode.normal",
@@ -493,6 +494,12 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Selects the word that is currently under the cursor (including special characters)",
         handler: selectSpecialWord_command_1.executeSelectSpecialWord
+    },
+    {
+        name: "selection.swap",
+        mode: SFVimEditor_1.SFVimMode.VISUAL,
+        description: "Swaps the anchor position with the active position",
+        handler: selectionSwap_command_1.executeSelectionSwap
     }
 ];
 class CommandHandler {

@@ -70,6 +70,7 @@ import { executeSelectUntilPrevious } from "../commands/selectUntilPrevious.comm
 import { executeSelectUntilPreviousSpecial } from "../commands/selectUntilPreviousSpecial.command";
 import { executeSelectWord } from "../commands/selectWord.command";
 import { executeSelectSpecialWord } from "../commands/selectSpecialWord.command";
+import { executeSelectionSwap } from "../commands/selectionSwap.command";
 
 interface SFVimCommand {
     name: string;
@@ -503,6 +504,12 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Selects the word that is currently under the cursor (including special characters)",
         handler: executeSelectSpecialWord
+    },
+    {
+        name: "selection.swap",
+        mode: SFVimMode.VISUAL,
+        description: "Swaps the anchor position with the active position",
+        handler: executeSelectionSwap
     }
 ];
 

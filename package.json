@@ -310,6 +310,10 @@
 							{
 								"command": "select.specialWord",
 								"bind": "VW"
+							},
+							{
+								"command": "selection.swap",
+								"bind": "V"
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."
