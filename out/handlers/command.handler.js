@@ -67,6 +67,12 @@ const copyUntilPreviousSpecial_command_1 = require("../commands/copyUntilPreviou
 const copyUntilPrevious_command_1 = require("../commands/copyUntilPrevious.command");
 const copyUntilNextSpecial_command_1 = require("../commands/copyUntilNextSpecial.command");
 const copyUntilnext_command_1 = require("../commands/copyUntilnext.command");
+const selectUntilNext_command_1 = require("../commands/selectUntilNext.command");
+const selectUntilNextSpecial_command_1 = require("../commands/selectUntilNextSpecial.command");
+const selectUntilPrevious_command_1 = require("../commands/selectUntilPrevious.command");
+const selectUntilPreviousSpecial_command_1 = require("../commands/selectUntilPreviousSpecial.command");
+const selectWord_command_1 = require("../commands/selectWord.command");
+const selectSpecialWord_command_1 = require("../commands/selectSpecialWord.command");
 const commands = [
     {
         name: "mode.normal",
@@ -451,6 +457,42 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Deletes the word that is currently under the cursor (including special characters)",
         handler: deleteSpecialWord_command_1.executeDeleteSpecialWord
+    },
+    {
+        name: "select.untilNextWord",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Selects all characters from the current to the next occuring word",
+        handler: selectUntilNext_command_1.executeSelectUntilNext
+    },
+    {
+        name: "select.untilNextSpecialWord",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Selects all characters from the current to the next occuring word (including special characters)",
+        handler: selectUntilNextSpecial_command_1.executeSelectUntilNextSpecial
+    },
+    {
+        name: "select.untilPreviousWord",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Selects all characters from the current to the previous occuring word",
+        handler: selectUntilPrevious_command_1.executeSelectUntilPrevious
+    },
+    {
+        name: "select.untilPreviousSpecialWord",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Selects all characters from the current to the previous occuring word (including special characters)",
+        handler: selectUntilPreviousSpecial_command_1.executeSelectUntilPreviousSpecial
+    },
+    {
+        name: "select.word",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Selects the word that is currently under the cursor",
+        handler: selectWord_command_1.executeSelectWord
+    },
+    {
+        name: "select.specialWord",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Selects the word that is currently under the cursor (including special characters)",
+        handler: selectSpecialWord_command_1.executeSelectSpecialWord
     }
 ];
 class CommandHandler {

@@ -64,6 +64,12 @@ import { executeCopyUntilPreviousSpecial } from "../commands/copyUntilPreviousSp
 import { executeCopyUntilPrevious } from "../commands/copyUntilPrevious.command";
 import { executeCopyUntilNextSpecial } from "../commands/copyUntilNextSpecial.command";
 import { executeCopyUntilNext } from "../commands/copyUntilnext.command";
+import { executeSelectUntilNext } from "../commands/selectUntilNext.command";
+import { executeSelectUntilNextSpecial } from "../commands/selectUntilNextSpecial.command";
+import { executeSelectUntilPrevious } from "../commands/selectUntilPrevious.command";
+import { executeSelectUntilPreviousSpecial } from "../commands/selectUntilPreviousSpecial.command";
+import { executeSelectWord } from "../commands/selectWord.command";
+import { executeSelectSpecialWord } from "../commands/selectSpecialWord.command";
 
 interface SFVimCommand {
     name: string;
@@ -461,6 +467,42 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Deletes the word that is currently under the cursor (including special characters)",
         handler: executeDeleteSpecialWord
+    },
+    {
+        name: "select.untilNextWord",
+        mode: SFVimMode.NORMAL,
+        description: "Selects all characters from the current to the next occuring word",
+        handler: executeSelectUntilNext
+    },
+    {
+        name: "select.untilNextSpecialWord",
+        mode: SFVimMode.NORMAL,
+        description: "Selects all characters from the current to the next occuring word (including special characters)",
+        handler: executeSelectUntilNextSpecial
+    },
+    {
+        name: "select.untilPreviousWord",
+        mode: SFVimMode.NORMAL,
+        description: "Selects all characters from the current to the previous occuring word",
+        handler: executeSelectUntilPrevious
+    },
+    {
+        name: "select.untilPreviousSpecialWord",
+        mode: SFVimMode.NORMAL,
+        description: "Selects all characters from the current to the previous occuring word (including special characters)",
+        handler: executeSelectUntilPreviousSpecial
+    },
+    {
+        name: "select.word",
+        mode: SFVimMode.NORMAL,
+        description: "Selects the word that is currently under the cursor",
+        handler: executeSelectWord
+    },
+    {
+        name: "select.specialWord",
+        mode: SFVimMode.NORMAL,
+        description: "Selects the word that is currently under the cursor (including special characters)",
+        handler: executeSelectSpecialWord
     }
 ];
 
