@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { SFVim } from "../sfvim";
 import { SFVimEditor } from "../types/SFVimEditor";
 
 export enum RelativeDirection {
@@ -234,6 +235,89 @@ export function getStartOfNextWord(vimEditor: SFVimEditor, position: vscode.Posi
     }
 
     return position.with(position.line, character);
+}
+
+/**
+ * Resolves the range from the start of the current word to the start of the next word
+ * @param vimEditor the editor that contains the document
+ * @param position the position of the word
+ * @param words the amount of words that should be skipped
+ * @param includeSpecial true: words seperated by special characters will count as one, false: special characters will count as seperate words
+ * @returns the range from the start of the current word to the start of the next word
+ */
+export function getRangeToNextWord(vimEditor: SFVimEditor, position: vscode.Position, words: number, includeSpecial: boolean): vscode.Range | undefined {
+    const start = getStartOfWord(vimEditor, position, includeSpecial) || getStartOfNextWord(vimEditor, position, includeSpecial);
+
+    if(!start) {
+        return undefined;
+    }
+
+    let current = start.with(start.line, start.character);
+
+    for(let i = 0; i < words; i++) {
+        current = getStartOfNextWord(vimEditor, current, includeSpecial) || getEndOfLine(vimEditor, current.line);
+    }
+
+    if(getRelativePosition(start, current) == RelativeDirection.Equal) {
+        return undefined;
+    }
+
+    return new vscode.Range(start, current);
+}
+
+/**
+ * Resolves the range from the end of the current word to the end of the previous word
+ * @param vimEditor the editor that contains the document
+ * @param position the position of the word
+ * @param words the amount of words that should be skipped
+ * @param includeSpecial true: words seperated by special characters will count as one, false: special characters will count as seperate words
+ * @returns the range from the end of the current word to the end of the previopus word
+ */
+export function getRangeToPreviousWord(vimEditor: SFVimEditor, position: vscode.Position, words: number, includeSpecial: boolean): vscode.Range | undefined {
+    let end = getStartOfWord(vimEditor, position, includeSpecial) || getStartOfPreviousWord(vimEditor, position, includeSpecial);
+
+    if(!end) {
+        return undefined;
+    }
+
+    end = getEndOfWord(vimEditor, end, includeSpecial)!;
+    let current: vscode.Position | undefined = getLeftPosition(end.with(end.line, end.character));
+    let lastLine = current.line;
+
+    for(let i = 0; i < words; i++) {
+        if(!current) {
+            break;
+        }
+
+        lastLine = current.line;
+        current = getStartOfPreviousWord(vimEditor, current, includeSpecial);
+    }
+
+    current = current ? (getEndOfWord(vimEditor, current, includeSpecial) || current) : getStartOfLine(vimEditor, lastLine);
+
+    if(getRelativePosition(end, current) & (RelativeDirection.Equal | RelativeDirection.Right)) {
+        return undefined;
+    }
+
+    return new vscode.Range(current, end);
+}
+
+/**
+ * Resolves the range from the start to the end of the current word
+ * @param vimEditor the editor that contains the document
+ * @param position the position of the word
+ * @param includeSpecial true: words seperated by special characters will count as one, false: special characters will count as seperate words
+ * @returns the range from the start of the end of the current word
+ */
+export function getRangeOfWord(vimEditor: SFVimEditor, position: vscode.Position, includeSpecial: boolean): vscode.Range | undefined {
+    const start = getStartOfWord(vimEditor, position, includeSpecial);
+    
+    if(!start) {
+        return;
+    }
+
+    const end = getEndOfWord(vimEditor, position, includeSpecial)!;
+    return new vscode.Range(start, end);
 }
 
 /**
