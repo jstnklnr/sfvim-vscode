@@ -74,6 +74,7 @@ const selectUntilPreviousSpecial_command_1 = require("../commands/selectUntilPre
 const selectWord_command_1 = require("../commands/selectWord.command");
 const selectSpecialWord_command_1 = require("../commands/selectSpecialWord.command");
 const selectionSwap_command_1 = require("../commands/selectionSwap.command");
+const undo_command_1 = require("../commands/undo.command");
 const commands = [
     {
         name: "mode.normal",
@@ -500,6 +501,12 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.VISUAL,
         description: "Swaps the anchor position with the active position",
         handler: selectionSwap_command_1.executeSelectionSwap
+    },
+    {
+        name: "undo",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Undoes the last action",
+        handler: undo_command_1.executeUndo
     }
 ];
 class CommandHandler {

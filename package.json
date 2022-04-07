@@ -314,6 +314,10 @@
 							{
 								"command": "selection.swap",
 								"bind": "V"
+							},
+							{
+								"command": "undo",
+								"bind": "u"
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."
