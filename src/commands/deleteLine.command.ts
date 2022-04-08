@@ -17,5 +17,6 @@ export function executeDeleteLine(vimEditor: SFVimEditor, amplifier: number) {
     const firstRange = vimEditor.editor.document.lineAt(currentLine).rangeIncludingLineBreak;
     const lastRange = vimEditor.editor.document.lineAt(Math.min(currentLine + amplifier - 1, maxLine)).rangeIncludingLineBreak;
 
+    //TODO: be able to delete last line
     deleteRange(vimEditor, new Range(firstRange.start, lastRange.end));
 }

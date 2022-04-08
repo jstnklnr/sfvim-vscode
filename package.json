@@ -300,6 +300,14 @@
 								"bind": "Q"
 							},
 							{
+								"command": "add.lineBelow",
+								"bind": "n"
+							},
+							{
+								"command": "add.lineAbove",
+								"bind": "N"
+							},
+							{
 								"command": "replace.insert",
 								"bind": "R"
 							},

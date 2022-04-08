@@ -80,6 +80,8 @@ const suggestion_command_1 = require("../commands/suggestion.command");
 const deleteCharacter_command_1 = require("../commands/deleteCharacter.command");
 const deleteCharacterMoveLeft_command_1 = require("../commands/deleteCharacterMoveLeft.command");
 const replaceInsert_command_1 = require("../commands/replaceInsert.command");
+const addLineAbove_command_1 = require("../commands/addLineAbove.command");
+const addLineBelow_command_1 = require("../commands/addLineBelow.command");
 const commands = [
     {
         name: "mode.normal",
@@ -482,6 +484,18 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.VISUAL,
         description: "Deletes all selected characters and switches to insert mode",
         handler: replaceInsert_command_1.executeReplaceInsert
+    },
+    {
+        name: "add.lineBelow",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Adds a line below the current line",
+        handler: addLineBelow_command_1.executeAddLineBelow
+    },
+    {
+        name: "add.lineAbove",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Adds a line above the current line",
+        handler: addLineAbove_command_1.executeAddLineAbove
     },
     {
         name: "select.untilNextWord",

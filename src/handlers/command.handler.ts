@@ -77,6 +77,8 @@ import { executeSuggestion } from "../commands/suggestion.command";
 import { executeDeleteCharacter } from "../commands/deleteCharacter.command";
 import { executeDeleteCharacterMoveleft } from "../commands/deleteCharacterMoveLeft.command";
 import { executeReplaceInsert } from "../commands/replaceInsert.command";
+import { executeAddLineAbove } from "../commands/addLineAbove.command";
+import { executeAddLineBelow } from "../commands/addLineBelow.command";
 
 interface SFVimCommand {
     name: string;
@@ -492,6 +494,18 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.VISUAL,
         description: "Deletes all selected characters and switches to insert mode",
         handler: executeReplaceInsert
+    },
+    {
+        name: "add.lineBelow",
+        mode: SFVimMode.NORMAL,
+        description: "Adds a line below the current line",
+        handler: executeAddLineBelow
+    },
+    {
+        name: "add.lineAbove",
+        mode: SFVimMode.NORMAL,
+        description: "Adds a line above the current line",
+        handler: executeAddLineAbove
     },
     {
         name: "select.untilNextWord",
