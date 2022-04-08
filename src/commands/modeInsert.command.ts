@@ -7,7 +7,7 @@ export function executeModeChangeInsert(vimEditor: SFVimEditor, amplifier: numbe
         return;
     }
 
-    vimEditor.mode = SFVimMode.INSERT;
+    vimEditor.changeMode(SFVimMode.INSERT);
     const isRelative = vimEditor.sfvim.sfvimConfig["insertModeLineNumberRelative"];
     vimEditor.editor.options.lineNumbers = isRelative ? TextEditorLineNumbersStyle.Relative : TextEditorLineNumbersStyle.On;;
     vimEditor.callStatusCallback();

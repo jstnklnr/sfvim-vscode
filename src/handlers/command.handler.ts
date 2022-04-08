@@ -72,6 +72,7 @@ import { executeSelectWord } from "../commands/selectWord.command";
 import { executeSelectSpecialWord } from "../commands/selectSpecialWord.command";
 import { executeSelectionSwap } from "../commands/selectionSwap.command";
 import { executeUndo } from "../commands/undo.command";
+import { executeRedo } from "../commands/redo.command";
 
 interface SFVimCommand {
     name: string;
@@ -517,6 +518,12 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Undoes the last action",
         handler: executeUndo
+    },
+    {
+        name: "redo",
+        mode: SFVimMode.NORMAL,
+        description: "Redoes the last undone action",
+        handler: executeRedo
     }
 ];
 

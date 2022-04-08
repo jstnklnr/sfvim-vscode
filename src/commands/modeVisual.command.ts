@@ -10,11 +10,11 @@ export function executeModeChangeVisual(vimEditor: SFVimEditor, amplifier: numbe
     }
 
     if(!(vimEditor.mode & (SFVimMode.NORMAL | SFVimMode.VISUAL))) {
-        vimEditor.mode &= ~SFVimMode.VISUAL;
+        vimEditor.changeMode(vimEditor.mode & ~SFVimMode.VISUAL);
         return;
     }
     
-    vimEditor.mode = vimEditor.mode & SFVimMode.VISUAL ? SFVimMode.NORMAL : SFVimMode.VISUAL;
+    vimEditor.changeMode(vimEditor.mode & SFVimMode.VISUAL ? SFVimMode.NORMAL : SFVimMode.VISUAL);
 
     if(vimEditor.mode & SFVimMode.VISUAL) {
         vimEditor.tags.set("anchor", vimEditor.editor.selection.active.with());
