@@ -77,6 +77,8 @@ const selectionSwap_command_1 = require("../commands/selectionSwap.command");
 const undo_command_1 = require("../commands/undo.command");
 const redo_command_1 = require("../commands/redo.command");
 const suggestion_command_1 = require("../commands/suggestion.command");
+const deleteCharacter_command_1 = require("../commands/deleteCharacter.command");
+const deleteCharacterMoveLeft_command_1 = require("../commands/deleteCharacterMoveLeft.command");
 const commands = [
     {
         name: "mode.normal",
@@ -455,6 +457,18 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Deletes the word that is currently under the cursor",
         handler: deleteWord_command_1.executeDeleteWord
+    },
+    {
+        name: "delete.character",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Deletes the characters that is currently under the cursor",
+        handler: deleteCharacter_command_1.executeDeleteCharacter
+    },
+    {
+        name: "delete.characterMoveLeft",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Deletes the characters that is currently under the cursor and moves one character to the left",
+        handler: deleteCharacterMoveLeft_command_1.executeDeleteCharacterMoveleft
     },
     {
         name: "delete.specialWord",

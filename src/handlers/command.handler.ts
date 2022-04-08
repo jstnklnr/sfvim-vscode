@@ -74,6 +74,8 @@ import { executeSelectionSwap } from "../commands/selectionSwap.command";
 import { executeUndo } from "../commands/undo.command";
 import { executeRedo } from "../commands/redo.command";
 import { executeSuggestion } from "../commands/suggestion.command";
+import { executeDeleteCharacter } from "../commands/deleteCharacter.command";
+import { executeDeleteCharacterMoveleft } from "../commands/deleteCharacterMoveLeft.command";
 
 interface SFVimCommand {
     name: string;
@@ -465,6 +467,18 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Deletes the word that is currently under the cursor",
         handler: executeDeleteWord
+    },
+    {
+        name: "delete.character",
+        mode: SFVimMode.NORMAL,
+        description: "Deletes the characters that is currently under the cursor",
+        handler: executeDeleteCharacter
+    },
+    {
+        name: "delete.characterMoveLeft",
+        mode: SFVimMode.NORMAL,
+        description: "Deletes the characters that is currently under the cursor and moves one character to the left",
+        handler: executeDeleteCharacterMoveleft
     },
     {
         name: "delete.specialWord",

@@ -288,6 +288,14 @@
 								"bind": "dw"
 							},
 							{
+								"command": "delete.character",
+								"bind": "q"
+							},
+							{
+								"command": "delete.characterMoveLeft",
+								"bind": "Q"
+							},
+							{
 								"command": "delete.specialWord",
 								"bind": "dW"
 							},
