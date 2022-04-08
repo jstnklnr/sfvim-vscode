@@ -79,6 +79,7 @@ const redo_command_1 = require("../commands/redo.command");
 const suggestion_command_1 = require("../commands/suggestion.command");
 const deleteCharacter_command_1 = require("../commands/deleteCharacter.command");
 const deleteCharacterMoveLeft_command_1 = require("../commands/deleteCharacterMoveLeft.command");
+const replaceInsert_command_1 = require("../commands/replaceInsert.command");
 const commands = [
     {
         name: "mode.normal",
@@ -475,6 +476,12 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Deletes the word that is currently under the cursor (including special characters)",
         handler: deleteSpecialWord_command_1.executeDeleteSpecialWord
+    },
+    {
+        name: "replace.insert",
+        mode: SFVimEditor_1.SFVimMode.VISUAL,
+        description: "Deletes all selected characters and switches to insert mode",
+        handler: replaceInsert_command_1.executeReplaceInsert
     },
     {
         name: "select.untilNextWord",

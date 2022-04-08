@@ -76,6 +76,7 @@ import { executeRedo } from "../commands/redo.command";
 import { executeSuggestion } from "../commands/suggestion.command";
 import { executeDeleteCharacter } from "../commands/deleteCharacter.command";
 import { executeDeleteCharacterMoveleft } from "../commands/deleteCharacterMoveLeft.command";
+import { executeReplaceInsert } from "../commands/replaceInsert.command";
 
 interface SFVimCommand {
     name: string;
@@ -485,6 +486,12 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Deletes the word that is currently under the cursor (including special characters)",
         handler: executeDeleteSpecialWord
+    },
+    {
+        name: "replace.insert",
+        mode: SFVimMode.VISUAL,
+        description: "Deletes all selected characters and switches to insert mode",
+        handler: executeReplaceInsert
     },
     {
         name: "select.untilNextWord",

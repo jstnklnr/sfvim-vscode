@@ -288,6 +288,10 @@
 								"bind": "dw"
 							},
 							{
+								"command": "delete.specialWord",
+								"bind": "dW"
+							},
+							{
 								"command": "delete.character",
 								"bind": "q"
 							},
@@ -296,8 +300,8 @@
 								"bind": "Q"
 							},
 							{
-								"command": "delete.specialWord",
-								"bind": "dW"
+								"command": "replace.insert",
+								"bind": "R"
 							},
 							{
 								"command": "select.untilNextWord",

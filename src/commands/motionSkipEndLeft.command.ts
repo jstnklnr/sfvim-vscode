@@ -1,6 +1,6 @@
 import { handleSelection } from "../handlers/selection.handler";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
-import { getLeftPosition, getRightPosition, getStartOfLine, getStartOfPreviousWord, isAdjustedPostion } from "../utilities/selection.util";
+import { getEndOfWord, getLeftPosition, getRightPosition, getStartOfLine, getStartOfPreviousWord, isAdjustedPostion } from "../utilities/selection.util";
 
 export function executeMotionSkipEndLeft(vimEditor: SFVimEditor, amplifier: number, includeSpecial: boolean = false) {
     if(amplifier == 0) {
@@ -19,6 +19,7 @@ export function executeMotionSkipEndLeft(vimEditor: SFVimEditor, amplifier: numb
         active = getStartOfPreviousWord(vimEditor, active, includeSpecial) || getStartOfLine(vimEditor, active.line);
     }
 
+    active = getLeftPosition(getEndOfWord(vimEditor, active, includeSpecial)!);
     active = visualMode && isAdjustedPostion(anchor, active) ? getRightPosition(active) : active;
     handleSelection(vimEditor, active);
     vimEditor.tags.set("lastCharacter", active.character);
