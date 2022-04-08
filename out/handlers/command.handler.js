@@ -76,6 +76,7 @@ const selectSpecialWord_command_1 = require("../commands/selectSpecialWord.comma
 const selectionSwap_command_1 = require("../commands/selectionSwap.command");
 const undo_command_1 = require("../commands/undo.command");
 const redo_command_1 = require("../commands/redo.command");
+const suggestion_command_1 = require("../commands/suggestion.command");
 const commands = [
     {
         name: "mode.normal",
@@ -514,6 +515,12 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Redoes the last undone action",
         handler: redo_command_1.executeRedo
+    },
+    {
+        name: "suggestion",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Shows a list of suggested actions",
+        handler: suggestion_command_1.executeSuggestion
     }
 ];
 class CommandHandler {

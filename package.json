@@ -326,6 +326,10 @@
 							{
 								"command": "redo",
 								"bind": "U"
+							},
+							{
+								"command": "suggestion",
+								"bind": "|"
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."
