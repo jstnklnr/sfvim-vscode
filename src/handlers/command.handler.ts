@@ -511,13 +511,13 @@ const commands: Array<SFVimCommand> = [
     },
     {
         name: "add.tab",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Adds a tab at the start of the line",
         handler: executeAddTab
     },
     {
         name: "remove.tab",
-        mode: SFVimMode.NORMAL,
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Removes a tab at the start of the line",
         handler: executeRemoveTab
     },

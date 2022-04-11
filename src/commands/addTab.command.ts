@@ -6,10 +6,20 @@ export function executeAddTab(vimEditor: SFVimEditor, amplifier: number) {
         amplifier = 1;
     }
 
-    const location = getStartOfLine(vimEditor, vimEditor.editor.selection.active.line);
-    const tabSize = vimEditor.sfvim.editorConfig.get("tabSize") as number;
+    const selection = vimEditor.editor.selection;
+    let startLine = selection.active.line;
+    let endLine = selection.anchor.line;
 
+    if(startLine > endLine) {
+        [startLine, endLine] = [endLine, startLine];
+    }
+
+    const tabSize = vimEditor.sfvim.editorConfig.get("tabSize") as number;
+    
     vimEditor.editor.edit(editBuilder => {
-        editBuilder.insert(location, " ".repeat(amplifier * tabSize));
+        for(let i = startLine; i <= endLine; i++) {
+            const location = getStartOfLine(vimEditor, i);
+            editBuilder.insert(location, " ".repeat(amplifier * tabSize));
+        }
     });
 }

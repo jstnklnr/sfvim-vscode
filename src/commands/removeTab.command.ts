@@ -7,25 +7,35 @@ export function executeRemoveTab(vimEditor: SFVimEditor, amplifier: number) {
         amplifier = 1;
     }
 
-    const location = getStartOfLine(vimEditor, vimEditor.editor.selection.active.line);
+    const selection = vimEditor.editor.selection;
     const tabSize = vimEditor.sfvim.editorConfig.get("tabSize") as number;
     const maxSpaces = tabSize * amplifier;
-    const lineText = vimEditor.editor.document.lineAt(location.line).text;
 
-    let spaceCount = 0;
+    let startLine = selection.active.line;
+    let endLine = selection.anchor.line;
 
-    for(; spaceCount < maxSpaces; spaceCount++) {
-        if(!/\s/.exec(lineText[spaceCount])) {
-            break;
-        }
+    if(startLine > endLine) {
+        [startLine, endLine] = [endLine, startLine];
     }
 
-    if(spaceCount > 0) {
-        const start = getStartOfLine(vimEditor, location.line);
-        const range = new Range(start, getOffsetPosition(start, 0, spaceCount));
+    vimEditor.editor.edit(editBuilder => {
+        for(let i = startLine; i <= endLine; i++) {
+            const lineText = vimEditor.editor.document.lineAt(i).text;
+            let spaceCount = 0;
 
-        vimEditor.editor.edit(editBuilder => {
+            for(; spaceCount < maxSpaces; spaceCount++) {
+                if(!/\s/.exec(lineText[spaceCount])) {
+                    break;
+                }
+            }
+            
+            if(spaceCount <= 0) {
+                continue;
+            }
+
+            const start = getStartOfLine(vimEditor, i);
+            const range = new Range(start, getOffsetPosition(start, 0, spaceCount));
             editBuilder.delete(range);
-        });
-    }
+        }
+    });
 }
