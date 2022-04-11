@@ -308,6 +308,14 @@
 								"bind": "N"
 							},
 							{
+								"command": "add.tab",
+								"bind": ">>"
+							},
+							{
+								"command": "remove.tab",
+								"bind": "<<"
+							},
+							{
 								"command": "replace.insert",
 								"bind": "R"
 							},

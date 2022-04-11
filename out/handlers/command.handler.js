@@ -82,6 +82,8 @@ const deleteCharacterMoveLeft_command_1 = require("../commands/deleteCharacterMo
 const replaceInsert_command_1 = require("../commands/replaceInsert.command");
 const addLineAbove_command_1 = require("../commands/addLineAbove.command");
 const addLineBelow_command_1 = require("../commands/addLineBelow.command");
+const addTab_command_1 = require("../commands/addTab.command");
+const removeTab_command_1 = require("../commands/removeTab.command");
 const commands = [
     {
         name: "mode.normal",
@@ -496,6 +498,18 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Adds a line above the current line",
         handler: addLineAbove_command_1.executeAddLineAbove
+    },
+    {
+        name: "add.tab",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Adds a tab at the start of the line",
+        handler: addTab_command_1.executeAddTab
+    },
+    {
+        name: "remove.tab",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Removes a tab at the start of the line",
+        handler: removeTab_command_1.executeRemoveTab
     },
     {
         name: "select.untilNextWord",

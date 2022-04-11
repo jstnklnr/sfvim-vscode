@@ -79,6 +79,8 @@ import { executeDeleteCharacterMoveleft } from "../commands/deleteCharacterMoveL
 import { executeReplaceInsert } from "../commands/replaceInsert.command";
 import { executeAddLineAbove } from "../commands/addLineAbove.command";
 import { executeAddLineBelow } from "../commands/addLineBelow.command";
+import { executeAddTab } from "../commands/addTab.command";
+import { executeRemoveTab } from "../commands/removeTab.command";
 
 interface SFVimCommand {
     name: string;
@@ -506,6 +508,18 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Adds a line above the current line",
         handler: executeAddLineAbove
+    },
+    {
+        name: "add.tab",
+        mode: SFVimMode.NORMAL,
+        description: "Adds a tab at the start of the line",
+        handler: executeAddTab
+    },
+    {
+        name: "remove.tab",
+        mode: SFVimMode.NORMAL,
+        description: "Removes a tab at the start of the line",
+        handler: executeRemoveTab
     },
     {
         name: "select.untilNextWord",
