@@ -83,6 +83,8 @@ import { executeAddTab } from "../commands/addTab.command";
 import { executeRemoveTab } from "../commands/removeTab.command";
 import { executeShiftLineUp } from "../commands/shiftLineUp.command";
 import { executeShiftLineDown } from "../commands/shiftLineDown.command";
+import { executeCopyLineUp } from "../commands/copyLineUp.command";
+import { executeCopyLineDown } from "../commands/copyLineDown.command";
 
 interface SFVimCommand {
     name: string;
@@ -510,6 +512,18 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Adds a line below the current line",
         handler: executeAddLineBelow
+    },
+    {
+        name: "line.copyUp",
+        mode: SFVimMode.NORMAL,
+        description: "Adds a line below the current line",
+        handler: executeCopyLineUp
+    },
+    {
+        name: "line.copyDown",
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
+        description: "Shifts the selected lines up",
+        handler: executeCopyLineDown
     },
     {
         name: "line.moveUp",

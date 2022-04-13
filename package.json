@@ -308,6 +308,14 @@
 								"bind": "N"
 							},
 							{
+								"command": "line.copyUp",
+								"bind": "{"
+							},
+							{
+								"command": "line.copyDown",
+								"bind": "\""
+							},
+							{
 								"command": "line.moveUp",
 								"bind": "["
 							},

@@ -86,6 +86,8 @@ const addTab_command_1 = require("../commands/addTab.command");
 const removeTab_command_1 = require("../commands/removeTab.command");
 const shiftLineUp_command_1 = require("../commands/shiftLineUp.command");
 const shiftLineDown_command_1 = require("../commands/shiftLineDown.command");
+const copyLineUp_command_1 = require("../commands/copyLineUp.command");
+const copyLineDown_command_1 = require("../commands/copyLineDown.command");
 const commands = [
     {
         name: "mode.normal",
@@ -500,6 +502,18 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Adds a line below the current line",
         handler: addLineBelow_command_1.executeAddLineBelow
+    },
+    {
+        name: "line.copyUp",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Adds a line below the current line",
+        handler: copyLineUp_command_1.executeCopyLineUp
+    },
+    {
+        name: "line.copyDown",
+        mode: SFVimEditor_1.SFVimMode.NORMAL | SFVimEditor_1.SFVimMode.VISUAL,
+        description: "Shifts the selected lines up",
+        handler: copyLineDown_command_1.executeCopyLineDown
     },
     {
         name: "line.moveUp",
