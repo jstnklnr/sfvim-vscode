@@ -88,6 +88,7 @@ const shiftLineUp_command_1 = require("../commands/shiftLineUp.command");
 const shiftLineDown_command_1 = require("../commands/shiftLineDown.command");
 const copyLineUp_command_1 = require("../commands/copyLineUp.command");
 const copyLineDown_command_1 = require("../commands/copyLineDown.command");
+const deleteRightCharacter_command_1 = require("../commands/deleteRightCharacter.command");
 const commands = [
     {
         name: "mode.normal",
@@ -478,6 +479,12 @@ const commands = [
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Deletes the characters that is currently under the cursor and moves one character to the left",
         handler: deleteCharacterMoveLeft_command_1.executeDeleteCharacterMoveleft
+    },
+    {
+        name: "delete.rightCharacter",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Deletes the characters that is next to the cursor (right site)",
+        handler: deleteRightCharacter_command_1.executeDeleteRightCharacter
     },
     {
         name: "delete.specialWord",

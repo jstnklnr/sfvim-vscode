@@ -85,6 +85,7 @@ import { executeShiftLineUp } from "../commands/shiftLineUp.command";
 import { executeShiftLineDown } from "../commands/shiftLineDown.command";
 import { executeCopyLineUp } from "../commands/copyLineUp.command";
 import { executeCopyLineDown } from "../commands/copyLineDown.command";
+import { executeDeleteRightCharacter } from "../commands/deleteRightCharacter.command";
 
 interface SFVimCommand {
     name: string;
@@ -488,6 +489,12 @@ const commands: Array<SFVimCommand> = [
         mode: SFVimMode.NORMAL,
         description: "Deletes the characters that is currently under the cursor and moves one character to the left",
         handler: executeDeleteCharacterMoveleft
+    },
+    {
+        name: "delete.rightCharacter",
+        mode: SFVimMode.NORMAL,
+        description: "Deletes the characters that is next to the cursor (right site)",
+        handler: executeDeleteRightCharacter
     },
     {
         name: "delete.specialWord",

@@ -300,6 +300,10 @@
 								"bind": "Q"
 							},
 							{
+								"command": "delete.rightCharacter",
+								"bind": "gq"
+							},
+							{
 								"command": "line.addBelow",
 								"bind": "n"
 							},
