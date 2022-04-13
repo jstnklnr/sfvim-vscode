@@ -84,6 +84,8 @@ const addLineAbove_command_1 = require("../commands/addLineAbove.command");
 const addLineBelow_command_1 = require("../commands/addLineBelow.command");
 const addTab_command_1 = require("../commands/addTab.command");
 const removeTab_command_1 = require("../commands/removeTab.command");
+const shiftLineUp_command_1 = require("../commands/shiftLineUp.command");
+const shiftLineDown_command_1 = require("../commands/shiftLineDown.command");
 const commands = [
     {
         name: "mode.normal",
@@ -488,25 +490,37 @@ const commands = [
         handler: replaceInsert_command_1.executeReplaceInsert
     },
     {
-        name: "add.lineBelow",
-        mode: SFVimEditor_1.SFVimMode.NORMAL,
-        description: "Adds a line below the current line",
-        handler: addLineBelow_command_1.executeAddLineBelow
-    },
-    {
-        name: "add.lineAbove",
+        name: "line.addAbove",
         mode: SFVimEditor_1.SFVimMode.NORMAL,
         description: "Adds a line above the current line",
         handler: addLineAbove_command_1.executeAddLineAbove
     },
     {
-        name: "add.tab",
+        name: "line.addBelow",
+        mode: SFVimEditor_1.SFVimMode.NORMAL,
+        description: "Adds a line below the current line",
+        handler: addLineBelow_command_1.executeAddLineBelow
+    },
+    {
+        name: "line.moveUp",
+        mode: SFVimEditor_1.SFVimMode.NORMAL | SFVimEditor_1.SFVimMode.VISUAL,
+        description: "Shifts the selected lines up",
+        handler: shiftLineUp_command_1.executeShiftLineUp
+    },
+    {
+        name: "line.moveDown",
+        mode: SFVimEditor_1.SFVimMode.NORMAL | SFVimEditor_1.SFVimMode.VISUAL,
+        description: "Shifts the selected lines down",
+        handler: shiftLineDown_command_1.executeShiftLineDown
+    },
+    {
+        name: "tab.add",
         mode: SFVimEditor_1.SFVimMode.NORMAL | SFVimEditor_1.SFVimMode.VISUAL,
         description: "Adds a tab at the start of the line",
         handler: addTab_command_1.executeAddTab
     },
     {
-        name: "remove.tab",
+        name: "tab.remove",
         mode: SFVimEditor_1.SFVimMode.NORMAL | SFVimEditor_1.SFVimMode.VISUAL,
         description: "Removes a tab at the start of the line",
         handler: removeTab_command_1.executeRemoveTab

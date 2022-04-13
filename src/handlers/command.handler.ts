@@ -81,6 +81,8 @@ import { executeAddLineAbove } from "../commands/addLineAbove.command";
 import { executeAddLineBelow } from "../commands/addLineBelow.command";
 import { executeAddTab } from "../commands/addTab.command";
 import { executeRemoveTab } from "../commands/removeTab.command";
+import { executeShiftLineUp } from "../commands/shiftLineUp.command";
+import { executeShiftLineDown } from "../commands/shiftLineDown.command";
 
 interface SFVimCommand {
     name: string;
@@ -498,25 +500,37 @@ const commands: Array<SFVimCommand> = [
         handler: executeReplaceInsert
     },
     {
-        name: "add.lineBelow",
-        mode: SFVimMode.NORMAL,
-        description: "Adds a line below the current line",
-        handler: executeAddLineBelow
-    },
-    {
-        name: "add.lineAbove",
+        name: "line.addAbove",
         mode: SFVimMode.NORMAL,
         description: "Adds a line above the current line",
         handler: executeAddLineAbove
     },
     {
-        name: "add.tab",
+        name: "line.addBelow",
+        mode: SFVimMode.NORMAL,
+        description: "Adds a line below the current line",
+        handler: executeAddLineBelow
+    },
+    {
+        name: "line.moveUp",
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
+        description: "Shifts the selected lines up",
+        handler: executeShiftLineUp
+    },
+    {
+        name: "line.moveDown",
+        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
+        description: "Shifts the selected lines down",
+        handler: executeShiftLineDown
+    },
+    {
+        name: "tab.add",
         mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Adds a tab at the start of the line",
         handler: executeAddTab
     },
     {
-        name: "remove.tab",
+        name: "tab.remove",
         mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
         description: "Removes a tab at the start of the line",
         handler: executeRemoveTab

@@ -300,19 +300,27 @@
 								"bind": "Q"
 							},
 							{
-								"command": "add.lineBelow",
+								"command": "line.addBelow",
 								"bind": "n"
 							},
 							{
-								"command": "add.lineAbove",
+								"command": "line.addAbove",
 								"bind": "N"
 							},
 							{
-								"command": "add.tab",
+								"command": "line.moveUp",
+								"bind": "["
+							},
+							{
+								"command": "line.moveDown",
+								"bind": "'"
+							},
+							{
+								"command": "tab.add",
 								"bind": ">>"
 							},
 							{
-								"command": "remove.tab",
+								"command": "tab.remove",
 								"bind": "<<"
 							},
 							{
