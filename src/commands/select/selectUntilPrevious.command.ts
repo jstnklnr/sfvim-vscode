@@ -1,20 +1,41 @@
-import { handleSelection } from "../handlers/selection.handler";
-import { SFVimEditor } from "../types/SFVimEditor";
-import { getLeftPosition, getRangeToPreviousWord } from "../utilities/selection.util";
-import { executeModeChangeVisual } from "./modeVisual.command";
+import { handleSelection } from "../../handlers/selection.handler";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
+import { getRangeToPreviousWord, getLeftPosition } from "../../utilities/selection.util";
+import { CommandModeVisual } from "../mode/modeVisual.command";
 
-export function executeSelectUntilPrevious(vimEditor: SFVimEditor, amplifier: number, includeSpecial: boolean = false) {
-    if(amplifier == 0) {
-        amplifier = 1;
+export class CommandSelectUntilPrevious extends SFVimCommand {
+    private static _instance: CommandSelectUntilPrevious;
+
+    constructor() {
+        super("select.untilPreviousWord", "Selects all characters from the current to the previous occuring word", SFVimMode.NORMAL);
+        CommandSelectUntilPrevious._instance = this;
     }
 
-    const range = getRangeToPreviousWord(vimEditor, vimEditor.editor.selection.active, amplifier, includeSpecial);
-
-    if(!range) {
-        return;
+    /**
+     * @returns the single instance that should exist of this command
+     */
+    public static instance(): CommandSelectUntilPrevious {
+        return CommandSelectUntilPrevious._instance || new CommandSelectUntilPrevious();
     }
 
-    executeModeChangeVisual(vimEditor, 0);
-    vimEditor.tags.set("anchor", getLeftPosition(range.end));
-    handleSelection(vimEditor, range.start);
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        this.selectUntilPrevious(vimEditor, amplifier, false);
+    }
+
+    public selectUntilPrevious(vimEditor: SFVimEditor, amplifier: number, includeSpecial: boolean = false) {
+        if(amplifier == 0) {
+            amplifier = 1;
+        }
+    
+        const range = getRangeToPreviousWord(vimEditor, vimEditor.editor.selection.active, amplifier, includeSpecial);
+    
+        if(!range) {
+            return;
+        }
+    
+        CommandModeVisual.instance().execute(vimEditor, 0);
+        vimEditor.tags.set("anchor", getLeftPosition(range.end));
+        handleSelection(vimEditor, range.start);
+    }
 }

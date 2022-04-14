@@ -9,6 +9,7 @@ export class CommandModeVisual extends SFVimCommand {
 
     constructor() {
         super("mode.visual", "Toggles between visual and normal mode", SFVimMode.NORMAL | SFVimMode.VISUAL);
+        CommandModeVisual._instance = this;
     }
 
     /**

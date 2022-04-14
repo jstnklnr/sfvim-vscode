@@ -1,6 +1,13 @@
-import { SFVimEditor } from "../types/SFVimEditor";
-import { executeSelectUntilPrevious } from "./selectUntilPrevious.command";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
+import { CommandSelectUntilPrevious } from "./selectUntilPrevious.command";
 
-export function executeSelectUntilPreviousSpecial(vimEditor: SFVimEditor, amplifier: number) {
-    executeSelectUntilPrevious(vimEditor, amplifier, true);
+export class CommandSelectUntilNextSpecial extends SFVimCommand {
+    constructor() {
+        super("select.untilPreviousSpecialWord", "Selects all characters from the current to the previous occuring word (including special characters)", SFVimMode.NORMAL);
+    }
+
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        CommandSelectUntilPrevious.instance().selectUntilPrevious(vimEditor, amplifier, true);
+    }
 }
