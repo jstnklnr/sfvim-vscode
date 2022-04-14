@@ -1,11 +1,18 @@
-import { SFVimEditor } from "../types/SFVimEditor";
-import { getRightPosition, paste } from "../utilities/selection.util";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
+import { getRightPosition, paste } from "../../utilities/selection.util";
 
-export async function executePasteBehind(vimEditor: SFVimEditor, amplifier: number) {
-    if(amplifier != 0) {
-        return;
+export class CommandPasteBeforeMoveBehind extends SFVimCommand {
+    constructor() {
+        super("paste.behind", "Paste the content of the clipboard behind the cursor", SFVimMode.NORMAL);
     }
 
-    const location = getRightPosition(vimEditor.editor.selection.active);
-    paste(vimEditor, location);
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        if(amplifier != 0) {
+            return;
+        }
+    
+        const location = getRightPosition(vimEditor.editor.selection.active);
+        paste(vimEditor, location);
+    }
 }

@@ -5,8 +5,17 @@ import { cursorDecoration, isAdjustedPostion, getLeftPosition } from "../../util
 import * as vscode from "vscode";
 
 export class CommandModeVisual extends SFVimCommand {
+    private static _instance: CommandModeVisual;
+
     constructor() {
         super("mode.visual", "Toggles between visual and normal mode", SFVimMode.NORMAL | SFVimMode.VISUAL);
+    }
+
+    /**
+     * @returns the single instance that should exist of this command
+     */
+    public static instance(): CommandModeVisual {
+        return CommandModeVisual._instance || new CommandModeVisual();
     }
 
     public execute(vimEditor: SFVimEditor, amplifier: number): void {
