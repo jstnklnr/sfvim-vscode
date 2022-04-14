@@ -11,6 +11,9 @@ export class CommandMotionLineStart extends SFVimCommand {
         CommandMotionLineStart._instance = this;
     }
 
+    /**
+     * @returns the single instance that should exist of this command
+     */
     public static instance(): CommandMotionLineStart {
         return CommandMotionLineStart._instance || new CommandMotionLineStart();
     }
