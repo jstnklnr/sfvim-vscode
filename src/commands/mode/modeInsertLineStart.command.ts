@@ -1,12 +1,19 @@
-import { SFVimEditor } from "../types/SFVimEditor";
-import { executeModeChangeInsert } from "./modeInsert.command";
-import { executeMotionLineStart } from "./motionLineStart.command";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
+import { CommandMotionLineStart } from "../motion/motionLineStart.command";
+import { CommandModeInsert } from "./modeInsert.command";
 
-export function executeModeChangeInsertLineStart(vimEditor: SFVimEditor, amplifier: number) {
-    if(amplifier != 0) {
-        return;
+export class CommandModeInsertLineStart extends SFVimCommand {
+    constructor() {
+        super("mode.insertLineStart", "Switches the current editor to INSERT mode and puts the cursor in front of the first character of the line", SFVimMode.NORMAL);
     }
 
-    executeMotionLineStart(vimEditor, 0);
-    executeModeChangeInsert(vimEditor, amplifier);
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        if(amplifier != 0) {
+            return;
+        }
+
+        CommandMotionLineStart.instance().execute(vimEditor, 0);
+        CommandModeInsert.instance().execute(vimEditor, amplifier);
+    }
 }

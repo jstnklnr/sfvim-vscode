@@ -4,8 +4,18 @@ import { SFVimEditor, SFVimMode } from "../../types/SFVimEditor";
 import { getRightPosition, isAdjustedPostion } from "../../utilities/selection.util";
 
 export class CommandMotionRealLineEnd extends SFVimCommand {
+    private static _instance: CommandMotionRealLineEnd;
+
     constructor() {
         super("motion.realLineEnd", "Moves the cursor to the end of the line", SFVimMode.NORMAL | SFVimMode.VISUAL);
+        CommandMotionRealLineEnd._instance = this;
+    }
+
+    /**
+     * @returns the single instance that should exist of this command
+     */
+    public static instance(): CommandMotionRealLineEnd {
+        return CommandMotionRealLineEnd._instance || new CommandMotionRealLineEnd();
     }
 
     public execute(vimEditor: SFVimEditor, amplifier: number): void {

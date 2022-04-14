@@ -12,7 +12,7 @@ export class CommandMotionJump extends SFVimCommand {
     }
 
     /**
-     * @returns the single instance that should exist of this command 
+     * @returns the single instance that should exist of this command
      */
     public static instance(): CommandMotionJump {
         return CommandMotionJump._instance || new CommandMotionJump();

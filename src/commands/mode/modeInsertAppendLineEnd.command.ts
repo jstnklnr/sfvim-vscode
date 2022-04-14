@@ -1,12 +1,19 @@
-import { SFVimEditor } from "../types/SFVimEditor";
-import { executeModeChangeInsertAppend } from "./modeInsertAppend.command";
-import { executeMotionRealLineEnd } from "./motionRealLineEnd.command";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
+import { CommandMotionRealLineEnd } from "../motion/motionRealLineEnd.command";
+import { CommandModeInsertAppend } from "./modeInsertAppend.command";
 
-export function executeModeChangeInsertAppendLineEnd(vimEditor: SFVimEditor, amplifier: number) {
-    if(amplifier != 0) {
-        return;
+export class CommandModeInsertAppendLineEnd extends SFVimCommand {
+    constructor() {
+        super("mode.appendLineEnd", "Switches the current editor to INSERT mode and puts the cursor at the end of the line", SFVimMode.NORMAL);
     }
 
-    executeMotionRealLineEnd(vimEditor, 0);
-    executeModeChangeInsertAppend(vimEditor, amplifier);
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        if(amplifier != 0) {
+            return;
+        }
+
+        CommandMotionRealLineEnd.instance().execute(vimEditor, 0);
+        CommandModeInsertAppend.instance().execute(vimEditor, amplifier);
+    }
 }

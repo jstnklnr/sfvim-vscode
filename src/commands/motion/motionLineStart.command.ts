@@ -4,8 +4,15 @@ import { SFVimEditor, SFVimMode } from "../../types/SFVimEditor";
 import { getRightPosition, isAdjustedPostion } from "../../utilities/selection.util";
 
 export class CommandMotionLineStart extends SFVimCommand {
+    private static _instance: CommandMotionLineStart;
+
     constructor() {
         super("motion.lineStart", "Moves the cursor to the first character of the line", SFVimMode.NORMAL | SFVimMode.VISUAL);
+        CommandMotionLineStart._instance = this;
+    }
+
+    public static instance(): CommandMotionLineStart {
+        return CommandMotionLineStart._instance || new CommandMotionLineStart();
     }
 
     public execute(vimEditor: SFVimEditor, amplifier: number): void {
