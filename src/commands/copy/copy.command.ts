@@ -1,12 +1,19 @@
-import { SFVimEditor, SFVimMode } from "../../types/SFVimEditor";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import { copyRange, selectionToRange } from "../../utilities/selection.util";
-import { executeModeChangeVisual } from "../modeVisual.command";
+import { CommandModeVisual } from "../mode/modeVisual.command";
 
-export function executeCopy(vimEditor: SFVimEditor, amplifier: number) {
-    if(amplifier != 0 || !(vimEditor.mode & SFVimMode.VISUAL)) {
-        return;
+export class CommandCopy extends SFVimCommand {
+    constructor() {
+        super("copy", "Copies the highlighted text", SFVimMode.VISUAL);
     }
 
-    copyRange(vimEditor, selectionToRange(vimEditor.editor.selection));
-    executeModeChangeVisual(vimEditor, 0);
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        if(amplifier != 0 || !(vimEditor.mode & SFVimMode.VISUAL)) {
+            return;
+        }
+    
+        copyRange(vimEditor, selectionToRange(vimEditor.editor.selection));
+        CommandModeVisual.instance().execute(vimEditor, 0);
+    }
 }

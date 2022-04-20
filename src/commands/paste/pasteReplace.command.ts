@@ -6,7 +6,7 @@ import { CommandModeVisual } from "../mode/modeVisual.command";
 
 export class CommandPasteReplace extends SFVimCommand {
     constructor() {
-        super("paste.replace", "Replace the currently selected text with the contents of the clipboard", SFVimMode.NORMAL);
+        super("paste.replace", "Replace the currently selected text with the contents of the clipboard", SFVimMode.VISUAL);
     }
 
     public execute(vimEditor: SFVimEditor, amplifier: number): void {

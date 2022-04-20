@@ -1,12 +1,19 @@
-import { SFVimEditor } from "../types/SFVimEditor";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import * as vscode from "vscode";
 
-export function executeCopyLineDown(_: SFVimEditor, amplifier: number) {
-    if(amplifier == 0) {
-        amplifier = 1;
+export class CommandCopyLineDown extends SFVimCommand {
+    constructor() {
+        super("line.copyDown", "Moves the cursor to the bottom of the document", SFVimMode.NORMAL);
     }
 
-    for(let i = 0; i < amplifier; i++) {
-        vscode.commands.executeCommand("editor.action.copyLinesDownAction");
+    public execute(_: SFVimEditor, amplifier: number): void {
+        if(amplifier == 0) {
+            amplifier = 1;
+        }
+    
+        for(let i = 0; i < amplifier; i++) {
+            vscode.commands.executeCommand("editor.action.copyLinesDownAction");
+        }
     }
 }

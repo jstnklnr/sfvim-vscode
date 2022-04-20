@@ -1,6 +1,13 @@
-import { SFVimEditor } from "../types/SFVimEditor";
-import { executeCopyUntilPrevious } from "./copyUntilPrevious.command";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
+import { CommandCopyUntilPrevious } from "./copyUntilPrevious.command";
 
-export function executeCopyUntilPreviousSpecial(vimEditor: SFVimEditor, amplifier: number) {
-    executeCopyUntilPrevious(vimEditor, amplifier, true);
+export class CommandCopyUntilNextSpecial extends SFVimCommand {
+    constructor() {
+        super("copy.untilPreviousSpecialWord", "Copies all characters from the current to the previous occurring word (including special characters)", SFVimMode.NORMAL);
+    }
+
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        CommandCopyUntilPrevious.instance().copyUntilPrevious(vimEditor, amplifier, true);
+    }
 }

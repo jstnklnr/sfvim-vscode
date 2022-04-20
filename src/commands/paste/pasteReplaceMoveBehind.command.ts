@@ -6,7 +6,7 @@ import { CommandModeVisual } from "../mode/modeVisual.command";
 
 export class CommandPasteReplaceMoveBehind extends SFVimCommand {
     constructor() {
-        super("paste.replaceMoveBehind", "Replace the currently selected text with the contents of the clipboard, and move behind the pasted text", SFVimMode.NORMAL);
+        super("paste.replaceMoveBehind", "Replace the currently selected text with the contents of the clipboard, and move behind the pasted text", SFVimMode.VISUAL);
     }
 
     public execute(vimEditor: SFVimEditor, amplifier: number): void {

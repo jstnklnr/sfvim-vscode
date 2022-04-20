@@ -1,6 +1,13 @@
-import { SFVimEditor } from "../types/SFVimEditor";
-import { executeCopyWord } from "./copyWord.command";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
+import { CommandCopyWord } from "./copyWord.command";
 
-export function executeCopySpecialWord(vimEditor: SFVimEditor, amplifier: number) {
-    executeCopyWord(vimEditor, amplifier, true);
+export class CommandCopySpecialWord extends SFVimCommand {
+    constructor() {
+        super("copy.specialWord", "Copies all characters of the current word (including special characters)", SFVimMode.NORMAL);
+    }
+
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        CommandCopyWord.instance().copyWord(vimEditor, amplifier, true);
+    }
 }
