@@ -90,6 +90,9 @@ const selectionSwap_command_1 = require("../commands/select/selectionSwap.comman
 const SFVimEditor_1 = require("../types/SFVimEditor");
 const config_handler_1 = require("./config.handler");
 const replace_command_1 = require("../commands/misc/replace.command");
+const searchInline_command_1 = require("../commands/search/searchInline.command");
+const searchNextOccurance_command_1 = require("../commands/search/searchNextOccurance.command");
+const searchPreviousOccurance_command_1 = require("../commands/search/searchPreviousOccurance.command");
 class SFVimCommandHandler {
     constructor() {
         this.config = config_handler_1.SFVimConfigHandler.instance().getConfig("sfvim");
@@ -207,6 +210,9 @@ class SFVimCommandHandler {
         this.commands.push(new deleteUntilPrevious_command_1.CommandDeleteUntilPrevious());
         this.commands.push(new deleteUntilPreviousSpecial_command_1.CommandDeleteUntilPreviousSpecial());
         this.commands.push(new deleteWord_command_1.CommandDeleteWord());
+        this.commands.push(new searchInline_command_1.CommandSearchInline());
+        this.commands.push(new searchNextOccurance_command_1.CommandSearchNextOccurance());
+        this.commands.push(new searchPreviousOccurance_command_1.CommandSearchPreviousOccurance());
     }
     updateAmplifier(editor, key) {
         const timeDifference = Date.now() - this.lastKeyPress;

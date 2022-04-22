@@ -378,6 +378,18 @@
 							{
 								"command": "suggestion",
 								"bind": "|"
+							},
+							{
+								"command": "search.inline",
+								"bind": "t"
+							},
+							{
+								"command": "search.nextOccurance",
+								"bind": "."
+							},
+							{
+								"command": "search.previousOccurance",
+								"bind": ","
 							}
 						],
 						"description": "SFVim specific commands can be mapped to any key using this."

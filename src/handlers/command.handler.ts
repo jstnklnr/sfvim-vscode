@@ -89,6 +89,9 @@ import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
 import { SFVimKeyHandler } from "../types/SFVimKeyHandler";
 import { SFVimConfigHandler } from "./config.handler";
 import { CommandReplace } from "../commands/misc/replace.command";
+import { CommandSearchInline } from "../commands/search/searchInline.command";
+import { CommandSearchNextOccurance } from "../commands/search/searchNextOccurance.command";
+import { CommandSearchPreviousOccurance } from "../commands/search/searchPreviousOccurance.command";
 
 interface SFVimBind {
     command: string;
@@ -231,6 +234,10 @@ export class SFVimCommandHandler {
         this.commands.push(new CommandDeleteUntilPrevious());
         this.commands.push(new CommandDeleteUntilPreviousSpecial());
         this.commands.push(new CommandDeleteWord());
+
+        this.commands.push(new CommandSearchInline());
+        this.commands.push(new CommandSearchNextOccurance());
+        this.commands.push(new CommandSearchPreviousOccurance());
     }
 
     updateAmplifier(editor: SFVimEditor, key: string) {
