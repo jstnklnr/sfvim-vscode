@@ -1,17 +1,24 @@
-import { SFVimEditor } from "../types/SFVimEditor";
+import { handleSelection } from "../../handlers/selection.handler";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import * as vscode from "vscode";
-import { handleSelection } from "../handlers/selection.handler";
 
-export function executeRedo(vimEditor: SFVimEditor, amplifier: number) {
-    if(amplifier == 0) {
-        amplifier = 1;
+export class CommandRedo extends SFVimCommand {
+    constructor() {
+        super("redo", "Redoes the last undone action", SFVimMode.NORMAL);
     }
-    
-    (async () => {
-        for(let i = 0; i < amplifier; i++) {
-            await vscode.commands.executeCommand("redo");
-        }
 
-        handleSelection(vimEditor, vimEditor.editor.selection.active);
-    })();
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        if(amplifier == 0) {
+            amplifier = 1;
+        }
+        
+        (async () => {
+            for(let i = 0; i < amplifier; i++) {
+                await vscode.commands.executeCommand("redo");
+            }
+    
+            handleSelection(vimEditor, vimEditor.editor.selection.active);
+        })();
+    }
 }

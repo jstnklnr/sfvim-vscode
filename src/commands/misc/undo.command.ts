@@ -1,17 +1,24 @@
-import { SFVimEditor } from "../types/SFVimEditor";
+import { handleSelection } from "../../handlers/selection.handler";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import * as vscode from "vscode";
-import { handleSelection } from "../handlers/selection.handler";
 
-export function executeUndo(vimEditor: SFVimEditor, amplifier: number) {
-    if(amplifier == 0) {
-        amplifier = 1;
+export class CommandUndo extends SFVimCommand {
+    constructor() {
+        super("undo", "Undoes the last action", SFVimMode.NORMAL);
     }
 
-    (async () => {
-        for(let i = 0; i < amplifier; i++) {
-            await vscode.commands.executeCommand("undo");
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        if(amplifier == 0) {
+            amplifier = 1;
         }
-
-        handleSelection(vimEditor, vimEditor.editor.selection.active);
-    })();
+    
+        (async () => {
+            for(let i = 0; i < amplifier; i++) {
+                await vscode.commands.executeCommand("undo");
+            }
+    
+            handleSelection(vimEditor, vimEditor.editor.selection.active);
+        })();
+    }
 }

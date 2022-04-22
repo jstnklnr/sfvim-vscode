@@ -1,16 +1,22 @@
-import { handleSelection } from "../handlers/selection.handler";
-import { SFVimEditor } from "../types/SFVimEditor";
-import { deleteRange, getLeftPosition, getRelativePosition, RelativeDirection } from "../utilities/selection.util";
-import { executeModeChangeInsert } from "./mode/modeInsert.command";
-import { executeModeChangeVisual } from "./modeVisual.command";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
+import { deleteRange } from "../../utilities/selection.util";
+import { CommandModeInsert } from "../mode/modeInsert.command";
+import { CommandModeVisual } from "../mode/modeVisual.command";
 
-export function executeReplaceInsert(vimEditor: SFVimEditor, amplifier: number) {
-    if(amplifier != 0) {
-        return;
+export class CommandReplaceInsert extends SFVimCommand {
+    constructor() {
+        super("replace.insert", "Deletes all selected characters and switches to insert mode", SFVimMode.VISUAL);
     }
 
-    deleteRange(vimEditor, vimEditor.editor.selection).then(() => {
-        executeModeChangeVisual(vimEditor, 0);
-        executeModeChangeInsert(vimEditor, amplifier);
-    });
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        if(amplifier != 0) {
+            return;
+        }
+    
+        deleteRange(vimEditor, vimEditor.editor.selection).then(() => {
+            CommandModeVisual.instance().execute(vimEditor, 0);
+            CommandModeInsert.instance().execute(vimEditor, amplifier);
+        });
+    }
 }

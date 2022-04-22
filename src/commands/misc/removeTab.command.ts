@@ -1,41 +1,48 @@
 import { Range } from "vscode";
-import { SFVimEditor } from "../types/SFVimEditor";
-import { getOffsetPosition, getStartOfLine } from "../utilities/selection.util";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
+import { getStartOfLine, getOffsetPosition } from "../../utilities/selection.util";
 
-export function executeRemoveTab(vimEditor: SFVimEditor, amplifier: number) {
-    if(amplifier == 0) {
-        amplifier = 1;
+export class CommandRemoveTab extends SFVimCommand {
+    constructor() {
+        super("tab.remove", "Removes a tab at the start of the line", SFVimMode.NORMAL | SFVimMode.VISUAL);
     }
 
-    const selection = vimEditor.editor.selection;
-    const tabSize = vimEditor.sfvim.editorConfig.get("tabSize") as number;
-    const maxSpaces = tabSize * amplifier;
-
-    let startLine = selection.active.line;
-    let endLine = selection.anchor.line;
-
-    if(startLine > endLine) {
-        [startLine, endLine] = [endLine, startLine];
-    }
-
-    vimEditor.editor.edit(editBuilder => {
-        for(let i = startLine; i <= endLine; i++) {
-            const lineText = vimEditor.editor.document.lineAt(i).text;
-            let spaceCount = 0;
-
-            for(; spaceCount < maxSpaces; spaceCount++) {
-                if(!/\s/.exec(lineText[spaceCount])) {
-                    break;
-                }
-            }
-            
-            if(spaceCount <= 0) {
-                continue;
-            }
-
-            const start = getStartOfLine(vimEditor, i);
-            const range = new Range(start, getOffsetPosition(start, 0, spaceCount));
-            editBuilder.delete(range);
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        if(amplifier == 0) {
+            amplifier = 1;
         }
-    });
+    
+        const selection = vimEditor.editor.selection;
+        const tabSize = vimEditor.sfvim.editorConfig.get("tabSize") as number;
+        const maxSpaces = tabSize * amplifier;
+    
+        let startLine = selection.active.line;
+        let endLine = selection.anchor.line;
+    
+        if(startLine > endLine) {
+            [startLine, endLine] = [endLine, startLine];
+        }
+    
+        vimEditor.editor.edit(editBuilder => {
+            for(let i = startLine; i <= endLine; i++) {
+                const lineText = vimEditor.editor.document.lineAt(i).text;
+                let spaceCount = 0;
+    
+                for(; spaceCount < maxSpaces; spaceCount++) {
+                    if(!/\s/.exec(lineText[spaceCount])) {
+                        break;
+                    }
+                }
+                
+                if(spaceCount <= 0) {
+                    continue;
+                }
+    
+                const start = getStartOfLine(vimEditor, i);
+                const range = new Range(start, getOffsetPosition(start, 0, spaceCount));
+                editBuilder.delete(range);
+            }
+        });
+    }
 }

@@ -1,14 +1,21 @@
-import { SFVimEditor } from "../../types/SFVimEditor";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import { getStartOfLine } from "../../utilities/selection.util";
 
-export function executeAddLineAbove(vimEditor: SFVimEditor, amplifier: number) {
-    if(amplifier == 0) {
-        amplifier = 1;
+export class CommandAddLineAbove extends SFVimCommand {
+    constructor() {
+        super("line.addAbove", "Adds a line above the current line", SFVimMode.NORMAL);
     }
 
-    const line = vimEditor.editor.selection.active.line;
-
-    vimEditor.editor.edit(editBuilder => {
-        editBuilder.insert(getStartOfLine(vimEditor, line), "\n".repeat(amplifier));
-    });
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        if(amplifier == 0) {
+            amplifier = 1;
+        }
+    
+        const line = vimEditor.editor.selection.active.line;
+    
+        vimEditor.editor.edit(editBuilder => {
+            editBuilder.insert(getStartOfLine(vimEditor, line), "\n".repeat(amplifier));
+        });
+    }
 }

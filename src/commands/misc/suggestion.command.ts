@@ -1,10 +1,17 @@
-import { SFVimEditor } from "../types/SFVimEditor";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import * as vscode from "vscode";
 
-export function executeSuggestion(_: SFVimEditor, amplifier: number) {
-    if(amplifier != 0) {
-        return;
+export class CommandSuggestion extends SFVimCommand {
+    constructor() {
+        super("suggestion", "Shows a list of suggested actions", SFVimMode.NORMAL);
     }
 
-    vscode.commands.executeCommand("editor.action.quickFix");
+    public execute(_: SFVimEditor, amplifier: number): void {
+        if(amplifier != 0) {
+            return;
+        }
+    
+        vscode.commands.executeCommand("editor.action.quickFix");
+    }
 }
