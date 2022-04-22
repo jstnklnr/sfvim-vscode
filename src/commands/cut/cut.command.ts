@@ -1,21 +1,28 @@
 import { handleSelection } from "../../handlers/selection.handler";
-import { SFVimEditor, SFVimMode } from "../../types/SFVimEditor";
-import { copyRange, deleteRange, getLeftPosition, getRelativePosition, RelativeDirection, selectionToRange } from "../../utilities/selection.util";
-import { executeModeChangeVisual } from "../modeVisual.command";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
+import { selectionToRange, copyRange, getLeftPosition, getRelativePosition, RelativeDirection, deleteRange } from "../../utilities/selection.util";
+import { CommandModeVisual } from "../mode/modeVisual.command";
 
-export function executeCut(vimEditor: SFVimEditor, amplifier: number) {
-    if(amplifier != 0 || !(vimEditor.mode & SFVimMode.VISUAL)) {
-        return;
+export class CommandCut extends SFVimCommand {
+    constructor() {
+        super("cut", "Cuts the highligted text", SFVimMode.VISUAL);
     }
 
-    const selection = vimEditor.editor.selection;
-    const range = selectionToRange(selection);
-
-    copyRange(vimEditor, range);
-    const newPosition = getLeftPosition(getRelativePosition(selection.anchor, selection.active) == RelativeDirection.Right ? selection.anchor : selection.active);
-
-    deleteRange(vimEditor, range).then(() => {
-        executeModeChangeVisual(vimEditor, 0);
-        handleSelection(vimEditor, newPosition);
-    });
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        if(amplifier != 0 || !(vimEditor.mode & SFVimMode.VISUAL)) {
+            return;
+        }
+    
+        const selection = vimEditor.editor.selection;
+        const range = selectionToRange(selection);
+    
+        copyRange(vimEditor, range);
+        const newPosition = getLeftPosition(getRelativePosition(selection.anchor, selection.active) == RelativeDirection.Right ? selection.anchor : selection.active);
+    
+        deleteRange(vimEditor, range).then(() => {
+            CommandModeVisual.instance().execute(vimEditor, 0);
+            handleSelection(vimEditor, newPosition);
+        });
+    }
 }

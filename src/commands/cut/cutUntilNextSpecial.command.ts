@@ -1,6 +1,17 @@
-import { SFVimEditor } from "../types/SFVimEditor";
-import { executeCutUntilNext } from "./cutUntilNext.command";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
+import { CommandCutUntilNext } from "./cutUntilNext.command";
 
-export function executeCutUntilNextSpecial(vimEditor: SFVimEditor, amplifier: number) {
-    executeCutUntilNext(vimEditor, amplifier, true);
+export class CommandCutUntilNextSpecial extends SFVimCommand {
+    constructor() {
+        super("cut.untilNextSpecialWord", "Cuts all characters from the current to the next occurring word (including special characters)", SFVimMode.NORMAL);
+    }
+
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        if(amplifier != 0) {
+            return;
+        }
+    
+        CommandCutUntilNext.instance().cutUntilNext(vimEditor, amplifier, true);
+    }
 }

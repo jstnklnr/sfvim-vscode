@@ -1,17 +1,38 @@
-import { SFVimEditor } from "../types/SFVimEditor";
-import { copyRange, deleteRange, getRangeOfWord} from "../utilities/selection.util";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
+import { getRangeOfWord, copyRange, deleteRange } from "../../utilities/selection.util";
 
-export function executeCutWord(vimEditor: SFVimEditor, amplifier: number, includeSpecial: boolean = false) {
-    if(amplifier != 0) {
-        return;
+export class CommandCutWord extends SFVimCommand {
+    private static _instance: CommandCutWord;
+
+    constructor() {
+        super("cut.word", "Cuts all characters of the current word", SFVimMode.NORMAL);
+        CommandCutWord._instance = this;
     }
 
-    const range = getRangeOfWord(vimEditor, vimEditor.editor.selection.active, includeSpecial);
-
-    if(!range) {
-        return;
+    /**
+     * @returns the single instance that should exist of this command
+     */
+    public static instance(): CommandCutWord {
+        return CommandCutWord._instance || new CommandCutWord;
     }
 
-    copyRange(vimEditor, range);
-    deleteRange(vimEditor, range);
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        this.cutWord(vimEditor, amplifier, false);
+    }
+
+    public cutWord(vimEditor: SFVimEditor, amplifier: number, includeSpecial: boolean = false) {
+        if(amplifier != 0) {
+            return;
+        }
+    
+        const range = getRangeOfWord(vimEditor, vimEditor.editor.selection.active, includeSpecial);
+    
+        if(!range) {
+            return;
+        }
+    
+        copyRange(vimEditor, range);
+        deleteRange(vimEditor, range);
+    }
 }
