@@ -13,6 +13,7 @@ export class SFVimConfigHandler {
 
         this.loadConfigs();
         context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(() => this.loadConfigs()));
+        SFVimConfigHandler._instance = this;
     }
 
     /**

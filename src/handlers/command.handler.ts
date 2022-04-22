@@ -88,6 +88,7 @@ import { CommandSelectionSwap } from "../commands/select/selectionSwap.command";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
 import { SFVimKeyHandler } from "../types/SFVimKeyHandler";
 import { SFVimConfigHandler } from "./config.handler";
+import { CommandReplace } from "../commands/misc/replace.command";
 
 interface SFVimBind {
     command: string;
@@ -95,6 +96,7 @@ interface SFVimBind {
 }
 
 export class SFVimCommandHandler {
+    private static _instance: SFVimCommandHandler;
     private commands: Array<SFVimCommand>;
     private keyHandlers: Array<SFVimKeyHandler>;
 
@@ -109,6 +111,14 @@ export class SFVimCommandHandler {
         this.commands = [];
         this.keyHandlers = [];
         this.registerCommands();
+        SFVimCommandHandler._instance = this;
+    }
+
+    /**
+     * @returns the single instance that should exist of this command
+     */
+     public static instance(): SFVimCommandHandler {
+        return SFVimCommandHandler._instance || new SFVimCommandHandler();
     }
 
     /**
@@ -175,6 +185,7 @@ export class SFVimCommandHandler {
         this.commands.push(new CommandAddTab());
         this.commands.push(new CommandRedo());
         this.commands.push(new CommandRemoveTab());
+        this.commands.push(new CommandReplace());
         this.commands.push(new CommandReplaceInsert());
         this.commands.push(new CommandShiftLineDown());
         this.commands.push(new CommandShiftLineUp());

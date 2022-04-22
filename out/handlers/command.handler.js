@@ -89,6 +89,7 @@ const pasteBefore_command_1 = require("../commands/paste/pasteBefore.command");
 const selectionSwap_command_1 = require("../commands/select/selectionSwap.command");
 const SFVimEditor_1 = require("../types/SFVimEditor");
 const config_handler_1 = require("./config.handler");
+const replace_command_1 = require("../commands/misc/replace.command");
 class SFVimCommandHandler {
     constructor() {
         this.config = config_handler_1.SFVimConfigHandler.instance().getConfig("sfvim");
@@ -97,6 +98,13 @@ class SFVimCommandHandler {
         this.commands = [];
         this.keyHandlers = [];
         this.registerCommands();
+        SFVimCommandHandler._instance = this;
+    }
+    /**
+     * @returns the single instance that should exist of this command
+     */
+    static instance() {
+        return SFVimCommandHandler._instance || new SFVimCommandHandler();
     }
     /**
      * Registers the given keyHandler
@@ -157,6 +165,7 @@ class SFVimCommandHandler {
         this.commands.push(new addTab_command_1.CommandAddTab());
         this.commands.push(new redo_command_1.CommandRedo());
         this.commands.push(new removeTab_command_1.CommandRemoveTab());
+        this.commands.push(new replace_command_1.CommandReplace());
         this.commands.push(new replaceInsert_command_1.CommandReplaceInsert());
         this.commands.push(new shiftLineDown_command_1.CommandShiftLineDown());
         this.commands.push(new shiftLineUp_command_1.CommandShiftLineUp());

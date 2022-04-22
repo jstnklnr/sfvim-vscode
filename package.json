@@ -332,6 +332,10 @@
 								"bind": "<<"
 							},
 							{
+								"command": "replace",
+								"bind": "r"
+							},
+							{
 								"command": "replace.insert",
 								"bind": "R"
 							},
