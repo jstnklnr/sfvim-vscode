@@ -1,18 +1,25 @@
 import { Range } from "vscode";
-import { handleSelection } from "../handlers/selection.handler";
-import { SFVimEditor } from "../types/SFVimEditor";
-import { getRightPosition } from "../utilities/selection.util";
+import { handleSelection } from "../../handlers/selection.handler";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
+import { getRightPosition } from "../../utilities/selection.util";
 
-export function executeDeleteCharacter(vimEditor: SFVimEditor, amplifier: number) {
-    if(amplifier != 0) {
-        return;
+export class CommandDeleteCharacter extends SFVimCommand {
+    constructor() {
+        super("delete.character", "Deletes the characters that is currently under the cursor", SFVimMode.NORMAL);
     }
 
-    const active = vimEditor.editor.selection.active;
-
-    vimEditor.editor.edit(editBuilder => {
-        editBuilder.delete(new Range(active, getRightPosition(active)));
-    }).then(() => {
-        handleSelection(vimEditor, active);
-    });
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        if(amplifier != 0) {
+            return;
+        }
+    
+        const active = vimEditor.editor.selection.active;
+    
+        vimEditor.editor.edit(editBuilder => {
+            editBuilder.delete(new Range(active, getRightPosition(active)));
+        }).then(() => {
+            handleSelection(vimEditor, active);
+        });
+    }
 }

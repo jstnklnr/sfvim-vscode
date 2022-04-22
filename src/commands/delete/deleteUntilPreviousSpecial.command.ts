@@ -1,8 +1,17 @@
-import { Range } from "vscode";
-import { SFVimEditor } from "../types/SFVimEditor";
-import { deleteRange } from "../utilities/selection.util";
-import { executeDeleteUntilPrevious } from "./deleteUntilPrevious.command";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
+import { CommandDeleteUntilPrevious } from "./deleteUntilPrevious.command";
 
-export function executeDeleteUntilPreviousSpecial(vimEditor: SFVimEditor, amplifier: number) {
-    executeDeleteUntilPrevious(vimEditor, amplifier, true);
+export class CommandDeleteUntilPreviousSpecial extends SFVimCommand {
+    constructor() {
+        super("delete.untilPreviousSpecialWord", "Deletes all characters from the current to the previous occuring word (including special characters)", SFVimMode.NORMAL);
+    }
+
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        if(amplifier != 0) {
+            return;
+        }
+    
+        CommandDeleteUntilPrevious.instance().deleteUntilPrevious(vimEditor, amplifier, true);
+    }
 }

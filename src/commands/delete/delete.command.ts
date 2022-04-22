@@ -1,18 +1,25 @@
 import { handleSelection } from "../../handlers/selection.handler";
-import { SFVimEditor } from "../../types/SFVimEditor";
-import { deleteRange, getLeftPosition, getRelativePosition, RelativeDirection } from "../../utilities/selection.util";
-import { executeModeChangeVisual } from "../modeVisual.command";
+import { SFVimCommand } from "../../types/SFVimCommand";
+import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
+import { getLeftPosition, getRelativePosition, RelativeDirection, deleteRange } from "../../utilities/selection.util";
+import { CommandModeVisual } from "../mode/modeVisual.command";
 
-export function executeDelete(vimEditor: SFVimEditor, amplifier: number) {
-    if(amplifier != 0) {
-        return;
+export class CommandDelete extends SFVimCommand {
+    constructor() {
+        super("delete", "Deletes the currently selected text", SFVimMode.VISUAL);
     }
 
-    const selection = vimEditor.editor.selection;
-    const newPosition = getLeftPosition(getRelativePosition(selection.anchor, selection.active) == RelativeDirection.Right ? selection.anchor : selection.active);
-
-    deleteRange(vimEditor, vimEditor.editor.selection).then(() => {
-        executeModeChangeVisual(vimEditor, 0);
-        handleSelection(vimEditor, newPosition);
-    });
+    public execute(vimEditor: SFVimEditor, amplifier: number): void {
+        if(amplifier != 0) {
+            return;
+        }
+    
+        const selection = vimEditor.editor.selection;
+        const newPosition = getLeftPosition(getRelativePosition(selection.anchor, selection.active) == RelativeDirection.Right ? selection.anchor : selection.active);
+    
+        deleteRange(vimEditor, vimEditor.editor.selection).then(() => {
+            CommandModeVisual.instance().execute(vimEditor, 0);
+            handleSelection(vimEditor, newPosition);
+        });
+    }
 }
