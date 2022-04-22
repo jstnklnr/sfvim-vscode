@@ -4,7 +4,7 @@ import * as vscode from "vscode";
 
 export class CommandCopyLineDown extends SFVimCommand {
     constructor() {
-        super("line.copyDown", "Moves the cursor to the bottom of the document", SFVimMode.NORMAL);
+        super("line.copyDown", "Copies the selected lines down", SFVimMode.NORMAL);
     }
 
     public execute(_: SFVimEditor, amplifier: number): void {
