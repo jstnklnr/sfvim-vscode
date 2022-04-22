@@ -1,14 +1,17 @@
-import { TextEditorLineNumbersStyle, TextEditorCursorStyle, Selection } from "vscode";
+import { TextEditorLineNumbersStyle, TextEditorCursorStyle, Selection, WorkspaceConfiguration } from "vscode";
+import { SFVimConfigHandler } from "../../handlers/config.handler";
 import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import { getLeftPosition } from "../../utilities/selection.util";
 
 export class CommandModeNormal extends SFVimCommand {
     private static _instance: CommandModeNormal;
-    
+    private config: WorkspaceConfiguration;
+
     constructor() {
         super("mode.normal", "Switches the current editor mode to NORMAL", SFVimMode.INSERT);
         CommandModeNormal._instance = this;
+        this.config = SFVimConfigHandler.instance().getConfig("sfvim")!;
     }
 
     /**
@@ -24,7 +27,7 @@ export class CommandModeNormal extends SFVimCommand {
         }
     
         vimEditor.changeMode(SFVimMode.NORMAL);
-        const isRelative = vimEditor.sfvim.sfvimConfig["normalModeLineNumberRelative"];
+        const isRelative = this.config["normalModeLineNumberRelative"];
         vimEditor.editor.options.lineNumbers = isRelative ? TextEditorLineNumbersStyle.Relative : TextEditorLineNumbersStyle.On;
         vimEditor.callStatusCallback();
     

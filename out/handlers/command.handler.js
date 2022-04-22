@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CommandHandler = void 0;
+exports.SFVimCommandHandler = void 0;
 const vscode = require("vscode");
 const modeInsertAppend_command_1 = require("../commands/mode/modeInsertAppend.command");
 const modeInsertAppendLineEnd_command_1 = require("../commands/mode/modeInsertAppendLineEnd.command");
@@ -88,13 +88,29 @@ const motionBottom_command_1 = require("../commands/motion/motionBottom.command"
 const pasteBefore_command_1 = require("../commands/paste/pasteBefore.command");
 const selectionSwap_command_1 = require("../commands/select/selectionSwap.command");
 const SFVimEditor_1 = require("../types/SFVimEditor");
-class CommandHandler {
-    constructor(config) {
-        this.config = config;
+const config_handler_1 = require("./config.handler");
+class SFVimCommandHandler {
+    constructor() {
+        this.config = config_handler_1.SFVimConfigHandler.instance().getConfig("sfvim");
         this.lastKeyPress = 0;
         this.lastKeys = "";
         this.commands = [];
+        this.keyHandlers = [];
         this.registerCommands();
+    }
+    /**
+     * Registers the given keyHandler
+     * @param keyHandler the keyHandler that should be registered
+     */
+    registerKeyHandler(keyHandler) {
+        this.keyHandlers.push(keyHandler);
+    }
+    /**
+     * Unregisters the given keyHandler
+     * @param keyHandler the keyHandler that should be unregistered
+     */
+    unregisterKeyHandler(keyHandler) {
+        this.keyHandlers.splice(this.keyHandlers.findIndex(handler => handler === keyHandler), 1);
     }
     registerCommands() {
         this.commands.push(new modeInsert_command_1.CommandModeInsert());
@@ -199,6 +215,14 @@ class CommandHandler {
         }
         const currentMode = vimEditor.mode;
         const key = event.text;
+        let cancel = false;
+        for (let handler of this.keyHandlers) {
+            cancel || (cancel = handler.handleKey(vimEditor, key));
+        }
+        if (cancel) {
+            event.preventDefault();
+            return;
+        }
         if (key === undefined || key === "\n") {
             if (currentMode & (SFVimEditor_1.SFVimMode.NORMAL | SFVimEditor_1.SFVimMode.VISUAL)) {
                 event.preventDefault();
@@ -260,5 +284,5 @@ class CommandHandler {
         }
     }
 }
-exports.CommandHandler = CommandHandler;
+exports.SFVimCommandHandler = SFVimCommandHandler;
 //# sourceMappingURL=command.handler.js.map

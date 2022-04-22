@@ -1,14 +1,17 @@
-import { TextEditorLineNumbersStyle, TextEditorCursorStyle } from "vscode";
+import { TextEditorLineNumbersStyle, TextEditorCursorStyle, WorkspaceConfiguration } from "vscode";
+import { SFVimConfigHandler } from "../../handlers/config.handler";
 import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import { cursorDecoration } from "../../utilities/selection.util";
 
 export class CommandModeInsert extends SFVimCommand {
     private static _instance: CommandModeInsert;
+    private config: WorkspaceConfiguration;
 
     constructor() {
         super("mode.insert", "Switches the current editor to INSERT mode and puts the cursor in front of the currently selected character", SFVimMode.NORMAL);
         CommandModeInsert._instance = this;
+        this.config = SFVimConfigHandler.instance().getConfig("sfvim")!;
     }
 
     /**
@@ -24,7 +27,7 @@ export class CommandModeInsert extends SFVimCommand {
         }
     
         vimEditor.changeMode(SFVimMode.INSERT);
-        const isRelative = vimEditor.sfvim.sfvimConfig["insertModeLineNumberRelative"];
+        const isRelative = this.config!["insertModeLineNumberRelative"];
         vimEditor.editor.options.lineNumbers = isRelative ? TextEditorLineNumbersStyle.Relative : TextEditorLineNumbersStyle.On;;
         vimEditor.callStatusCallback();
     

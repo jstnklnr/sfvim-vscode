@@ -1,11 +1,15 @@
-import { Range } from "vscode";
+import { Range, WorkspaceConfiguration } from "vscode";
+import { SFVimConfigHandler } from "../../handlers/config.handler";
 import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import { getStartOfLine, getOffsetPosition } from "../../utilities/selection.util";
 
 export class CommandRemoveTab extends SFVimCommand {
+    private config: WorkspaceConfiguration;
+
     constructor() {
         super("tab.remove", "Removes a tab at the start of the line", SFVimMode.NORMAL | SFVimMode.VISUAL);
+        this.config = SFVimConfigHandler.instance().getConfig("editor")!;
     }
 
     public execute(vimEditor: SFVimEditor, amplifier: number): void {
@@ -14,7 +18,7 @@ export class CommandRemoveTab extends SFVimCommand {
         }
     
         const selection = vimEditor.editor.selection;
-        const tabSize = vimEditor.sfvim.editorConfig.get("tabSize") as number;
+        const tabSize = this.config.get("tabSize") as number;
         const maxSpaces = tabSize * amplifier;
     
         let startLine = selection.active.line;

@@ -86,25 +86,45 @@ import { CommandMotionBottom } from "../commands/motion/motionBottom.command";
 import { CommandPasteBefore } from "../commands/paste/pasteBefore.command";
 import { CommandSelectionSwap } from "../commands/select/selectionSwap.command";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
-
+import { SFVimKeyHandler } from "../types/SFVimKeyHandler";
+import { SFVimConfigHandler } from "./config.handler";
 
 interface SFVimBind {
     command: string;
     bind: string;
 }
 
-export class CommandHandler {
+export class SFVimCommandHandler {
     private commands: Array<SFVimCommand>;
-    config: any;
+    private keyHandlers: Array<SFVimKeyHandler>;
+
+    config: vscode.WorkspaceConfiguration;
     lastKeyPress: number;
     lastKeys: string;
 
-    constructor(config: any) {
-        this.config = config;
+    constructor() {
+        this.config = SFVimConfigHandler.instance().getConfig("sfvim")!;
         this.lastKeyPress = 0;
         this.lastKeys = "";
         this.commands = [];
+        this.keyHandlers = [];
         this.registerCommands();
+    }
+
+    /**
+     * Registers the given keyHandler
+     * @param keyHandler the keyHandler that should be registered
+     */
+    registerKeyHandler(keyHandler: SFVimKeyHandler) {
+        this.keyHandlers.push(keyHandler);
+    }
+
+    /**
+     * Unregisters the given keyHandler
+     * @param keyHandler the keyHandler that should be unregistered
+     */
+    unregisterKeyHandler(keyHandler: SFVimKeyHandler) {
+        this.keyHandlers.splice(this.keyHandlers.findIndex(handler => handler === keyHandler), 1);
     }
 
     registerCommands() {
@@ -222,6 +242,17 @@ export class CommandHandler {
         
         const currentMode = vimEditor.mode;
         const key: string = event.text;
+
+        let cancel = false;
+
+        for(let handler of this.keyHandlers) {
+            cancel ||= handler.handleKey(vimEditor, key);
+        }
+
+        if(cancel) {
+            event.preventDefault();
+            return;
+        }
     
         if(key === undefined || key === "\n") {
             if(currentMode & (SFVimMode.NORMAL | SFVimMode.VISUAL)) {

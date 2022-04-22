@@ -8,9 +8,8 @@ var SFVimMode;
     SFVimMode[SFVimMode["VISUAL"] = 4] = "VISUAL";
 })(SFVimMode = exports.SFVimMode || (exports.SFVimMode = {}));
 class SFVimEditor {
-    constructor(editor, sfvim, statusCallback) {
+    constructor(editor, statusCallback) {
         this.editor = editor;
-        this.sfvim = sfvim;
         this.mode = SFVimMode.NORMAL;
         this.tags = new Map();
         this.amplifier = 0;
