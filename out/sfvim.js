@@ -4,7 +4,7 @@ exports.SFVim = void 0;
 const SFVimEditor_1 = require("./types/SFVimEditor");
 const command_handler_1 = require("./handlers/command.handler");
 const vscode = require("vscode");
-const modeNormal_command_1 = require("./commands/modeNormal.command");
+const modeNormal_command_1 = require("./commands/mode/modeNormal.command");
 class SFVim {
     constructor(context) {
         this.editors = [];
@@ -27,7 +27,7 @@ class SFVim {
             }
             return vscode.commands.executeCommand('default:type', event);
         }));
-        (0, modeNormal_command_1.executeModeChangeNormal)(this.currentEditor, 0);
+        modeNormal_command_1.CommandModeNormal.instance().execute(this.currentEditor, 0);
     }
     loadConfig() {
         for (const key of Object.keys(this.sfvimConfig)) {

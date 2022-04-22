@@ -3,7 +3,7 @@ import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import { copyRange } from "../../utilities/selection.util";
 
-export class CommandCopy extends SFVimCommand {
+export class CommandCopyLine extends SFVimCommand {
     constructor() {
         super("copy.line", "Copies the current line", SFVimMode.NORMAL);
     }

@@ -2,7 +2,7 @@ import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import { CommandSelectUntilPrevious } from "./selectUntilPrevious.command";
 
-export class CommandSelectUntilNextSpecial extends SFVimCommand {
+export class CommandSelectUntilPreviousSpecial extends SFVimCommand {
     constructor() {
         super("select.untilPreviousSpecialWord", "Selects all characters from the current to the previous occuring word (including special characters)", SFVimMode.NORMAL);
     }

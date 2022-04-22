@@ -4,8 +4,18 @@ import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import { getLeftPosition } from "../../utilities/selection.util";
 
 export class CommandModeNormal extends SFVimCommand {
+    private static _instance: CommandModeNormal;
+    
     constructor() {
         super("mode.normal", "Switches the current editor mode to NORMAL", SFVimMode.INSERT);
+        CommandModeNormal._instance = this;
+    }
+
+    /**
+     * @returns the single instance that should exist of this command
+     */
+     public static instance(): CommandModeNormal {
+        return CommandModeNormal._instance || new CommandModeNormal();
     }
 
     public execute(vimEditor: SFVimEditor, amplifier: number): void {

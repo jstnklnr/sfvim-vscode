@@ -1,624 +1,100 @@
 import * as vscode from "vscode";
-import { executeMotionDown } from "../commands/motionDown.command";
-import { executeMotionUp } from "../commands/motionUp.command";
+import { SFVimCommand } from "../types/SFVimCommand";
+import { CommandModeInsertAppend } from "../commands/mode/modeInsertAppend.command";
+import { CommandModeInsertAppendLineEnd } from "../commands/mode/modeInsertAppendLineEnd.command";
+import { CommandModeInsertLineStart } from "../commands/mode/modeInsertLineStart.command";
+import { CommandModeNormal } from "../commands/mode/modeNormal.command";
+import { CommandModeVisual } from "../commands/mode/modeVisual.command";
+import { CommandMotionDown } from "../commands/motion/motionDown.command";
+import { CommandMotionHighestView } from "../commands/motion/motionHighestView.command";
+import { CommandMotionJump } from "../commands/motion/motionJump.command";
+import { CommandMotionLeft } from "../commands/motion/motionLeft.command";
+import { CommandMotionLineEnd } from "../commands/motion/motionLineEnd.command";
+import { CommandMotionLineStart } from "../commands/motion/motionLineStart.command";
+import { CommandMotionLowestView } from "../commands/motion/motionLowestView.command";
+import { CommandMotionMiddleView } from "../commands/motion/motionMiddleView.command";
+import { CommandMotionNextEmptyLine } from "../commands/motion/motionNextEmptyLine.command";
+import { CommandMotionPreviousEmptyLine } from "../commands/motion/motionPreviousEmptyLine.command";
+import { CommandMotionRealLineEnd } from "../commands/motion/motionRealLineEnd.command";
+import { CommandMotionRealLineStart } from "../commands/motion/motionRealLineStart.command";
+import { CommandMotionRight } from "../commands/motion/motionRight.command";
+import { CommandMotionScrollHalfPageDown } from "../commands/motion/motionScrollHalfPageDown.command";
+import { CommandMotionScrollHalfPageUp } from "../commands/motion/motionScrollHalfPageUp.command";
+import { CommandMotionSkipEndLeft } from "../commands/motion/motionSkipEndLeft.command";
+import { CommandMotionSkipEndLeftSpecial } from "../commands/motion/motionSkipEndLeftSpecial.command";
+import { CommandMotionSkipEndRight } from "../commands/motion/motionSkipEndRight.command";
+import { CommandMotionSkipEndRightSpecial } from "../commands/motion/motionSkipEndRightSpecial.command";
+import { CommandMotionSkipLeft } from "../commands/motion/motionSkipLeft.command";
+import { CommandMotionSkipLeftSpecial } from "../commands/motion/motionSkipLeftSpecial.command";
+import { CommandMotionSkipRight } from "../commands/motion/motionSkipRight.command";
+import { CommandMotionSkipRightSpecial } from "../commands/motion/motionSkipRightSpecial.command";
+import { CommandMotionTop } from "../commands/motion/motionTop.command";
+import { CommandMotionUp } from "../commands/motion/motionUp.command";
+import { CommandSelectSpecialWord } from "../commands/select/selectSpecialWord.command";
+import { CommandSelectUntilNext } from "../commands/select/selectUntilNext.command";
+import { CommandSelectUntilNextSpecial } from "../commands/select/selectUntilNextSpecial.command";
+import { CommandSelectUntilPrevious } from "../commands/select/selectUntilPrevious.command";
+import { CommandSelectUntilPreviousSpecial } from "../commands/select/selectUntilPreviousSpecial.command";
+import { CommandSelectWord } from "../commands/select/selectWord.command";
+import { CommandAddLineBelow } from "../commands/misc/addLineBelow.command";
+import { CommandAddTab } from "../commands/misc/addTab.command";
+import { CommandRedo } from "../commands/misc/redo.command";
+import { CommandRemoveTab } from "../commands/misc/removeTab.command";
+import { CommandReplaceInsert } from "../commands/misc/replaceInsert.command";
+import { CommandShiftLineDown } from "../commands/misc/shiftLineDown.command";
+import { CommandShiftLineUp } from "../commands/misc/shiftLineUp.command";
+import { CommandSuggestion } from "../commands/misc/suggestion.command";
+import { CommandUndo } from "../commands/misc/undo.command";
+import { CommandCopyLine } from "../commands/copy/copyLine.command";
+import { CommandCopyLineDown } from "../commands/copy/copyLineDown.command";
+import { CommandCopyMoveFirst } from "../commands/copy/copyMoveFirst.command";
+import { CommandCopyMoveLast } from "../commands/copy/copyMoveLast.command";
+import { CommandCopySpecialWord } from "../commands/copy/copySpecialWord.command";
+import { CommandCopyUntilNext } from "../commands/copy/copyUntilNext.command";
+import { CommandCopyUntilNextSpecial } from "../commands/copy/copyUntilNextSpecial.command";
+import { CommandCopyUntilPrevious } from "../commands/copy/copyUntilPrevious.command";
+import { CommandCopyUntilPreviousSpecial } from "../commands/copy/copyUntilPreviousSpecial.command";
+import { CommandCopyWord } from "../commands/copy/copyWord.command";
+import { CommandCutLine } from "../commands/cut/cutLine.command";
+import { CommandCutSpecialWord } from "../commands/cut/cutSpecialWord.command";
+import { CommandCutUntilNext } from "../commands/cut/cutUntilNext.command";
+import { CommandCutUntilNextSpecial } from "../commands/cut/cutUntilNextSpecial.command";
+import { CommandCutUntilPrevious } from "../commands/cut/cutUntilPrevious.command";
+import { CommandCutUntilPreviousSpecial } from "../commands/cut/cutUntilPreviousSpecial.command";
+import { CommandCutWord } from "../commands/cut/cutWord.command";
+import { CommandPasteBeforeMoveBehind } from "../commands/paste/pasteBeforeMoveBehind.command";
+import { CommandPasteBehind } from "../commands/paste/pasteBehind.command";
+import { CommandPasteBehindMoveBehind } from "../commands/paste/pasteBehindMoveBehind.command";
+import { CommandPasteReplace } from "../commands/paste/pasteReplace.command";
+import { CommandPasteReplaceMoveBehind } from "../commands/paste/pasteReplaceMoveBehind.command";
+import { CommandDeleteCharacter } from "../commands/delete/deleteCharacter.command";
+import { CommandDeleteCharacterMoveLeft } from "../commands/delete/deleteCharacterMoveLeft.command";
+import { CommandDeleteLine } from "../commands/delete/deleteLine.command";
+import { CommandDeleteRightCharacter } from "../commands/delete/deleteRightCharacter.command";
+import { CommandDeleteSpecialWord } from "../commands/delete/deleteSpecialWord.command";
+import { CommandDeleteUntilNext } from "../commands/delete/deleteUntilNext.command";
+import { CommandDeleteUntilNextSpecial } from "../commands/delete/deleteUntilNextSpecial.command";
+import { CommandDeleteUntilPrevious } from "../commands/delete/deleteUntilPrevious.command";
+import { CommandDeleteUntilPreviousSpecial } from "../commands/delete/deleteUntilPreviousSpecial.command";
+import { CommandDeleteWord } from "../commands/delete/deleteWord.command";
+import { CommandCopy } from "../commands/copy/copy.command";
+import { CommandCut } from "../commands/cut/cut.command";
+import { CommandDelete } from "../commands/delete/delete.command";
+import { CommandAddLineAbove } from "../commands/misc/addLineAbove.command";
+import { CommandModeInsert } from "../commands/mode/modeInsert.command";
+import { CommandMotionBottom } from "../commands/motion/motionBottom.command";
+import { CommandPasteBefore } from "../commands/paste/pasteBefore.command";
+import { CommandSelectionSwap } from "../commands/select/selectionSwap.command";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
-import { executeMotionLeft } from "../commands/motionLeft.command";
-import { executeMotionRight } from "../commands/motionRight.command";
-import { executeMotionSkipLeft } from "../commands/motionSkipLeft.command";
-import { executeMotionSkipRight } from "../commands/motionSkipRight.command";
-import { executeMotionTop } from "../commands/motionTop.command";
-import { executeMotionBottom } from "../commands/motion/motionBottom.command";
-import { executeModeChangeNormal } from "../commands/modeNormal.command";
-import { executeModeChangeInsert } from "../commands/mode/modeInsert.command";
-import { executeModeChangeVisual } from "../commands/modeVisual.command";
-import { executeMotionSkipEndRight } from "../commands/motionSkipEndRight.command";
-import { executeMotionJump } from "../commands/motionJump.command";
-import { executeModeChangeInsertAppend } from "../commands/modeInsertAppend.command";
-import { executeMotionLineStart } from "../commands/motionLineStart.command";
-import { executeMotionLineEnd } from "../commands/motionLineEnd.command";
-import { executeMotionSkipEndRightSpecial } from "../commands/motionSkipEndRightSpecial.command";
-import { executeMotionSkipRightSpecial } from "../commands/motionSkipRightSpecial.command";
-import { executeMotionSkipLeftSpecial } from "../commands/motionSkipLeftSpecial.command";
-import { executeMotionNextEmptyLine } from "../commands/motionNextEmptyLine.command";
-import { executeMotionPreviousEmptyLine } from "../commands/motionPreviousEmptyLine.command";
-import { executeMotionRealLineStart } from "../commands/motionRealLineStart.command";
-import { executeMotionRealLineEnd } from "../commands/motionRealLineEnd.command";
-import { executeModeChangeInsertLineStart } from "../commands/modeInsertLineStart.command";
-import { executeModeChangeInsertAppendLineEnd } from "../commands/modeInsertAppendLineEnd.command";
-import { executeMotionSkipEndLeftSpecial } from "../commands/motionSkipEndLeftSpecial.command";
-import { executeMotionSkipEndLeft } from "../commands/motionSkipEndLeft.command";
-import { executeMotionHighestView } from "../commands/motionHighestView.command";
-import { executeMotionLowestView } from "../commands/motionLowestView.command";
-import { executeMotionMiddleView } from "../commands/motionMiddleView.command";
-import { executeMotionScrollHalfPageDown } from "../commands/motionScrollHalfPageDown.command";
-import { executeMotionScrollHalfPageUp } from "../commands/motionScrollHalfPageUp.command";
-import { executeCopy } from "../commands/copy/copy.command";
-import { executeCopyMoveLast } from "../commands/copyMoveLast.command";
-import { executeCopyMoveFirst } from "../commands/copyMoveFirst.command";
-import { executeCut } from "../commands/cut/cut.command";
-import { executePasteBefore } from "../commands/paste/pasteBefore.command";
-import { executePasteBehind } from "../commands/pasteBehind.command";
-import { executePasteBeforeMoveBehind } from "../commands/pasteBeforeMoveBehind.command";
-import { executePasteBehindMoveBehind } from "../commands/pasteBehindMoveBehind.command";
-import { executePasteReplace } from "../commands/pasteReplace.command";
-import { executePasteReplaceMoveBehind } from "../commands/pasteReplaceMoveBehind.command";
-import { executeDelete } from "../commands/delete/delete.command";
-import { executeDeleteLine } from "../commands/deleteLine.command";
-import { executeCutLine } from "../commands/cutLine.command";
-import { executeCopyLine } from "../commands/copyLine.command";
-import { executeDeleteUntilNext } from "../commands/deleteUntilNext.command";
-import { executeDeleteUntilPrevious } from "../commands/deleteUntilPrevious.command";
-import { executeDeleteUntilPreviousSpecial } from "../commands/deleteUntilPreviousSpecial.command";
-import { executeDeleteUntilNextSpecial } from "../commands/deleteUntilNextSpecial.command";
-import { executeDeleteWord } from "../commands/deleteWord.command";
-import { executeDeleteSpecialWord } from "../commands/deleteSpecialWord.command";
-import { executeCutUntilNext } from "../commands/cutUntilNext.command";
-import { executeCutUntilPrevious } from "../commands/cutUntilPrevious.command";
-import { executeCutUntilNextSpecial } from "../commands/cutUntilNextSpecial.command";
-import { executeCutUntilPreviousSpecial } from "../commands/cutUntilPreviousSpecial.command";
-import { executeCutWord } from "../commands/cutWord.command";
-import { executeCutSpecialWord } from "../commands/cutSpecialWord.command";
-import { executeCopySpecialWord } from "../commands/copySpecialWord.command";
-import { executeCopyWord } from "../commands/copyWord.command";
-import { executeCopyUntilPreviousSpecial } from "../commands/copyUntilPreviousSpecial.command";
-import { executeCopyUntilPrevious } from "../commands/copyUntilPrevious.command";
-import { executeCopyUntilNextSpecial } from "../commands/copyUntilNextSpecial.command";
-import { executeCopyUntilNext } from "../commands/copyUntilnext.command";
-import { executeSelectUntilNext } from "../commands/selectUntilNext.command";
-import { executeSelectUntilNextSpecial } from "../commands/selectUntilNextSpecial.command";
-import { executeSelectUntilPrevious } from "../commands/selectUntilPrevious.command";
-import { executeSelectUntilPreviousSpecial } from "../commands/selectUntilPreviousSpecial.command";
-import { executeSelectWord } from "../commands/selectWord.command";
-import { executeSelectSpecialWord } from "../commands/selectSpecialWord.command";
-import { executeSelectionSwap } from "../commands/select/selectionSwap.command";
-import { executeUndo } from "../commands/undo.command";
-import { executeRedo } from "../commands/redo.command";
-import { executeSuggestion } from "../commands/suggestion.command";
-import { executeDeleteCharacter } from "../commands/deleteCharacter.command";
-import { executeDeleteCharacterMoveleft } from "../commands/deleteCharacterMoveLeft.command";
-import { executeReplaceInsert } from "../commands/replaceInsert.command";
-import { executeAddLineAbove } from "../commands/misc/addLineAbove.command";
-import { executeAddLineBelow } from "../commands/addLineBelow.command";
-import { executeAddTab } from "../commands/addTab.command";
-import { executeRemoveTab } from "../commands/removeTab.command";
-import { executeShiftLineUp } from "../commands/shiftLineUp.command";
-import { executeShiftLineDown } from "../commands/shiftLineDown.command";
-import { executeCopyLineUp } from "../commands/copyLineUp.command";
-import { executeCopyLineDown } from "../commands/copyLineDown.command";
-import { executeDeleteRightCharacter } from "../commands/deleteRightCharacter.command";
 
-interface SFVimCommand {
-    name: string;
-    mode: number;
-    description: string;
-    handler: (editor: SFVimEditor, amplifier: number) => void;
-}
 
 interface SFVimBind {
     command: string;
     bind: string;
 }
 
-const commands: Array<SFVimCommand> = [
-    {
-        name: "mode.normal",
-        mode: SFVimMode.INSERT,
-        description: "Switches the current editor mode to NORMAL",
-        handler: executeModeChangeNormal
-    },
-    {
-        name: "mode.insert",
-        mode: SFVimMode.NORMAL,
-        description: "Switches the current editor to INSERT mode and puts the cursor in front of the currently selected character",
-        handler: executeModeChangeInsert
-    },
-    {
-        name: "mode.append",
-        mode: SFVimMode.NORMAL,
-        description: "Switches the current editor to INSERT mode and puts the cursor behind the currently selected character",
-        handler: executeModeChangeInsertAppend
-    },
-    {
-        name: "mode.insertLineStart",
-        mode: SFVimMode.NORMAL,
-        description: "Switches the current editor to INSERT mode and puts the cursor in front of the first character of the line",
-        handler: executeModeChangeInsertLineStart
-    },
-    {
-        name: "mode.appendLineEnd",
-        mode: SFVimMode.NORMAL,
-        description: "Switches the current editor to INSERT mode and puts the cursor at the end of the line",
-        handler: executeModeChangeInsertAppendLineEnd
-    },
-    {
-        name: "mode.visual",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Toggles between visual and normal mode",
-        handler: executeModeChangeVisual
-    },
-    {
-        name: "motion.up",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the line above",
-        handler: executeMotionUp
-    },
-    {
-        name: "motion.down",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the line below",
-        handler: executeMotionDown
-    },
-    {
-        name: "motion.jump",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Jumps to the beginning of specified line",
-        handler: executeMotionJump
-    },
-    {
-        name: "motion.left",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the character to the left",
-        handler: executeMotionLeft
-    },
-    {
-        name: "motion.right",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the character to the right",
-        handler: executeMotionRight
-    },
-    {
-        name: "motion.skipLeft",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the beginning of the previous word",
-        handler: executeMotionSkipLeft
-    },
-    {
-        name: "motion.skipRight",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the beginning of the next word",
-        handler: executeMotionSkipRight
-    },
-    {
-        name: "motion.skipEndLeft",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the end of the previous word",
-        handler: executeMotionSkipEndLeft
-    },
-    {
-        name: "motion.skipEndRight",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the end of the next word",
-        handler: executeMotionSkipEndRight
-    },
-    {
-        name: "motion.skipLeftSpecial",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the beginning of the previous word (including special characters)",
-        handler: executeMotionSkipLeftSpecial
-    },
-    {
-        name: "motion.skipRightSpecial",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the beginning of the next word (including special characters)",
-        handler: executeMotionSkipRightSpecial
-    },
-    {
-        name: "motion.skipEndLeftSpecial",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the end of the previous word (including special characters)",
-        handler: executeMotionSkipEndLeftSpecial
-    },
-    {
-        name: "motion.skipEndRightSpecial",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the end of the next word (including special characters)",
-        handler: executeMotionSkipEndRightSpecial
-    },
-    {
-        name: "motion.top",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the top of the document",
-        handler: executeMotionTop
-    },
-    {
-        name: "motion.bottom",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the bottom of the document",
-        handler: executeMotionBottom
-    },
-    {
-        name: "motion.lineStart",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the first character of the line",
-        handler: executeMotionLineStart
-    },
-    {
-        name: "motion.lineEnd",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the last character of the line",
-        handler: executeMotionLineEnd
-    },
-    {
-        name: "motion.realLineStart",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the start of the line",
-        handler: executeMotionRealLineStart
-    },
-    {
-        name: "motion.realLineEnd",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the end of the line",
-        handler: executeMotionRealLineEnd
-    },
-    {
-        name: "motion.previousEmptyLine",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the previous empty line",
-        handler: executeMotionPreviousEmptyLine
-    },
-    {
-        name: "motion.nextEmptyLine",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the next empty line",
-        handler: executeMotionNextEmptyLine
-    },
-    {
-        name: "motion.highestView",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the highest line of the current viewport",
-        handler: executeMotionHighestView
-    },
-    {
-        name: "motion.lowestView",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the lowest line of the current viewport",
-        handler: executeMotionLowestView
-    },
-    {
-        name: "motion.middleView",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor to the middle line of the current viewport",
-        handler: executeMotionMiddleView
-    },
-    {
-        name: "motion.scrollHalfPageUp",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor half a page up and will set the scroll view to the cursor",
-        handler: executeMotionScrollHalfPageUp
-    },
-    {
-        name: "motion.scrollHalfPageDown",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Moves the cursor half a page down and will set the scroll view to the cursor",
-        handler: executeMotionScrollHalfPageDown
-    },
-    {
-        name: "copy",
-        mode: SFVimMode.VISUAL,
-        description: "Copies the highlighted text",
-        handler: executeCopy
-    },
-    {
-        name: "copy.moveFirst",
-        mode: SFVimMode.VISUAL,
-        description: "Copies the highlighted text and jumps to first selected character",
-        handler: executeCopyMoveFirst
-    },
-    {
-        name: "copy.moveLast",
-        mode: SFVimMode.VISUAL,
-        description: "Copies the highlighted text and jumps to the last selected character",
-        handler: executeCopyMoveLast
-    },
-    {
-        name: "copy.line",
-        mode: SFVimMode.NORMAL,
-        description: "Copies the current line",
-        handler: executeCopyLine
-    },
-    {
-        name: "copy.untilNextWord",
-        mode: SFVimMode.NORMAL,
-        description: "Copies all characters from the current to the next occurring word",
-        handler: executeCopyUntilNext
-    },
-    {
-        name: "copy.untilNextSpecialWord",
-        mode: SFVimMode.NORMAL,
-        description: "Copies all characters from the current to the next occurring word (including special characters)",
-        handler: executeCopyUntilNextSpecial
-    },
-    {
-        name: "copy.untilPreviousWord",
-        mode: SFVimMode.NORMAL,
-        description: "Copies all characters from the current to the previous occurring word",
-        handler: executeCopyUntilPrevious
-    },
-    {
-        name: "copy.untilPreviousSpecialWord",
-        mode: SFVimMode.NORMAL,
-        description: "Copies all characters from the current to the previous occurring word (including special characters)",
-        handler: executeCopyUntilPreviousSpecial
-    },
-    {
-        name: "copy.word",
-        mode: SFVimMode.NORMAL,
-        description: "Copies all characters of the current word",
-        handler: executeCopyWord
-    },
-    {
-        name: "copy.specialWord",
-        mode: SFVimMode.NORMAL,
-        description: "Copies all characters of the current word (including special characters)",
-        handler: executeCopySpecialWord
-    },
-    {
-        name: "cut",
-        mode: SFVimMode.VISUAL,
-        description: "Cuts the highligted text",
-        handler: executeCut
-    },
-    {
-        name: "cut.line",
-        mode: SFVimMode.NORMAL,
-        description: "Cuts the current line",
-        handler: executeCutLine
-    },
-    {
-        name: "cut.untilNextWord",
-        mode: SFVimMode.NORMAL,
-        description: "Cuts all characters from the current to the next occurring word",
-        handler: executeCutUntilNext
-    },
-    {
-        name: "cut.untilNextSpecialWord",
-        mode: SFVimMode.NORMAL,
-        description: "Cuts all characters from the current to the next occurring word (including special characters)",
-        handler: executeCutUntilNextSpecial
-    },
-    {
-        name: "cut.untilPreviousWord",
-        mode: SFVimMode.NORMAL,
-        description: "Cuts all characters from the current to the previous occurring word",
-        handler: executeCutUntilPrevious
-    },
-    {
-        name: "cut.untilPreviousSpecialWord",
-        mode: SFVimMode.NORMAL,
-        description: "Cuts all characters from the current to the previous occurring word (including special characters)",
-        handler: executeCutUntilPreviousSpecial
-    },
-    {
-        name: "cut.word",
-        mode: SFVimMode.NORMAL,
-        description: "Cuts all characters of the current word",
-        handler: executeCutWord
-    },
-    {
-        name: "cut.specialWord",
-        mode: SFVimMode.NORMAL,
-        description: "Cuts all characters of the current word (including special characters)",
-        handler: executeCutSpecialWord
-    },
-    {
-        name: "paste.before",
-        mode: SFVimMode.NORMAL,
-        description: "Paste the content of the clipboard in front of the cursor",
-        handler: executePasteBefore
-    },
-    {
-        name: "paste.behind",
-        mode: SFVimMode.NORMAL,
-        description: "Paste the content of the clipboard behind the cursor",
-        handler: executePasteBehind
-    },
-    {
-        name: "paste.beforeMoveBehind",
-        mode: SFVimMode.NORMAL,
-        description: "Paste the content of the clipboard in front of the cursor, and move behind the pasted text",
-        handler: executePasteBeforeMoveBehind
-    },
-    {
-        name: "paste.behindMoveBehind",
-        mode: SFVimMode.NORMAL,
-        description: "Paste the content of the clipboard behind the cursor, and move behind the pasted text",
-        handler: executePasteBehindMoveBehind
-    },
-    {
-        name: "paste.replace",
-        mode: SFVimMode.VISUAL,
-        description: "Replace the currently selected text with the contents of the clipboard",
-        handler: executePasteReplace
-    },
-    {
-        name: "paste.replaceMoveBehind",
-        mode: SFVimMode.VISUAL,
-        description: "Replace the currently selected text with the contents of the clipboard, and move behind the pasted text",
-        handler: executePasteReplaceMoveBehind
-    },
-    {
-        name: "delete",
-        mode: SFVimMode.VISUAL,
-        description: "Deletes the currently selected text",
-        handler: executeDelete
-    },
-    {
-        name: "delete.line",
-        mode: SFVimMode.NORMAL,
-        description: "Deletes the current line",
-        handler: executeDeleteLine
-    },
-    {
-        name: "delete.untilNextWord",
-        mode: SFVimMode.NORMAL,
-        description: "Deletes all characters from the current to the next occuring word",
-        handler: executeDeleteUntilNext
-    },
-    {
-        name: "delete.untilNextSpecialWord",
-        mode: SFVimMode.NORMAL,
-        description: "Deletes all characters from the current to the next occuring word",
-        handler: executeDeleteUntilNextSpecial
-    },
-    {
-        name: "delete.untilPreviousWord",
-        mode: SFVimMode.NORMAL,
-        description: "Deletes all characters from the current to the previous occuring word (including special characters)",
-        handler: executeDeleteUntilPrevious
-    },
-    {
-        name: "delete.untilPreviousSpecialWord",
-        mode: SFVimMode.NORMAL,
-        description: "Deletes all characters from the current to the previous occuring word (including special characters)",
-        handler: executeDeleteUntilPreviousSpecial
-    },
-    {
-        name: "delete.word",
-        mode: SFVimMode.NORMAL,
-        description: "Deletes the word that is currently under the cursor",
-        handler: executeDeleteWord
-    },
-    {
-        name: "delete.character",
-        mode: SFVimMode.NORMAL,
-        description: "Deletes the characters that is currently under the cursor",
-        handler: executeDeleteCharacter
-    },
-    {
-        name: "delete.characterMoveLeft",
-        mode: SFVimMode.NORMAL,
-        description: "Deletes the characters that is currently under the cursor and moves one character to the left",
-        handler: executeDeleteCharacterMoveleft
-    },
-    {
-        name: "delete.rightCharacter",
-        mode: SFVimMode.NORMAL,
-        description: "Deletes the characters that is next to the cursor (right site)",
-        handler: executeDeleteRightCharacter
-    },
-    {
-        name: "delete.specialWord",
-        mode: SFVimMode.NORMAL,
-        description: "Deletes the word that is currently under the cursor (including special characters)",
-        handler: executeDeleteSpecialWord
-    },
-    {
-        name: "replace.insert",
-        mode: SFVimMode.VISUAL,
-        description: "Deletes all selected characters and switches to insert mode",
-        handler: executeReplaceInsert
-    },
-    {
-        name: "line.addAbove",
-        mode: SFVimMode.NORMAL,
-        description: "Adds a line above the current line",
-        handler: executeAddLineAbove
-    },
-    {
-        name: "line.addBelow",
-        mode: SFVimMode.NORMAL,
-        description: "Adds a line below the current line",
-        handler: executeAddLineBelow
-    },
-    {
-        name: "line.copyUp",
-        mode: SFVimMode.NORMAL,
-        description: "Adds a line below the current line",
-        handler: executeCopyLineUp
-    },
-    {
-        name: "line.copyDown",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Shifts the selected lines up",
-        handler: executeCopyLineDown
-    },
-    {
-        name: "line.moveUp",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Shifts the selected lines up",
-        handler: executeShiftLineUp
-    },
-    {
-        name: "line.moveDown",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Shifts the selected lines down",
-        handler: executeShiftLineDown
-    },
-    {
-        name: "tab.add",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Adds a tab at the start of the line",
-        handler: executeAddTab
-    },
-    {
-        name: "tab.remove",
-        mode: SFVimMode.NORMAL | SFVimMode.VISUAL,
-        description: "Removes a tab at the start of the line",
-        handler: executeRemoveTab
-    },
-    {
-        name: "select.untilNextWord",
-        mode: SFVimMode.NORMAL,
-        description: "Selects all characters from the current to the next occuring word",
-        handler: executeSelectUntilNext
-    },
-    {
-        name: "select.untilNextSpecialWord",
-        mode: SFVimMode.NORMAL,
-        description: "Selects all characters from the current to the next occuring word (including special characters)",
-        handler: executeSelectUntilNextSpecial
-    },
-    {
-        name: "select.untilPreviousWord",
-        mode: SFVimMode.NORMAL,
-        description: "Selects all characters from the current to the previous occuring word",
-        handler: executeSelectUntilPrevious
-    },
-    {
-        name: "select.untilPreviousSpecialWord",
-        mode: SFVimMode.NORMAL,
-        description: "Selects all characters from the current to the previous occuring word (including special characters)",
-        handler: executeSelectUntilPreviousSpecial
-    },
-    {
-        name: "select.word",
-        mode: SFVimMode.NORMAL,
-        description: "Selects the word that is currently under the cursor",
-        handler: executeSelectWord
-    },
-    {
-        name: "select.specialWord",
-        mode: SFVimMode.NORMAL,
-        description: "Selects the word that is currently under the cursor (including special characters)",
-        handler: executeSelectSpecialWord
-    },
-    {
-        name: "selection.swap",
-        mode: SFVimMode.VISUAL,
-        description: "Swaps the anchor position with the active position",
-        handler: executeSelectionSwap
-    },
-    {
-        name: "undo",
-        mode: SFVimMode.NORMAL,
-        description: "Undoes the last action",
-        handler: executeUndo
-    },
-    {
-        name: "redo",
-        mode: SFVimMode.NORMAL,
-        description: "Redoes the last undone action",
-        handler: executeRedo
-    },
-    {
-        name: "suggestion",
-        mode: SFVimMode.NORMAL,
-        description: "Shows a list of suggested actions",
-        handler: executeSuggestion
-    }
-];
-
 export class CommandHandler {
+    private commands: Array<SFVimCommand>;
     config: any;
     lastKeyPress: number;
     lastKeys: string;
@@ -627,6 +103,103 @@ export class CommandHandler {
         this.config = config;
         this.lastKeyPress = 0;
         this.lastKeys = "";
+        this.commands = [];
+        this.registerCommands();
+    }
+
+    registerCommands() {
+        this.commands.push(new CommandModeInsert());
+        this.commands.push(new CommandModeInsertAppend());
+        this.commands.push(new CommandModeInsertAppendLineEnd());
+        this.commands.push(new CommandModeInsertLineStart());
+        this.commands.push(new CommandModeNormal());
+        this.commands.push(new CommandModeVisual());
+
+        this.commands.push(new CommandMotionBottom());
+        this.commands.push(new CommandMotionDown());
+        this.commands.push(new CommandMotionHighestView());
+        this.commands.push(new CommandMotionJump());
+        this.commands.push(new CommandMotionLeft());
+        this.commands.push(new CommandMotionLineEnd());
+        this.commands.push(new CommandMotionLineStart());
+        this.commands.push(new CommandMotionLowestView());
+        this.commands.push(new CommandMotionMiddleView());
+        this.commands.push(new CommandMotionNextEmptyLine());
+        this.commands.push(new CommandMotionPreviousEmptyLine());
+        this.commands.push(new CommandMotionRealLineEnd());
+        this.commands.push(new CommandMotionRealLineStart());
+        this.commands.push(new CommandMotionRight());
+        this.commands.push(new CommandMotionScrollHalfPageDown());
+        this.commands.push(new CommandMotionScrollHalfPageUp());
+        this.commands.push(new CommandMotionSkipEndLeft());
+        this.commands.push(new CommandMotionSkipEndLeftSpecial());
+        this.commands.push(new CommandMotionSkipEndRight());
+        this.commands.push(new CommandMotionSkipEndRightSpecial());
+        this.commands.push(new CommandMotionSkipLeft());
+        this.commands.push(new CommandMotionSkipLeftSpecial());
+        this.commands.push(new CommandMotionSkipRight());
+        this.commands.push(new CommandMotionSkipRightSpecial());
+        this.commands.push(new CommandMotionTop());
+        this.commands.push(new CommandMotionUp());
+
+        this.commands.push(new CommandSelectionSwap());
+        this.commands.push(new CommandSelectSpecialWord());
+        this.commands.push(new CommandSelectUntilNext());
+        this.commands.push(new CommandSelectUntilNextSpecial());
+        this.commands.push(new CommandSelectUntilPrevious());
+        this.commands.push(new CommandSelectUntilPreviousSpecial());
+        this.commands.push(new CommandSelectWord());
+
+        this.commands.push(new CommandAddLineAbove());
+        this.commands.push(new CommandAddLineBelow());
+        this.commands.push(new CommandAddTab());
+        this.commands.push(new CommandRedo());
+        this.commands.push(new CommandRemoveTab());
+        this.commands.push(new CommandReplaceInsert());
+        this.commands.push(new CommandShiftLineDown());
+        this.commands.push(new CommandShiftLineUp());
+        this.commands.push(new CommandSuggestion());
+        this.commands.push(new CommandUndo());
+
+        this.commands.push(new CommandCopy());
+        this.commands.push(new CommandCopyLine());
+        this.commands.push(new CommandCopyLineDown());
+        this.commands.push(new CommandCopyMoveFirst());
+        this.commands.push(new CommandCopyMoveLast());
+        this.commands.push(new CommandCopySpecialWord());
+        this.commands.push(new CommandCopyUntilNext());
+        this.commands.push(new CommandCopyUntilNextSpecial());
+        this.commands.push(new CommandCopyUntilPrevious());
+        this.commands.push(new CommandCopyUntilPreviousSpecial());
+        this.commands.push(new CommandCopyWord());
+
+        this.commands.push(new CommandCut());
+        this.commands.push(new CommandCutLine());
+        this.commands.push(new CommandCutSpecialWord());
+        this.commands.push(new CommandCutUntilNext());
+        this.commands.push(new CommandCutUntilNextSpecial());
+        this.commands.push(new CommandCutUntilPrevious());
+        this.commands.push(new CommandCutUntilPreviousSpecial());
+        this.commands.push(new CommandCutWord());
+
+        this.commands.push(new CommandPasteBefore());
+        this.commands.push(new CommandPasteBeforeMoveBehind());
+        this.commands.push(new CommandPasteBehind());
+        this.commands.push(new CommandPasteBehindMoveBehind());
+        this.commands.push(new CommandPasteReplace());
+        this.commands.push(new CommandPasteReplaceMoveBehind());
+
+        this.commands.push(new CommandDelete());
+        this.commands.push(new CommandDeleteCharacter());
+        this.commands.push(new CommandDeleteCharacterMoveLeft());
+        this.commands.push(new CommandDeleteLine());
+        this.commands.push(new CommandDeleteRightCharacter());
+        this.commands.push(new CommandDeleteSpecialWord());
+        this.commands.push(new CommandDeleteUntilNext());
+        this.commands.push(new CommandDeleteUntilNextSpecial());
+        this.commands.push(new CommandDeleteUntilPrevious());
+        this.commands.push(new CommandDeleteUntilPreviousSpecial());
+        this.commands.push(new CommandDeleteWord());
     }
 
     updateAmplifier(editor: SFVimEditor, key: string) {
@@ -690,7 +263,7 @@ export class CommandHandler {
         );
     
         const calledCommands = called.map(bind => bind.command);
-        const trigger = commands.filter(command => calledCommands.includes(command.name) && command.mode & currentMode);
+        const trigger = this.commands.filter(command => calledCommands.includes(command.name) && command.mode & currentMode);
     
         if(currentMode === SFVimMode.INSERT && trigger.length > 0) {
             const line = vimEditor.editor.selection.active.line;
@@ -705,7 +278,7 @@ export class CommandHandler {
         }
     
         for(const command of trigger) {
-            command.handler(vimEditor, vimEditor.amplifier);
+            command.execute(vimEditor, vimEditor.amplifier);
         }
         
         vimEditor.amplifier = trigger.length > 0 ? 0 : vimEditor.amplifier;

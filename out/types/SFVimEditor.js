@@ -15,14 +15,10 @@ class SFVimEditor {
         this.tags = new Map();
         this.amplifier = 0;
         this.stringAmplifier = "";
-        this.usedInsert = false;
         this.statusCallback = statusCallback;
     }
     changeMode(mode) {
         this.mode = mode;
-        if (mode & SFVimMode.INSERT) {
-            this.usedInsert = true;
-        }
     }
     callStatusCallback() {
         this.statusCallback(this);
