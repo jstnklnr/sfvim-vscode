@@ -24,10 +24,6 @@
 			{
 				"title": "sfvim",
 				"properties": {
-					"sfvim.doubleUndoAfterInsert": {
-						"type": "boolean",
-						"default": true
-					},
 					"sfvim.normalModeLineNumberRelative": {
 						"type":	"boolean",
 						"default": false

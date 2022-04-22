@@ -17,7 +17,6 @@ export class SFVimEditor {
     amplifier: number;
     stringAmplifier: string;
     statusCallback: StatusCallback;
-    usedInsert: boolean;
 
     constructor(editor: vscode.TextEditor, sfvim: SFVim, statusCallback: StatusCallback) {
         this.editor = editor;
@@ -26,16 +25,11 @@ export class SFVimEditor {
         this.tags = new Map<string, any>();
         this.amplifier = 0;
         this.stringAmplifier = "";
-        this.usedInsert = false;
         this.statusCallback = statusCallback;
     }
 
     changeMode(mode: SFVimMode) {
         this.mode = mode;
-
-        if(mode & SFVimMode.INSERT) {
-            this.usedInsert = true;
-        }
     }
 
     callStatusCallback() {
