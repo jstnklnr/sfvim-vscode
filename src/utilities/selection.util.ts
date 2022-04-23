@@ -1,12 +1,11 @@
 import * as vscode from "vscode";
 import { SFVimConfigHandler } from "../handlers/config.handler";
-import { SFVim } from "../sfvim";
 import { SFVimEditor } from "../types/SFVimEditor";
 
 export enum RelativeDirection {
-    Left,
-    Right,
-    Equal
+    Left = 1,
+    Right = 1 << 1,
+    Equal = 1 << 2
 }
 
 /**
