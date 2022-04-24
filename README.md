@@ -573,7 +573,8 @@ Include if your extension adds any VS Code settings through the `contributes.con
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- Undoing or redoing might result and adding the `mode.normal` bind keys.
+- Keys like ctrl, cmd, alt or option cannot be used for keybinding.
 
 ## Release Notes
 
