@@ -239,6 +239,19 @@ export class SFVimCommandHandler {
         this.commands.push(new CommandSearchInline());
         this.commands.push(new CommandSearchNextOccurance());
         this.commands.push(new CommandSearchPreviousOccurance());
+
+        /*
+        This might come in handy the next time I update this addon
+
+        let text = "";
+
+        for(let c of this.commands) {
+            text += "#### " + c.name + "\n\n" + "> " + c.description;
+            text += "\n> Default bind: " + this.keybindHandler.keybindings.find(co => co.command === c.name)?.bind;
+            text += "\n\n";
+        }
+
+        vscode.env.clipboard.writeText(text);*/
     }
 
     updateAmplifier(editor: SFVimEditor, key: string) {
