@@ -88,14 +88,14 @@ const motionBottom_command_1 = require("../commands/motion/motionBottom.command"
 const pasteBefore_command_1 = require("../commands/paste/pasteBefore.command");
 const selectionSwap_command_1 = require("../commands/select/selectionSwap.command");
 const SFVimEditor_1 = require("../types/SFVimEditor");
-const config_handler_1 = require("./config.handler");
 const replace_command_1 = require("../commands/misc/replace.command");
 const searchInline_command_1 = require("../commands/search/searchInline.command");
 const searchNextOccurance_command_1 = require("../commands/search/searchNextOccurance.command");
 const searchPreviousOccurance_command_1 = require("../commands/search/searchPreviousOccurance.command");
+const keybind_handler_1 = require("./keybind.handler");
 class SFVimCommandHandler {
     constructor() {
-        this.config = config_handler_1.SFVimConfigHandler.instance().getConfig("sfvim");
+        this.keybindHandler = new keybind_handler_1.SFVimKeybindHandler();
         this.lastKeyPress = 0;
         this.lastKeys = "";
         this.commands = [];
@@ -250,7 +250,7 @@ class SFVimCommandHandler {
             event.preventDefault();
             return;
         }
-        const binds = currentMode & (SFVimEditor_1.SFVimMode.NORMAL | SFVimEditor_1.SFVimMode.VISUAL) ? this.config["normalModeKeybindings"] : this.config["insertModeKeybindings"];
+        const binds = this.keybindHandler.keybindings;
         if (binds === undefined) {
             if (currentMode & (SFVimEditor_1.SFVimMode.NORMAL | SFVimEditor_1.SFVimMode.VISUAL)) {
                 event.preventDefault();

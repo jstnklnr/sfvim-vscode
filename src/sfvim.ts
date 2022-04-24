@@ -2,7 +2,7 @@ import { SFVimEditor, SFVimMode } from "./types/SFVimEditor";
 import { SFVimCommandHandler } from "./handlers/command.handler";
 import * as vscode from "vscode";
 import { CommandModeNormal } from "./commands/mode/modeNormal.command";
-import { SFVimConfigHandler } from "./handlers/config.handler";
+import { SFVimConfigManager } from "./handlers/config.handler";
 
 export class SFVim {
     currentEditor?: SFVimEditor;
@@ -15,7 +15,7 @@ export class SFVim {
         this.editors = [];
         this.modeStatus = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
         this.amplifierStatus = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
-        new SFVimConfigHandler(context, "sfvim", "editor");
+        new SFVimConfigManager(context, "sfvim", "editor");
         this.currentEditor = this.getEditor(vscode.window.activeTextEditor);
         this.commandHandler = new SFVimCommandHandler();
 

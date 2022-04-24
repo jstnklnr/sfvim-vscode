@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { SFVimConfigHandler } from "../handlers/config.handler";
+import { SFVimConfigManager } from "../handlers/config.handler";
 import { SFVimEditor } from "../types/SFVimEditor";
 
 export enum RelativeDirection {
@@ -347,7 +347,7 @@ export function calculateScroll(vimEditor: SFVimEditor, position: vscode.Positio
     }
     
     const view = visibleRanges[0];
-    const scrollOffset = SFVimConfigHandler.instance().getConfig("editor")!.get("cursorSurroundingLines") as number || 0;
+    const scrollOffset = SFVimConfigManager.instance().getConfig("editor")!.get("cursorSurroundingLines") as number || 0;
     const currentLine = position.line;
     const lineCount = vimEditor.editor.document.lineCount;
 

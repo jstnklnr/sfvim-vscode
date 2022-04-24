@@ -32,7 +32,7 @@
 						"type":	"boolean",
 						"default": false
 					},
-					"sfvim.normalModeKeybindings": {
+					"sfvim.keybindings": {
 						"type": "array",
 						"default": [
 							{
@@ -390,13 +390,7 @@
 							{
 								"command": "search.previousOccurance",
 								"bind": ","
-							}
-						],
-						"description": "SFVim specific commands can be mapped to any key using this."
-					},
-					"sfvim.insertModeKeybindings": {
-						"type": "array",
-						"default": [
+							},
 							{
 								"command": "mode.normal",
 								"bind": "qq"

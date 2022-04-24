@@ -1,5 +1,5 @@
 import { WorkspaceConfiguration } from "vscode";
-import { SFVimConfigHandler } from "../../handlers/config.handler";
+import { SFVimConfigManager } from "../../handlers/config.handler";
 import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import { getStartOfLine } from "../../utilities/selection.util";
@@ -9,7 +9,7 @@ export class CommandAddTab extends SFVimCommand {
 
     constructor() {
         super("tab.add", "Adds a tab at the start of the line", SFVimMode.NORMAL | SFVimMode.VISUAL);
-        this.config = SFVimConfigHandler.instance().getConfig("editor")!;
+        this.config = SFVimConfigManager.instance().getConfig("editor")!;
     }
 
     public execute(vimEditor: SFVimEditor, amplifier: number): void {

@@ -1,5 +1,5 @@
 import { TextEditorLineNumbersStyle, TextEditorCursorStyle, Selection, WorkspaceConfiguration } from "vscode";
-import { SFVimConfigHandler } from "../../handlers/config.handler";
+import { SFVimConfigManager } from "../../handlers/config.handler";
 import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import { getLeftPosition } from "../../utilities/selection.util";
@@ -11,7 +11,7 @@ export class CommandModeNormal extends SFVimCommand {
     constructor() {
         super("mode.normal", "Switches the current editor mode to NORMAL", SFVimMode.INSERT);
         CommandModeNormal._instance = this;
-        this.config = SFVimConfigHandler.instance().getConfig("sfvim")!;
+        this.config = SFVimConfigManager.instance().getConfig("sfvim")!;
     }
 
     /**

@@ -11,7 +11,7 @@ class SFVim {
         this.editors = [];
         this.modeStatus = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
         this.amplifierStatus = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
-        new config_handler_1.SFVimConfigHandler(context, "sfvim", "editor");
+        new config_handler_1.SFVimConfigManager(context, "sfvim", "editor");
         this.currentEditor = this.getEditor(vscode.window.activeTextEditor);
         this.commandHandler = new command_handler_1.SFVimCommandHandler();
         context.subscriptions.push(vscode.workspace.onDidCloseTextDocument(() => this.checkEditors()));

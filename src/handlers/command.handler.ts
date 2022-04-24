@@ -87,11 +87,12 @@ import { CommandPasteBefore } from "../commands/paste/pasteBefore.command";
 import { CommandSelectionSwap } from "../commands/select/selectionSwap.command";
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
 import { SFVimKeyHandler } from "../types/SFVimKeyHandler";
-import { SFVimConfigHandler } from "./config.handler";
+import { SFVimConfigManager } from "./config.handler";
 import { CommandReplace } from "../commands/misc/replace.command";
 import { CommandSearchInline } from "../commands/search/searchInline.command";
 import { CommandSearchNextOccurance } from "../commands/search/searchNextOccurance.command";
 import { CommandSearchPreviousOccurance } from "../commands/search/searchPreviousOccurance.command";
+import { SFVimKeybindHandler } from "./keybind.handler";
 
 interface SFVimBind {
     command: string;
@@ -102,13 +103,13 @@ export class SFVimCommandHandler {
     private static _instance: SFVimCommandHandler;
     private commands: Array<SFVimCommand>;
     private keyHandlers: Array<SFVimKeyHandler>;
+    private keybindHandler: SFVimKeybindHandler;
 
-    config: vscode.WorkspaceConfiguration;
     lastKeyPress: number;
     lastKeys: string;
 
     constructor() {
-        this.config = SFVimConfigHandler.instance().getConfig("sfvim")!;
+        this.keybindHandler = new SFVimKeybindHandler();
         this.lastKeyPress = 0;
         this.lastKeys = "";
         this.commands = [];
@@ -288,7 +289,7 @@ export class SFVimCommandHandler {
             return;
         }
     
-        const binds: Array<SFVimBind> = currentMode & (SFVimMode.NORMAL | SFVimMode.VISUAL) ? this.config["normalModeKeybindings"] : this.config["insertModeKeybindings"];
+        const binds: Array<SFVimBind> = this.keybindHandler.keybindings;
     
         if(binds === undefined) {
             if(currentMode & (SFVimMode.NORMAL | SFVimMode.VISUAL)) {

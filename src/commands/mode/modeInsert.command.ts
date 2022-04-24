@@ -1,5 +1,5 @@
 import { TextEditorLineNumbersStyle, TextEditorCursorStyle, WorkspaceConfiguration } from "vscode";
-import { SFVimConfigHandler } from "../../handlers/config.handler";
+import { SFVimConfigManager } from "../../handlers/config.handler";
 import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import { cursorDecoration } from "../../utilities/selection.util";
@@ -11,7 +11,7 @@ export class CommandModeInsert extends SFVimCommand {
     constructor() {
         super("mode.insert", "Switches the current editor to INSERT mode and puts the cursor in front of the currently selected character", SFVimMode.NORMAL);
         CommandModeInsert._instance = this;
-        this.config = SFVimConfigHandler.instance().getConfig("sfvim")!;
+        this.config = SFVimConfigManager.instance().getConfig("sfvim")!;
     }
 
     /**
