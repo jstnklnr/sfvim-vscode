@@ -17,9 +17,13 @@ $ defaults delete -g ApplePressAndHoldEnabled                                   
 
 ## Features
 
-For example if there is an image subfolder under your extension project workspace:
+SFVim supports the following commands:
+> Note that all of these keybinds can be changed through the extensions settings.
 
-\!\[feature X\]\(images/feature-x.png\)
+#### mode.insert
+
+> Switches the current editor to INSERT mode and puts the cursor in front of the currently selected character
+> Defaultbind: e
 
 ## Extension Settings
 
