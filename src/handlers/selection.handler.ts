@@ -43,8 +43,6 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
         range = new vscode.Range(newPosition, getRightPosition(newPosition));
     }
 
-    //TODO: weird bug that shifts the cursor when highlighting text and cursor being on different line but same character
-
     if(!visualMode || selectionDirection == RelativeDirection.Right) {
         if(visualMode) {
             if(motionDirection == RelativeDirection.Right && newPosition.character == anchor.character + 1) {

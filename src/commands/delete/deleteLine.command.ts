@@ -1,4 +1,5 @@
 import { Range } from "vscode";
+import { handleSelection } from "../../handlers/selection.handler";
 import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import { deleteRange } from "../../utilities/selection.util";
@@ -23,7 +24,13 @@ export class CommandDeleteLine extends SFVimCommand {
         const firstRange = vimEditor.editor.document.lineAt(currentLine).rangeIncludingLineBreak;
         const lastRange = vimEditor.editor.document.lineAt(Math.min(currentLine + amplifier - 1, maxLine)).rangeIncludingLineBreak;
     
-        //TODO: be able to delete last line
-        deleteRange(vimEditor, new Range(firstRange.start, lastRange.end));
+        deleteRange(vimEditor, new Range(firstRange.start, lastRange.end)).then(async () => {
+            if(currentLine === maxLine && currentLine > 0) {
+                const line = vimEditor.editor.document.lineAt(currentLine - 1);
+                await deleteRange(vimEditor, new Range(line.range.end, line.rangeIncludingLineBreak.end));
+                handleSelection(vimEditor, vimEditor.editor.selection.active);
+            }
+        });
+
     }
 }
