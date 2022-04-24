@@ -243,6 +243,7 @@ export class SFVimCommandHandler {
         
         //This might come in handy the next time I update this addon
 
+        /*
         let text = "";
 
         for(let c of this.commands) {
@@ -251,7 +252,7 @@ export class SFVimCommandHandler {
             text += "\n\n";
         }
 
-        vscode.env.clipboard.writeText(text);
+        vscode.env.clipboard.writeText(text);*/
     }
 
     updateAmplifier(editor: SFVimEditor, key: string) {
