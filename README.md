@@ -569,8 +569,6 @@ A bind looks like this.
 * If `sfvim.normalModeLineNumbersRelative` is set to true, line numbers will appear as relative when in normal mode.
 * Same goes for `sfvim.insertModeLineNumbersRelative`.
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
 ## Known Issues
 
 - Undoing or redoing might result and adding the `mode.normal` bind keys.
