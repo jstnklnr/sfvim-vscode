@@ -5,6 +5,7 @@ import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import { SFVimKeyHandler } from "../../types/SFVimKeyHandler";
 import { getOffsetPosition, getRightPosition, isAdjustedPostion } from "../../utilities/selection.util";
+import { CommandSearchNextOccurance } from "./searchNextOccurance.command";
 
 export class CommandSearchInline extends SFVimCommand implements SFVimKeyHandler {
     constructor() {
@@ -28,17 +29,13 @@ export class CommandSearchInline extends SFVimCommand implements SFVimKeyHandler
             }
         }
 
+        
+        vimEditor.tags.set("searchOccurances", occurances);
+
         if(occurances.length > 0) {
-            let newPosition = getOffsetPosition(occurances[0], 0, 0);
-
-            if(vimEditor.mode & SFVimMode.VISUAL && isAdjustedPostion(selection.anchor, newPosition)) {
-                newPosition = getRightPosition(newPosition);
-            }
-
-            handleSelection(vimEditor, newPosition);
+            CommandSearchNextOccurance.instance().execute(vimEditor, 0);
         }
 
-        vimEditor.tags.set("searchOccurances", occurances);
         SFVimCommandHandler.instance().unregisterKeyHandler(this);
         return true;
     }

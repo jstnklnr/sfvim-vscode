@@ -580,6 +580,12 @@ Include if your extension adds any VS Code settings through the `contributes.con
 
 Notes about all releases.
 
+### 1.0.1
+
+The cursor will now jump to the next occurance instead of the first when using the inline search command.
+
+Commands are ignored that are not part of the current mode.
+
 ### 1.0.0
 
 Initial release of sfvim

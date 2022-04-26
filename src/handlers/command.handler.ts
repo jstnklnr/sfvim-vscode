@@ -303,7 +303,15 @@ export class SFVimCommandHandler {
             return;
         }
     
-        const binds: Array<SFVimBind> = this.keybindHandler.keybindings;
+        const binds: Array<SFVimBind> = this.keybindHandler.keybindings.filter(bind => {
+            const command = this.commands.find(command => command.name === bind.command);
+
+            if(command && command.mode & currentMode) {
+                return true;
+            }
+
+            return false;
+        });
     
         if(binds === undefined) {
             if(currentMode & (SFVimMode.NORMAL | SFVimMode.VISUAL)) {

@@ -3,7 +3,7 @@
 	"displayName": "SFVim",
 	"description": "A vscode extension that provides a vim-like interface, but is more straight-forward to use than the classic vim.",
 	"publisher": "jstnklnr",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"engines": {
 		"vscode": "^1.63.0"
 	},
@@ -15,12 +15,6 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"commands": [
-			{
-				"command": "sfvim-vscode.helloWorld",
-				"title": "Hello World"
-			}
-		],
 		"configuration":[
 			{
 				"title": "sfvim",

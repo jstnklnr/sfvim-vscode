@@ -261,7 +261,13 @@ class SFVimCommandHandler {
             event.preventDefault();
             return;
         }
-        const binds = this.keybindHandler.keybindings;
+        const binds = this.keybindHandler.keybindings.filter(bind => {
+            const command = this.commands.find(command => command.name === bind.command);
+            if (command && command.mode & currentMode) {
+                return true;
+            }
+            return false;
+        });
         if (binds === undefined) {
             if (currentMode & (SFVimEditor_1.SFVimMode.NORMAL | SFVimEditor_1.SFVimMode.VISUAL)) {
                 event.preventDefault();

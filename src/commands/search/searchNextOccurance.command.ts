@@ -5,8 +5,18 @@ import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import { getLeftPosition, getOffsetPosition, getRelativePosition, getRightPosition, isAdjustedPostion, RelativeDirection } from "../../utilities/selection.util";
 
 export class CommandSearchNextOccurance extends SFVimCommand {
+    private static _instance: CommandSearchNextOccurance;
+
     constructor() {
         super("search.nextOccurance", "Moves the cursor to the next occurance of the last search", SFVimMode.NORMAL | SFVimMode.VISUAL);
+        CommandSearchNextOccurance._instance = this;
+    }
+
+    /**
+     * @returns the single instance that should exist of this command
+     */
+    public static instance(): CommandSearchNextOccurance {
+        return CommandSearchNextOccurance._instance || new CommandSearchNextOccurance();
     }
 
     public execute(vimEditor: SFVimEditor, amplifier: number): void {
