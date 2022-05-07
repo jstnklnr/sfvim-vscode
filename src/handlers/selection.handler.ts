@@ -74,8 +74,6 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
         vimEditor.editor.setDecorations(cursorDecoration, [range]);
     }
 
-    vimEditor.tags.set("lastCharacter", newPosition.character);
-
     /**
      * Scroll if cursor is out of range
      */

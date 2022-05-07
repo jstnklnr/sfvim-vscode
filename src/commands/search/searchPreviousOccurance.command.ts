@@ -50,5 +50,6 @@ export class CommandSearchPreviousOccurance extends SFVimCommand {
         }
 
         handleSelection(vimEditor, location);
+        vimEditor.tags.set("lastCharacter", location.character);
     }
 }
