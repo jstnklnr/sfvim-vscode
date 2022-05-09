@@ -6,18 +6,24 @@ const command_handler_1 = require("./handlers/command.handler");
 const vscode = require("vscode");
 const modeNormal_command_1 = require("./commands/mode/modeNormal.command");
 const config_handler_1 = require("./handlers/config.handler");
+const selection_util_1 = require("./utilities/selection.util");
 class SFVim {
     constructor(context) {
         this.editors = [];
         this.modeStatus = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
         this.amplifierStatus = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0);
         new config_handler_1.SFVimConfigManager(context, "sfvim", "editor");
+        this.sfvimConfig = config_handler_1.SFVimConfigManager.instance().getConfig("sfvim");
         this.currentEditor = this.getEditor(vscode.window.activeTextEditor);
         this.commandHandler = new command_handler_1.SFVimCommandHandler();
         context.subscriptions.push(vscode.workspace.onDidCloseTextDocument(() => this.checkEditors()));
-        context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor((editor) => {
-            this.currentEditor = this.getEditor(editor);
-            this.updateStatus(this.currentEditor);
+        context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(() => {
+            const selectionSubscribtion = vscode.window.onDidChangeTextEditorSelection((change) => {
+                this.currentEditor = this.getEditor(change.textEditor);
+                this.updateStatus(this.currentEditor);
+                selectionSubscribtion.dispose();
+            });
+            context.subscriptions.push(selectionSubscribtion);
         }));
         context.subscriptions.push(vscode.commands.registerCommand('type', (event) => {
             if (this.currentEditor) {
@@ -57,6 +63,30 @@ class SFVim {
         }
         else {
             this.amplifierStatus.show();
+        }
+        if (vimEditor.mode & (SFVimEditor_1.SFVimMode.NORMAL | SFVimEditor_1.SFVimMode.VISUAL)) {
+            const isRelative = this.sfvimConfig["normalModeLineNumberRelative"];
+            vimEditor.editor.options.lineNumbers = isRelative ? vscode.TextEditorLineNumbersStyle.Relative : vscode.TextEditorLineNumbersStyle.On;
+            vimEditor.editor.options.cursorStyle = vscode.TextEditorCursorStyle.Block;
+        }
+        if (vimEditor.mode & SFVimEditor_1.SFVimMode.VISUAL) {
+            const anchor = vimEditor.editor.selection.anchor;
+            const active = vimEditor.editor.selection.active;
+            let range = new vscode.Range(active, (0, selection_util_1.getRightPosition)(active));
+            if ((0, selection_util_1.isAdjustedPostion)(anchor, active)) {
+                vimEditor.editor.options.cursorStyle = vscode.TextEditorCursorStyle.Line;
+                range = new vscode.Range((0, selection_util_1.getLeftPosition)(active), active);
+            }
+            vimEditor.editor.setDecorations(selection_util_1.cursorDecoration, [range]);
+        }
+        else {
+            vimEditor.editor.setDecorations(selection_util_1.cursorDecoration, []);
+        }
+        if (vimEditor.mode & SFVimEditor_1.SFVimMode.INSERT) {
+            const isRelative = this.sfvimConfig["insertModeLineNumberRelative"];
+            vimEditor.editor.options.lineNumbers = isRelative ? vscode.TextEditorLineNumbersStyle.Relative : vscode.TextEditorLineNumbersStyle.On;
+            ;
+            vimEditor.editor.options.cursorStyle = vscode.TextEditorCursorStyle.Line;
         }
     }
 }

@@ -3,16 +3,13 @@ import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import { cursorDecoration, isAdjustedPostion, getLeftPosition } from "../../utilities/selection.util";
 import * as vscode from "vscode";
-import { SFVimConfigManager } from "../../handlers/config.handler";
 
 export class CommandModeVisual extends SFVimCommand {
     private static _instance: CommandModeVisual;
-    private config: vscode.WorkspaceConfiguration;
 
     constructor() {
         super("mode.visual", "Toggles between visual and normal mode", SFVimMode.NORMAL | SFVimMode.VISUAL);
         CommandModeVisual._instance = this;
-        this.config = SFVimConfigManager.instance().getConfig("sfvim")!;
     }
 
     /**
@@ -55,10 +52,6 @@ export class CommandModeVisual extends SFVimCommand {
             vimEditor.editor.selection = new vscode.Selection(active, active);
         }
     
-        const isRelative = this.config["normalModeLineNumberRelative"];
-        vimEditor.editor.options.lineNumbers = isRelative ? vscode.TextEditorLineNumbersStyle.Relative : vscode.TextEditorLineNumbersStyle.On;
         vimEditor.callStatusCallback();
-    
-        vimEditor.editor.options.cursorStyle = vscode.TextEditorCursorStyle.Block;
     }
 }

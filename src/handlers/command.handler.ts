@@ -93,6 +93,7 @@ import { CommandSearchInline } from "../commands/search/searchInline.command";
 import { CommandSearchNextOccurance } from "../commands/search/searchNextOccurance.command";
 import { CommandSearchPreviousOccurance } from "../commands/search/searchPreviousOccurance.command";
 import { SFVimKeybindHandler } from "./keybind.handler";
+import { CommandCopyLineUp } from "../commands/copy/copyLineUp.command";
 
 interface SFVimBind {
     command: string;
@@ -199,6 +200,7 @@ export class SFVimCommandHandler {
         this.commands.push(new CommandCopy());
         this.commands.push(new CommandCopyLine());
         this.commands.push(new CommandCopyLineDown());
+        this.commands.push(new CommandCopyLineUp());
         this.commands.push(new CommandCopyMoveFirst());
         this.commands.push(new CommandCopyMoveLast());
         this.commands.push(new CommandCopySpecialWord());

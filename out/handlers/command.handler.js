@@ -93,6 +93,7 @@ const searchInline_command_1 = require("../commands/search/searchInline.command"
 const searchNextOccurance_command_1 = require("../commands/search/searchNextOccurance.command");
 const searchPreviousOccurance_command_1 = require("../commands/search/searchPreviousOccurance.command");
 const keybind_handler_1 = require("./keybind.handler");
+const copyLineUp_command_1 = require("../commands/copy/copyLineUp.command");
 class SFVimCommandHandler {
     constructor() {
         this.keybindHandler = new keybind_handler_1.SFVimKeybindHandler();
@@ -177,6 +178,7 @@ class SFVimCommandHandler {
         this.commands.push(new copy_command_1.CommandCopy());
         this.commands.push(new copyLine_command_1.CommandCopyLine());
         this.commands.push(new copyLineDown_command_1.CommandCopyLineDown());
+        this.commands.push(new copyLineUp_command_1.CommandCopyLineUp());
         this.commands.push(new copyMoveFirst_command_1.CommandCopyMoveFirst());
         this.commands.push(new copyMoveLast_command_1.CommandCopyMoveLast());
         this.commands.push(new copySpecialWord_command_1.CommandCopySpecialWord());

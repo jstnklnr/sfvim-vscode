@@ -27,11 +27,8 @@ export class CommandModeNormal extends SFVimCommand {
         }
     
         vimEditor.changeMode(SFVimMode.NORMAL);
-        const isRelative = this.config["normalModeLineNumberRelative"];
-        vimEditor.editor.options.lineNumbers = isRelative ? TextEditorLineNumbersStyle.Relative : TextEditorLineNumbersStyle.On;
         vimEditor.callStatusCallback();
     
-        vimEditor.editor.options.cursorStyle = TextEditorCursorStyle.Block;
         const newPosition = getLeftPosition(vimEditor.editor.selection.active);
         vimEditor.editor.selection = new Selection(newPosition, newPosition);
         vimEditor.tags.set("lastCharacter", newPosition.character);
