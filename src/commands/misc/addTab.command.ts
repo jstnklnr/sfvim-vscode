@@ -2,7 +2,7 @@ import { WorkspaceConfiguration } from "vscode";
 import { SFVimConfigManager } from "../../handlers/config.handler";
 import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
-import { getStartOfLine } from "../../utilities/selection.util";
+import { getStartOfLine, insert } from "../../utilities/selection.util";
 
 export class CommandAddTab extends SFVimCommand {
     private config: WorkspaceConfiguration;
@@ -25,12 +25,28 @@ export class CommandAddTab extends SFVimCommand {
             [startLine, endLine] = [endLine, startLine];
         }
     
-        const tabSize = this.config.get("tabSize") as number;
+        const detectIndentation = this.config.get("detectIndentation");
+
+        const configInsertSpaces = this.config.get("insertSpaces");
+        const editorInsertSpaces = vimEditor.editor.options.insertSpaces;
+
+        const insertSpaces = detectIndentation ? editorInsertSpaces : configInsertSpaces;
+        const tabCharacter = insertSpaces ? " " : "\t";
+        
+        const configTabSize = this.config.get("tabSize") as number;
+        const editorTabSize = vimEditor.editor.options.tabSize;
+
+        let tabSize = detectIndentation && typeof editorTabSize == "number"
+                        ? editorTabSize
+                        : configTabSize;
+
+
+        tabSize = insertSpaces ? tabSize : 1;
         
         vimEditor.editor.edit(editBuilder => {
             for(let i = startLine; i <= endLine; i++) {
                 const location = getStartOfLine(vimEditor, i);
-                editBuilder.insert(location, " ".repeat(amplifier * tabSize));
+                editBuilder.insert(location, tabCharacter.repeat(amplifier * tabSize));
             }
         });
     }

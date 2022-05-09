@@ -18,7 +18,23 @@ export class CommandRemoveTab extends SFVimCommand {
         }
     
         const selection = vimEditor.editor.selection;
-        const tabSize = this.config.get("tabSize") as number;
+        const detectIndentation = this.config.get("detectIndentation");
+
+        const configInsertSpaces = this.config.get("insertSpaces");
+        const editorInsertSpaces = vimEditor.editor.options.insertSpaces;
+
+        const insertSpaces = detectIndentation ? editorInsertSpaces : configInsertSpaces;
+        
+        const configTabSize = this.config.get("tabSize") as number;
+        const editorTabSize = vimEditor.editor.options.tabSize;
+
+        let tabSize = detectIndentation && typeof editorTabSize == "number"
+                        ? editorTabSize
+                        : configTabSize;
+
+
+        tabSize = insertSpaces ? tabSize : 1;
+
         const maxSpaces = tabSize * amplifier;
     
         let startLine = selection.active.line;
