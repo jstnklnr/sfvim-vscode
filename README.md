@@ -587,6 +587,10 @@ A bind looks like this.
 
 Notes about all releases.
 
+### 1.0.3
+
+Emergency update to remove code that manipulated that clipboard.
+
 ### 1.0.2
 
 Removed bug that made the navigation not save the last character position.
