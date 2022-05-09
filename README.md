@@ -338,6 +338,12 @@ SFVim supports the following commands:
 
 > Default bind: "
 
+#### line.copyUp
+
+> Copies the selected lines up
+
+> Default bind: {
+
 #### copy.moveFirst
 
 > Copies the highlighted text and jumps to first selected character
@@ -554,6 +560,8 @@ SFVim supports the following commands:
 
 > Default bind: ,
 
+
+
 ## Extension Settings
 
 Keybinds can be set through the `sfvim.keybindings` section in the settings.
@@ -568,6 +576,7 @@ A bind looks like this.
 
 * If `sfvim.normalModeLineNumbersRelative` is set to true, line numbers will appear as relative when in normal mode.
 * Same goes for `sfvim.insertModeLineNumbersRelative`.
+* When `sfvim.saveOnNormalModeSwitch` is set to true, the file will automatically be saved as soon as you switch to insert mode.
 
 ## Known Issues
 
@@ -577,6 +586,16 @@ A bind looks like this.
 ## Release Notes
 
 Notes about all releases.
+
+### 1.0.2
+
+Removed bug that made the navigation not save the last character position.
+
+Tabsize will not automatically be resolved.
+
+Cursor will switch according to the mode of the editor (even after document change).
+
+Added new setting `sfvim.saveOnNormalModeSwitch`, it allows the user to save as soon as a switch to normal mode occured.
 
 ### 1.0.1
 
