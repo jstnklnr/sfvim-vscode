@@ -216,13 +216,16 @@ class SFVimCommandHandler {
         this.commands.push(new searchNextOccurance_command_1.CommandSearchNextOccurance());
         this.commands.push(new searchPreviousOccurance_command_1.CommandSearchPreviousOccurance());
         //This might come in handy the next time I update this addon
+        /*
         let text = "";
-        for (let c of this.commands) {
+
+        for(let c of this.commands) {
             text += "#### " + c.name + "\n\n" + "> " + c.description;
             text += "\n\n> Default bind: " + this.keybindHandler.keybindings.find(co => co.command === c.name)?.bind;
             text += "\n\n";
         }
-        vscode.env.clipboard.writeText(text);
+
+        vscode.env.clipboard.writeText(text);*/
     }
     updateAmplifier(editor, key) {
         const timeDifference = Date.now() - this.lastKeyPress;
