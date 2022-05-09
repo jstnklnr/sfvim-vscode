@@ -1,8 +1,10 @@
+import { getVSCodeDownloadUrl } from "@vscode/test-electron/out/util";
 import { TextEditorLineNumbersStyle, TextEditorCursorStyle, Selection, WorkspaceConfiguration } from "vscode";
 import { SFVimConfigManager } from "../../handlers/config.handler";
 import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import { getLeftPosition } from "../../utilities/selection.util";
+import * as vscode from "vscode";
 
 export class CommandModeNormal extends SFVimCommand {
     private static _instance: CommandModeNormal;
@@ -32,5 +34,9 @@ export class CommandModeNormal extends SFVimCommand {
         const newPosition = getLeftPosition(vimEditor.editor.selection.active);
         vimEditor.editor.selection = new Selection(newPosition, newPosition);
         vimEditor.tags.set("lastCharacter", newPosition.character);
+
+        if(this.config.get("saveOnNormalModeSwitch")) {
+            vscode.commands.executeCommand("workbench.action.files.save");
+        }
     }
 }

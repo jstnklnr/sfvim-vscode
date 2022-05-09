@@ -27,6 +27,10 @@
 						"type":	"boolean",
 						"default": false
 					},
+					"sfvim.saveOnNormalModeSwitch": {
+						"type": "boolean",
+						"default": false
+					},
 					"sfvim.keybindings": {
 						"type": "array",
 						"default": [
