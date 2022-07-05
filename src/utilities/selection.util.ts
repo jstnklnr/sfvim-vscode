@@ -3,8 +3,11 @@ import { SFVimConfigManager } from "../handlers/config.handler";
 import { SFVimEditor } from "../types/SFVimEditor";
 
 export enum RelativeDirection {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     Left = 1,
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     Right = 1 << 1,
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     Equal = 1 << 2
 }
 
@@ -24,7 +27,7 @@ export const cursorDecoration = vscode.window.createTextEditorDecorationType({
  * @returns The relative direction of the offset between the given and the anchor position
  */
 export function getRelativePosition(anchor: vscode.Position, position: vscode.Position): RelativeDirection {
-    const sameLine = position.line == anchor.line;
+    const sameLine = position.line === anchor.line;
     
     if(position.line < anchor.line || sameLine && position.character < anchor.character) {
         return RelativeDirection.Left;
@@ -117,7 +120,7 @@ export function getStartOfWord(vimEditor: SFVimEditor, position: vscode.Position
         const isLetter = /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(text[character - 1])?.length;
         const isSpace = /\s/.exec(text[character - 1])?.length;
 
-        if(startType & (1 | 2) && isSpace || startType == 1 && !includeSpecial && !isLetter || startType == 2 && !includeSpecial && isLetter) {
+        if(startType & (1 | 2) && isSpace || startType === 1 && !includeSpecial && !isLetter || startType === 2 && !includeSpecial && isLetter) {
             break;
         }
 
@@ -150,7 +153,7 @@ export function getEndOfWord(vimEditor: SFVimEditor, position: vscode.Position, 
         const isLetter = /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(text[character])?.length;
         const isSpace = /\s/.exec(text[character])?.length;
 
-        if(startType & (1 | 2) && isSpace || startType == 1 && !includeSpecial && !isLetter || startType == 2 && !includeSpecial && isLetter) {
+        if(startType & (1 | 2) && isSpace || startType === 1 && !includeSpecial && !isLetter || startType === 2 && !includeSpecial && isLetter) {
             break;
         }
 
@@ -171,8 +174,8 @@ export function getStartOfPreviousWord(vimEditor: SFVimEditor, position: vscode.
     const wordStart = getStartOfWord(vimEditor, position, includeSpecial);
     position = wordStart ? getLeftPosition(wordStart) : position;
 
-    if(position.character == 0) {
-        if(position.line == 0) {
+    if(position.character === 0) {
+        if(position.line === 0) {
             return undefined;
         }
 
@@ -194,9 +197,9 @@ export function getStartOfPreviousWord(vimEditor: SFVimEditor, position: vscode.
         const isLetter = /^[a-zA-Z0-9\u00C0-\u02DB8_]$/.exec(text[character - 1])?.length;
         const isSpace = /\s/.exec(text[character - 1])?.length;
 
-        if(startType == 0 && !isSpace) {
+        if(startType === 0 && !isSpace) {
             startType = isLetter || includeSpecial ? 1 : 2;
-        }else if(startType & (1 | 2) && isSpace || startType == 1 && !includeSpecial && !isLetter || startType == 2 && !includeSpecial && isLetter) {
+        }else if(startType & (1 | 2) && isSpace || startType === 1 && !includeSpecial && !isLetter || startType === 2 && !includeSpecial && isLetter) {
             break;
         }
 
@@ -258,7 +261,7 @@ export function getRangeToNextWord(vimEditor: SFVimEditor, position: vscode.Posi
         current = getStartOfNextWord(vimEditor, current, includeSpecial) || getEndOfLine(vimEditor, current.line);
     }
 
-    if(getRelativePosition(start, current) == RelativeDirection.Equal) {
+    if(getRelativePosition(start, current) === RelativeDirection.Equal) {
         return undefined;
     }
 
@@ -325,8 +328,8 @@ export function getRangeOfWord(vimEditor: SFVimEditor, position: vscode.Position
  * @param offset the number of lines you want to scroll (negative values scroll up and positive values scroll down)
  * @param revealCursor if true reveals the cursor while scrolling, otherwise does not
  */
-export function scroll(offset: number, revealCursor: boolean = false) {
-    if(offset == 0) {
+export function verticalScroll(offset: number, revealCursor: boolean = false) {
+    if(offset === 0) {
         return;
     }
 
@@ -342,7 +345,7 @@ export function scroll(offset: number, revealCursor: boolean = false) {
 export function calculateScroll(vimEditor: SFVimEditor, position: vscode.Position): number {
     const visibleRanges = vimEditor.editor.visibleRanges;
     
-    if(visibleRanges === undefined || visibleRanges.length == 0) {
+    if(visibleRanges === undefined || visibleRanges.length === 0) {
         return 0;
     }
     
@@ -435,5 +438,5 @@ export async function replace(vimEditor: SFVimEditor, location: vscode.Position 
 export async function deleteRange(vimEditor: SFVimEditor, range: vscode.Range | vscode.Selection) {
     await vimEditor.editor.edit(editBuilder => {
         editBuilder.delete(range);
-    })
+    });
 }

@@ -1,7 +1,7 @@
 import { Position } from "vscode";
 import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimEditor, SFVimMode } from "../../types/SFVimEditor";
-import { calculateScroll, scroll } from "../../utilities/selection.util";
+import { calculateScroll, verticalScroll } from "../../utilities/selection.util";
 import { CommandMotionJump } from "./motionJump.command";
 
 export class CommandMotionScrollHalfPageDown extends SFVimCommand {
@@ -10,13 +10,13 @@ export class CommandMotionScrollHalfPageDown extends SFVimCommand {
     }
 
     public execute(vimEditor: SFVimEditor, amplifier: number): void {
-        if(amplifier != 0) {
+        if(amplifier !== 0) {
             return;
         }
     
         const visibleRanges = vimEditor.editor.visibleRanges;
     
-        if(visibleRanges === undefined || visibleRanges.length == 0) {
+        if(visibleRanges === undefined || visibleRanges.length === 0) {
             return;
         }
     
@@ -31,6 +31,6 @@ export class CommandMotionScrollHalfPageDown extends SFVimCommand {
             return;
         }
     
-        scroll(Math.min(jumpLine - view.start.line, maxScroll));
+        verticalScroll(Math.min(jumpLine - view.start.line, maxScroll));
     }
 }

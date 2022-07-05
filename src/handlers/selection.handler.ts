@@ -1,6 +1,6 @@
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
 import * as vscode from "vscode";
-import { calculateScroll, cursorDecoration, getLeftPosition, getOffsetPosition, getRelativePosition as getRelativeDirection, getRightPosition, RelativeDirection, scroll } from "../utilities/selection.util";
+import { calculateScroll, cursorDecoration, getLeftPosition, getOffsetPosition, getRelativePosition as getRelativeDirection, getRightPosition, RelativeDirection, verticalScroll } from "../utilities/selection.util";
 
 /**
  * When in visual mode there are certain conditions when the anchor needs to be shifted
@@ -37,15 +37,15 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
         newPosition = getOffsetPosition(newPosition, 0, lineLength - newPosition.character);
     }
 
-    if(visualMode && motionDirection != RelativeDirection.Right && newPosition.character == anchor.character + 1) {
+    if(visualMode && motionDirection !== RelativeDirection.Right && newPosition.character === anchor.character + 1) {
         newPosition = getLeftPosition(newPosition);
         selectionDirection = getRelativeDirection(anchor, newPosition);
         range = new vscode.Range(newPosition, getRightPosition(newPosition));
     }
 
-    if(!visualMode || selectionDirection == RelativeDirection.Right) {
+    if(!visualMode || selectionDirection === RelativeDirection.Right) {
         if(visualMode) {
-            if(motionDirection == RelativeDirection.Right && newPosition.character == anchor.character + 1) {
+            if(motionDirection === RelativeDirection.Right && newPosition.character === anchor.character + 1) {
                 newPosition = getRightPosition(newPosition);
             }
 
@@ -78,5 +78,5 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
      * Scroll if cursor is out of range
      */
 
-    scroll(calculateScroll(vimEditor, newPosition));
+    verticalScroll(calculateScroll(vimEditor, newPosition));
 }
