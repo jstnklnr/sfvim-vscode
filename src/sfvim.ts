@@ -29,7 +29,15 @@ export class SFVim {
             if(!editor) {
                 return;
             }
+            
+            const selectionSubscribtion = vscode.window.onDidChangeTextEditorSelection((change) => {
+                 this.currentEditor = this.getEditor(change.textEditor);
+                 this.updateStatus(this.currentEditor);
 
+                 selectionSubscribtion.dispose();
+            });
+
+            context.subscriptions.push(selectionSubscribtion);
             this.currentEditor = this.getEditor(editor);
             this.updateStatus(this.currentEditor);
         }));
@@ -94,10 +102,12 @@ export class SFVim {
         if(vimEditor.mode & SFVimMode.VISUAL) {
             const anchor = vimEditor.editor.selection.anchor;
             const active = vimEditor.editor.selection.active; 
+            const lineRange = vimEditor.editor.document.lineAt(active).range;
+
             let range = new vscode.Range(active, getRightPosition(active));
 
             if(isAdjustedPostion(anchor, active)) {
-                vimEditor.editor.options.cursorStyle = vscode.TextEditorCursorStyle.Line;
+                vimEditor.editor.options.cursorStyle = lineRange.end.character === 0 ? vscode.TextEditorCursorStyle.Block : vscode.TextEditorCursorStyle.Line;
                 range = new vscode.Range(getLeftPosition(active), active);
             }
 

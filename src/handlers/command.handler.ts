@@ -326,7 +326,7 @@ export class SFVimCommandHandler {
         let pressedKeys = `${this.lastKeys}${key}`;
         let potential = binds.filter(bind => bind.bind.startsWith(pressedKeys));
 
-        if(pressedKeys.length > 1 && potential.length == 0) {
+        if(pressedKeys.length > 1 && potential.length === 0) {
             this.lastKeys = '';
             pressedKeys = key;
             potential = binds.filter(bind => bind.bind.startsWith(pressedKeys));
@@ -355,9 +355,10 @@ export class SFVimCommandHandler {
             command.execute(vimEditor, vimEditor.amplifier);
         }
         
+        const lastAmplifier = vimEditor.amplifier;
         vimEditor.amplifier = trigger.length > 0 ? 0 : vimEditor.amplifier;
         
-        if(vimEditor.amplifier == 0) {
+        if(vimEditor.amplifier !== lastAmplifier) {
             vimEditor.stringAmplifier = "";
             vimEditor.callStatusCallback();
         }

@@ -45,7 +45,7 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
 
     if(!visualMode || selectionDirection === RelativeDirection.Right) {
         if(visualMode) {
-            if(motionDirection === RelativeDirection.Right && newPosition.character === anchor.character + 1) {
+            if(motionDirection === RelativeDirection.Right && newPosition.line === anchor.line && newPosition.character === anchor.character + 1) {
                 newPosition = getRightPosition(newPosition);
             }
 
@@ -53,7 +53,7 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
                 newPosition = new vscode.Position(newPosition.line, 1);
             }
 
-            vimEditor.editor.options.cursorStyle = vscode.TextEditorCursorStyle.Line;
+            vimEditor.editor.options.cursorStyle = lineLength === 0 ? vscode.TextEditorCursorStyle.Block : vscode.TextEditorCursorStyle.Line;
         }else if(newPosition.character > lineLength - 1) {
             newPosition = getOffsetPosition(newPosition, 0, (lineLength - 1) - newPosition.character);
             anchor = newPosition;
