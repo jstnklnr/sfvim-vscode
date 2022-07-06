@@ -3,6 +3,7 @@ import { handleSelection } from "../../handlers/selection.handler";
 import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
 import { getLeftPosition, getOffsetPosition, getRelativePosition, getRightPosition, getStartOfLine, isAdjustedPostion, RelativeDirection } from "../../utilities/selection.util";
+import { CommandSearchInline } from "./searchInline.command";
 
 export class CommandSearchPreviousOccurance extends SFVimCommand {
     constructor() {
@@ -10,11 +11,20 @@ export class CommandSearchPreviousOccurance extends SFVimCommand {
     }
 
     public execute(vimEditor: SFVimEditor, amplifier: number): void {
-        if(amplifier == 0) {
+        if(amplifier === 0) {
             amplifier = 1;
         }
         
-        const occurances: Array<Position> = vimEditor.tags.get("searchOccurances");
+
+        let occurances: Array<Position> = vimEditor.tags.get("searchOccurances");
+        const lastSearchedCharacter = vimEditor.tags.get("lastSearchedCharacter");
+
+        if(!lastSearchedCharacter) {
+            return;
+        }
+
+        occurances = CommandSearchInline.instance().search(vimEditor, lastSearchedCharacter);
+
         const selection = vimEditor.editor.selection;
         let location = selection.active;
         
