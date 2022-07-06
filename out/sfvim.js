@@ -17,13 +17,12 @@ class SFVim {
         this.currentEditor = this.getEditor(vscode.window.activeTextEditor);
         this.commandHandler = new command_handler_1.SFVimCommandHandler();
         context.subscriptions.push(vscode.workspace.onDidCloseTextDocument(() => this.checkEditors()));
-        context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(() => {
-            const selectionSubscribtion = vscode.window.onDidChangeTextEditorSelection((change) => {
-                this.currentEditor = this.getEditor(change.textEditor);
-                this.updateStatus(this.currentEditor);
-                selectionSubscribtion.dispose();
-            });
-            context.subscriptions.push(selectionSubscribtion);
+        context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor((editor) => {
+            if (!editor) {
+                return;
+            }
+            this.currentEditor = this.getEditor(editor);
+            this.updateStatus(this.currentEditor);
         }));
         context.subscriptions.push(vscode.commands.registerCommand('type', (event) => {
             if (this.currentEditor) {
@@ -58,7 +57,7 @@ class SFVim {
         this.modeStatus.text = status;
         this.modeStatus.show();
         this.amplifierStatus.text = vimEditor.amplifier.toString();
-        if (vimEditor.amplifier == 0) {
+        if (vimEditor.amplifier === 0) {
             this.amplifierStatus.hide();
         }
         else {

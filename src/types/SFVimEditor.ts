@@ -1,7 +1,10 @@
 import * as vscode from "vscode";
 export enum SFVimMode {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     NORMAL = 1,
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     INSERT = 1 << 1,
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     VISUAL = 1 << 2
 }
 
