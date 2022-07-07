@@ -301,7 +301,7 @@ export const defaultBindings = [
     },
     {
         "command": "replace.insert",
-        "bind": "R"
+        "bind": "r"
     },
     {
         "command": "select.untilNextWord",

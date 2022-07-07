@@ -40,6 +40,18 @@ A bind looks like this.
 
 Notes about all releases.
 
+### 1.0.4
+
+Fixed bug that did not allow for the deletion of the last line (in special cases)
+
+Fixed cursor display bug when selecting empty lines
+
+Inline search will not jump to before searched line anymore
+
+View will now automatically scroll horizontally
+
+Filled CHANGELOG.md
+
 ### 1.0.3
 
 Emergency update to remove code that manipulated that clipboard.
@@ -343,7 +355,7 @@ SFVim supports the following commands:
 
 > Deletes all selected characters and switches to insert mode
 
-> Default bind: R
+> Default bind: r
 
 #### line.moveDown
 
