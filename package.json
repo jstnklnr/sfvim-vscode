@@ -1,9 +1,11 @@
 {
-  "name": "sfvim-vscode",
+	"name": "sfvim-vscode",
 	"displayName": "SFVim",
 	"description": "A vscode extension that provides a vim-like interface, but is more straight-forward to use than the classic vim.",
 	"publisher": "jstnklnr",
-	"version": "1.0.3",
+	"author": "jstnklnr",
+	"license": "MIT",
+	"version": "1.0.4",
 	"engines": {
 		"vscode": "^1.63.0"
 	},
@@ -13,6 +15,14 @@
 	"activationEvents": [
         "onStartupFinished"
 	],
+	"repository": {
+		"type": "git",
+	    "url": "git+https://github.com/jstnklnr/sfvim-vscode.git"
+  	},
+	"bugs": {
+		"url": "https://github.com/jstnklnr/sfvim-vscode/issues"
+	},
+  	"homepage": "https://github.com/jstnklnr/sfvim-vscode#readme",
 	"main": "./out/extension.js",
 	"contributes": {
 		"configuration":[
