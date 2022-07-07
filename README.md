@@ -15,6 +15,55 @@ $ defaults write com.microsoft.VSCodeExploration ApplePressAndHoldEnabled -bool 
 $ defaults delete -g ApplePressAndHoldEnabled                                           # If necessary, reset global default
 ```
 
+## Extension Settings
+
+Keybinds can be set through the `sfvim.keybindings` section in the settings.
+
+A bind looks like this.
+```
+{
+    "command": <command>
+    "bind": <bind>
+}
+```
+
+* If `sfvim.normalModeLineNumbersRelative` is set to true, line numbers will appear as relative when in normal mode.
+* Same goes for `sfvim.insertModeLineNumbersRelative`.
+* When `sfvim.saveOnNormalModeSwitch` is set to true, the file will automatically be saved as soon as you switch to insert mode.
+
+## Known Issues
+
+- Undoing or redoing might result and adding the `mode.normal` bind keys.
+- Keys like ctrl, cmd, alt or option cannot be used for keybinding.
+
+## Release Notes
+
+Notes about all releases.
+
+### 1.0.3
+
+Emergency update to remove code that manipulated that clipboard.
+
+### 1.0.2
+
+Removed bug that made the navigation not save the last character position.
+
+Tabsize will not automatically be resolved.
+
+Cursor will switch according to the mode of the editor (even after document change).
+
+Added new setting `sfvim.saveOnNormalModeSwitch`, it allows the user to save as soon as a switch to normal mode occured.
+
+### 1.0.1
+
+The cursor will now jump to the next occurance instead of the first when using the inline search command.
+
+Commands are ignored that are not part of the current mode.
+
+### 1.0.0
+
+Initial release of sfvim
+
 ## Features
 
 SFVim supports the following commands:
@@ -324,13 +373,13 @@ SFVim supports the following commands:
 
 > Copies the highlighted text
 
-> Default bind: gy
+> Default bind: gc
 
 #### copy.line
 
 > Copies the current line
 
-> Default bind: yl
+> Default bind: cl
 
 #### line.copyDown
 
@@ -348,97 +397,97 @@ SFVim supports the following commands:
 
 > Copies the highlighted text and jumps to first selected character
 
-> Default bind: y
+> Default bind: c
 
 #### copy.moveLast
 
 > Copies the highlighted text and jumps to the last selected character
 
-> Default bind: Y
+> Default bind: C
 
 #### copy.specialWord
 
 > Copies all characters of the current word (including special characters)
 
-> Default bind: yW
+> Default bind: cW
 
 #### copy.untilNextWord
 
 > Copies all characters from the current to the next occurring word
 
-> Default bind: yf
+> Default bind: cf
 
 #### copy.untilNextSpecialWord
 
 > Copies all characters from the current to the next occurring word (including special characters)
 
-> Default bind: yF
+> Default bind: cF
 
 #### copy.untilPreviousWord
 
 > Copies all characters from the current to the previous occurring word
 
-> Default bind: ys
+> Default bind: cs
 
 #### copy.untilPreviousSpecialWord
 
 > Copies all characters from the current to the previous occurring word (including special characters)
 
-> Default bind: yS
+> Default bind: cS
 
 #### copy.word
 
 > Copies all characters of the current word
 
-> Default bind: yw
+> Default bind: cw
 
 #### cut
 
 > Cuts the highligted text
 
-> Default bind: c
+> Default bind: x
 
 #### cut.line
 
 > Cuts the current line
 
-> Default bind: cl
+> Default bind: xl
 
 #### cut.specialWord
 
 > Cuts all characters of the current word (including special characters)
 
-> Default bind: cW
+> Default bind: xW
 
 #### cut.untilNextWord
 
 > Cuts all characters from the current to the next occurring word
 
-> Default bind: cf
+> Default bind: xf
 
 #### cut.untilNextSpecialWord
 
 > Cuts all characters from the current to the next occurring word (including special characters)
 
-> Default bind: cF
+> Default bind: xF
 
 #### cut.untilPreviousWord
 
 > Cuts all characters from the current to the previous occurring word
 
-> Default bind: cs
+> Default bind: xs
 
 #### cut.untilPreviousSpecialWord
 
 > Cuts all characters from the current to the previous occurring word (including special characters)
 
-> Default bind: cS
+> Default bind: xS
 
 #### cut.word
 
 > Cuts all characters of the current word
 
-> Default bind: cw
+> Default bind: xw
 
 #### paste.before
 
@@ -559,54 +608,3 @@ SFVim supports the following commands:
 > Moves the cursor to the previous occurance of the last search
 
 > Default bind: ,
-
-
-
-## Extension Settings
-
-Keybinds can be set through the `sfvim.keybindings` section in the settings.
-
-A bind looks like this.
-```
-{
-    "command": <command>
-    "bind": <bind>
-}
-```
-
-* If `sfvim.normalModeLineNumbersRelative` is set to true, line numbers will appear as relative when in normal mode.
-* Same goes for `sfvim.insertModeLineNumbersRelative`.
-* When `sfvim.saveOnNormalModeSwitch` is set to true, the file will automatically be saved as soon as you switch to insert mode.
-
-## Known Issues
-
-- Undoing or redoing might result and adding the `mode.normal` bind keys.
-- Keys like ctrl, cmd, alt or option cannot be used for keybinding.
-
-## Release Notes
-
-Notes about all releases.
-
-### 1.0.3
-
-Emergency update to remove code that manipulated that clipboard.
-
-### 1.0.2
-
-Removed bug that made the navigation not save the last character position.
-
-Tabsize will not automatically be resolved.
-
-Cursor will switch according to the mode of the editor (even after document change).
-
-Added new setting `sfvim.saveOnNormalModeSwitch`, it allows the user to save as soon as a switch to normal mode occured.
-
-### 1.0.1
-
-The cursor will now jump to the next occurance instead of the first when using the inline search command.
-
-Commands are ignored that are not part of the current mode.
-
-### 1.0.0
-
-Initial release of sfvim

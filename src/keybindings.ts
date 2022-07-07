@@ -125,75 +125,75 @@ export const defaultBindings = [
     },
     {
         "command": "copy",
-        "bind": "gy"
+        "bind": "gc"
     },
     {
         "command": "copy.moveFirst",
-        "bind": "y"
-    },
-    {
-        "command": "copy.moveLast",
-        "bind": "Y"
-    },
-    {
-        "command": "copy.line",
-        "bind": "yl"
-    },
-    {
-        "command": "copy.untilNextWord",
-        "bind": "yf"
-    },
-    {
-        "command": "copy.untilNextSpecialWord",
-        "bind": "yF"
-    },
-    {
-        "command": "copy.untilPreviousWord",
-        "bind": "ys"
-    },
-    {
-        "command": "copy.untilPreviousSpecialWord",
-        "bind": "yS"
-    },
-    {
-        "command": "copy.word",
-        "bind": "yw"
-    },
-    {
-        "command": "copy.specialWord",
-        "bind": "yW"
-    },
-    {
-        "command": "cut",
         "bind": "c"
     },
     {
-        "command": "cut.line",
+        "command": "copy.moveLast",
+        "bind": "C"
+    },
+    {
+        "command": "copy.line",
         "bind": "cl"
     },
     {
-        "command": "cut.untilNextWord",
+        "command": "copy.untilNextWord",
         "bind": "cf"
     },
     {
-        "command": "cut.untilNextSpecialWord",
+        "command": "copy.untilNextSpecialWord",
         "bind": "cF"
     },
     {
-        "command": "cut.untilPreviousWord",
+        "command": "copy.untilPreviousWord",
         "bind": "cs"
     },
     {
-        "command": "cut.untilPreviousSpecialWord",
+        "command": "copy.untilPreviousSpecialWord",
         "bind": "cS"
     },
     {
-        "command": "cut.word",
+        "command": "copy.word",
         "bind": "cw"
     },
     {
-        "command": "cut.specialWord",
+        "command": "copy.specialWord",
         "bind": "cW"
+    },
+    {
+        "command": "cut",
+        "bind": "x"
+    },
+    {
+        "command": "cut.line",
+        "bind": "xl"
+    },
+    {
+        "command": "cut.untilNextWord",
+        "bind": "xf"
+    },
+    {
+        "command": "cut.untilNextSpecialWord",
+        "bind": "xF"
+    },
+    {
+        "command": "cut.untilPreviousWord",
+        "bind": "xs"
+    },
+    {
+        "command": "cut.untilPreviousSpecialWord",
+        "bind": "xS"
+    },
+    {
+        "command": "cut.word",
+        "bind": "xw"
+    },
+    {
+        "command": "cut.specialWord",
+        "bind": "xW"
     },
     {
         "command": "paste.before",

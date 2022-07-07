@@ -92,7 +92,7 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
 
     /**
      * Scroll if cursor is out of range
-     * Currently abondend due to the ugly way horizontal scrolling had to be fixed
+     * Currently redundant due to the ugly way horizontal scrolling had to be fixed
      */
 
     //verticalScroll(calculateScroll(vimEditor, newPosition));
