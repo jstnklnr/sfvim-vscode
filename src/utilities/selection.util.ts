@@ -324,6 +324,52 @@ export function getRangeOfWord(vimEditor: SFVimEditor, position: vscode.Position
 }
 
 /**
+ * Uses the command api to move the cursor to the desired position
+ * (This forces horizontal and vertical scrolling)
+ * @param vimEditor the editor in which the position should change
+ * @param position the new cursor position
+ */
+export function moveCursorWithCommand(vimEditor: SFVimEditor, position: vscode.Position, select: boolean = false) {
+    const active = vimEditor.editor.selection.active;
+    let lineOffset = position.line - active.line;
+
+    const lastCharacter = lineOffset === 0 ? active.character : vimEditor.tags.get("lastEditorCharacter")?.character || active.character;
+    let characterOffset = position.character - lastCharacter;
+    
+    const verticalDirection = lineOffset < 0 ? "up" : "down";
+    lineOffset = Math.abs(lineOffset);
+
+    const horizontalDirection = characterOffset < 0 ? "left" : "right";
+    characterOffset = Math.abs(characterOffset);
+
+    if(lineOffset > 0) {
+        vscode.commands.executeCommand("cursorMove", {
+            to: verticalDirection,
+            by: "line",
+            value: lineOffset,
+            select: select
+        });
+    }
+
+    const newLineRange = vimEditor.editor.document.lineAt(position.line).range;
+
+    if(lastCharacter >= newLineRange.end.character) {
+        characterOffset = position.character >= newLineRange.end.character ? 0 : newLineRange.end.character - position.character;
+    }
+
+    if(characterOffset > 0) {
+        vscode.commands.executeCommand("cursorMove", {
+            to: horizontalDirection,
+            by: "character",
+            value: characterOffset,
+            select: select
+        });
+
+        vimEditor.tags.set("lastEditorCharacter", position);
+    }
+}
+
+/**
  * Scrolls the view by the given number of lines
  * @param offset the number of lines you want to scroll (negative values scroll up and positive values scroll down)
  * @param revealCursor if true reveals the cursor while scrolling, otherwise does not

@@ -8,7 +8,7 @@ export class CommandCopyLineDown extends SFVimCommand {
     }
 
     public execute(_: SFVimEditor, amplifier: number): void {
-        if(amplifier == 0) {
+        if(amplifier === 0) {
             amplifier = 1;
         }
     
