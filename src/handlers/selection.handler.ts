@@ -10,6 +10,7 @@ import { cursorDecoration, getLeftPosition, getOffsetPosition, getRelativePositi
  * @param vimEditor The editor vscode is currently in
  * @param newPosition The position you want to set the cursor to
  * @param correctPosition if true and in visual mode on the right side of the anchor, the position will be corrected to the right
+ * @returns a promise that will be resolved when the motion is completed
  */
 export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Position) {
     let visualMode: boolean = false;
@@ -43,7 +44,16 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
         range = new vscode.Range(newPosition, getRightPosition(newPosition));
     }
 
+    const lastAnchor = vimEditor.editor.selection.anchor;
     const lastPosition = vimEditor.tags.get("lastEditorCharacter") || vimEditor.editor.selection.active;
+    
+    let promise: Promise<unknown>;
+    let noSelectionSet = false;
+
+
+    if(getRelativeDirection(lastAnchor, anchor) === RelativeDirection.Equal) {
+        noSelectionSet = true;
+    }
 
     /**
      * Scrolling was fixed by calculating the position to relative motions
@@ -69,10 +79,13 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
         }
 
         if(visualMode) {
-            vimEditor.editor.selection = new vscode.Selection(anchor, lastPosition);
-            moveCursorWithCommand(vimEditor, newPosition, true);
+            if(!noSelectionSet) {
+                vimEditor.editor.selection = new vscode.Selection(anchor, lastPosition);
+            }
+
+            promise = moveCursorWithCommand(vimEditor, newPosition, true);
         }else {
-            moveCursorWithCommand(vimEditor, newPosition);
+            promise = moveCursorWithCommand(vimEditor, newPosition);
         }
 
         range = new vscode.Range(getLeftPosition(newPosition), newPosition);
@@ -81,8 +94,11 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
             newPosition = getOffsetPosition(newPosition, 0, (lineLength - 1) - newPosition.character);
         }
 
-        vimEditor.editor.selection = new vscode.Selection(getRightPosition(anchor), lastPosition);
-        moveCursorWithCommand(vimEditor, newPosition, true);
+        if(!noSelectionSet) {
+            vimEditor.editor.selection = new vscode.Selection(getRightPosition(anchor), lastPosition);
+        }
+
+        promise = moveCursorWithCommand(vimEditor, newPosition, true);
         vimEditor.editor.options.cursorStyle = vscode.TextEditorCursorStyle.Block;
     }
     
@@ -96,4 +112,5 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
      */
 
     //verticalScroll(calculateScroll(vimEditor, newPosition));
+    return promise;
 }

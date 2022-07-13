@@ -328,8 +328,9 @@ export function getRangeOfWord(vimEditor: SFVimEditor, position: vscode.Position
  * (This forces horizontal and vertical scrolling)
  * @param vimEditor the editor in which the position should change
  * @param position the new cursor position
+ * @returns a promise that resolves when the motion is completed
  */
-export function moveCursorWithCommand(vimEditor: SFVimEditor, position: vscode.Position, select: boolean = false) {
+export function moveCursorWithCommand(vimEditor: SFVimEditor, position: vscode.Position, select: boolean = false): Promise<unknown> {
     const active = vimEditor.editor.selection.active;
     let lineOffset = position.line - active.line;
 
@@ -342,13 +343,15 @@ export function moveCursorWithCommand(vimEditor: SFVimEditor, position: vscode.P
     const horizontalDirection = characterOffset < 0 ? "left" : "right";
     characterOffset = Math.abs(characterOffset);
 
+    const promises: Array<Thenable<unknown>> = [];
+
     if(lineOffset > 0) {
-        vscode.commands.executeCommand("cursorMove", {
+        promises.push(vscode.commands.executeCommand("cursorMove", {
             to: verticalDirection,
             by: "line",
             value: lineOffset,
             select: select
-        });
+        }));
     }
 
     const newLineRange = vimEditor.editor.document.lineAt(position.line).range;
@@ -358,15 +361,17 @@ export function moveCursorWithCommand(vimEditor: SFVimEditor, position: vscode.P
     }
 
     if(characterOffset > 0) {
-        vscode.commands.executeCommand("cursorMove", {
+        promises.push(vscode.commands.executeCommand("cursorMove", {
             to: horizontalDirection,
             by: "character",
             value: characterOffset,
             select: select
-        });
+        }));
 
         vimEditor.tags.set("lastEditorCharacter", position);
     }
+
+    return Promise.all(promises);
 }
 
 /**

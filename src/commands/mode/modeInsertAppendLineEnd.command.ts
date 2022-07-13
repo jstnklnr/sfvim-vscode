@@ -9,11 +9,12 @@ export class CommandModeInsertAppendLineEnd extends SFVimCommand {
     }
 
     public execute(vimEditor: SFVimEditor, amplifier: number): void {
-        if(amplifier != 0) {
+        if(amplifier !== 0) {
             return;
         }
 
-        CommandMotionRealLineEnd.instance().execute(vimEditor, 0);
-        CommandModeInsertAppend.instance().execute(vimEditor, amplifier);
+        CommandMotionRealLineEnd.instance().moveLast(vimEditor).then(() => {
+            CommandModeInsertAppend.instance().execute(vimEditor, amplifier);
+        });
     }
 }
