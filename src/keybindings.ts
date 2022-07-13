@@ -125,15 +125,15 @@ export const defaultBindings = [
     },
     {
         "command": "copy",
-        "bind": "gc"
-    },
-    {
-        "command": "copy.moveFirst",
         "bind": "c"
     },
     {
+        "command": "copy.moveFirst",
+        "bind": "gc"
+    },
+    {
         "command": "copy.moveLast",
-        "bind": "C"
+        "bind": "gC"
     },
     {
         "command": "copy.line",
