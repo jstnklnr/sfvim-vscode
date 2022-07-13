@@ -49,7 +49,9 @@ export class SFVim {
             return vscode.commands.executeCommand('default:type', event);
         }));
         
-        CommandModeNormal.instance().execute(this.currentEditor!, 0);
+        if(this.currentEditor) {
+            CommandModeNormal.instance().execute(this.currentEditor, 0);
+        }
     }
 
     checkEditors() {

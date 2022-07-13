@@ -17,7 +17,7 @@ export class SFVimKeybindHandler implements ConfigHandler {
     }
 
     configChange(configName: string, config: WorkspaceConfiguration): void {
-        if(configName != "sfvim") {
+        if(configName !== "sfvim") {
             return;
         }
 

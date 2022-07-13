@@ -36,7 +36,9 @@ class SFVim {
             }
             return vscode.commands.executeCommand('default:type', event);
         }));
-        modeNormal_command_1.CommandModeNormal.instance().execute(this.currentEditor, 0);
+        if (this.currentEditor) {
+            modeNormal_command_1.CommandModeNormal.instance().execute(this.currentEditor, 0);
+        }
     }
     checkEditors() {
         this.editors = this.editors.filter(vimEditor => vscode.workspace.textDocuments.includes(vimEditor.editor.document));
