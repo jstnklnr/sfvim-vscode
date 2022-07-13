@@ -4,6 +4,18 @@
 
 Notes about all releases.
 
+### 1.0.5
+
+Changed default keybinding (commit history for further details)
+
+Jump when reaching selection point in different line - fixed
+
+Offset between fake and real cursor in certain situations (involving tabs) - fixed
+
+Cursor Jitter when selecting in visual mode - fixed
+
+InsertAppendLine not working - fixed
+
 ### 1.0.4
 
 Fixed bug that did not allow for the deletion of the last line (in special cases)

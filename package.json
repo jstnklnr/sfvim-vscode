@@ -5,12 +5,12 @@
 	"publisher": "jstnklnr",
 	"author": "jstnklnr",
 	"license": "MIT",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"engines": {
 		"vscode": "^1.63.0"
 	},
 	"categories": [
-		"Other"
+		"Keymaps"
 	],
 	"activationEvents": [
         "onStartupFinished"
