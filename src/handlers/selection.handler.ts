@@ -13,7 +13,7 @@ import { cursorDecoration, getLeftPosition, getOffsetPosition, getRelativePositi
  * @returns a promise that will be resolved when the motion is completed
  */
 export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Position) {
-    let visualMode: boolean = false;
+    let visualMode = false;
     let anchor = newPosition;
 
     if(vimEditor.mode & SFVimMode.VISUAL) {
@@ -25,7 +25,6 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
     const motionDirection = getRelativeDirection(currentPosition, newPosition);
 
     let selectionDirection = getRelativeDirection(anchor, newPosition);
-    let range = new vscode.Range(newPosition, getRightPosition(newPosition));
     const lineLength = vimEditor.editor.document.lineAt(newPosition.line).text.length;
 
     /**
@@ -38,10 +37,9 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
         newPosition = getOffsetPosition(newPosition, 0, lineLength - newPosition.character);
     }
 
-    if(visualMode && motionDirection !== RelativeDirection.Right && newPosition.character === anchor.character + 1) {
+    if(visualMode && motionDirection !== RelativeDirection.Right && newPosition.line === anchor.line && newPosition.character === anchor.character + 1) {
         newPosition = getLeftPosition(newPosition);
         selectionDirection = getRelativeDirection(anchor, newPosition);
-        range = new vscode.Range(newPosition, getRightPosition(newPosition));
     }
 
     const lastAnchor = vimEditor.editor.selection.anchor;
@@ -49,7 +47,7 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
     
     let promise: Promise<unknown>;
     let noSelectionSet = false;
-
+    let shiftFakeCursorLeft = false;
 
     if(getRelativeDirection(lastAnchor, anchor) === RelativeDirection.Equal) {
         noSelectionSet = true;
@@ -88,7 +86,7 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
             promise = moveCursorWithCommand(vimEditor, newPosition);
         }
 
-        range = new vscode.Range(getLeftPosition(newPosition), newPosition);
+        shiftFakeCursorLeft = true;
     }else {
         if(newPosition.character > lineLength - 1) {
             newPosition = getOffsetPosition(newPosition, 0, (lineLength - 1) - newPosition.character);
@@ -103,7 +101,16 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
     }
     
     if(visualMode) {
-        vimEditor.editor.setDecorations(cursorDecoration, [range]);
+        promise.then(() => {
+            const active = vimEditor.editor.selection.active;
+            let range = new vscode.Range(active, getRightPosition(active));
+
+            if(shiftFakeCursorLeft) {
+                range = new vscode.Range(getLeftPosition(active), active);
+            }
+
+            vimEditor.editor.setDecorations(cursorDecoration, [range]);
+        });
     }
 
     /**
