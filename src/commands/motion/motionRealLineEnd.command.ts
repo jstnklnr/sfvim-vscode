@@ -27,21 +27,19 @@ export class CommandMotionRealLineEnd extends SFVimCommand {
     }
 
     public moveLast(vimEditor: SFVimEditor): Promise<unknown> {
+        const visualMode = vimEditor.mode & SFVimMode.VISUAL;
+
         const currentPosition = vimEditor.editor.selection.active;
         const lineText = vimEditor.editor.document.lineAt(currentPosition.line).text;
         let character = lineText.length === 0 ? 0 : lineText.length - 1;
     
-        let newPosition = vimEditor.editor.selection.active.with(currentPosition.line, character);
-        let anchor = newPosition;
-    
-        if(vimEditor.mode & SFVimMode.VISUAL) {
-            anchor = vimEditor.tags.get("anchor") || newPosition;
-            newPosition = isAdjustedPostion(anchor, newPosition) ? getRightPosition(newPosition) : newPosition;
-        }
-    
-        const promise = handleSelection(vimEditor, newPosition);
-        vimEditor.tags.set("lastCharacter", newPosition.character);    
+        let anchor = vimEditor.tags.get("anchor") || currentPosition;
+        const wasAdjusted = visualMode && isAdjustedPostion(anchor, currentPosition);
 
-        return promise;
+        let newPosition = vimEditor.editor.selection.active.with(currentPosition.line, character);
+        newPosition = visualMode && wasAdjusted ? getRightPosition(newPosition) : newPosition;
+    
+        vimEditor.tags.set("lastCharacter", newPosition.character);    
+        return handleSelection(vimEditor, newPosition);
     }
 }

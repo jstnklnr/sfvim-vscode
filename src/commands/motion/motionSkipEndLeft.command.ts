@@ -23,16 +23,18 @@ export class CommandMotionSkipEndLeft extends SFVimCommand {
     }
 
     public motionSkipEndLeft(vimEditor: SFVimEditor, amplifier: number, includeSpecial: boolean = false) {
-        if(amplifier == 0) {
+        if(amplifier === 0) {
             amplifier = 1;
         }
     
         const visualMode = vimEditor.mode & SFVimMode.VISUAL;
-        const anchor = vimEditor.editor.selection.anchor;
+        const anchor = vimEditor.tags.get("anchor") && vimEditor.editor.selection.anchor;
         let active = vimEditor.editor.selection.active;
-    
+        let wasAdjusted = false;
+
         if(visualMode && isAdjustedPostion(anchor, active)) {
             active = getLeftPosition(active);
+            wasAdjusted = true;
         }
     
         for(let i = 0; i < amplifier; i++) {
@@ -40,8 +42,8 @@ export class CommandMotionSkipEndLeft extends SFVimCommand {
         }
     
         active = getLeftPosition(getEndOfWord(vimEditor, active, includeSpecial)!);
-        active = visualMode && isAdjustedPostion(anchor, active) ? getRightPosition(active) : active;
-        handleSelection(vimEditor, active);
+        active = visualMode && wasAdjusted ? getRightPosition(active) : active;
         vimEditor.tags.set("lastCharacter", active.character);
+        handleSelection(vimEditor, active);
     }
 }

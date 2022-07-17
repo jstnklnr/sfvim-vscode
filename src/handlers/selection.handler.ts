@@ -1,6 +1,6 @@
 import { SFVimEditor, SFVimMode } from "../types/SFVimEditor";
 import * as vscode from "vscode";
-import { cursorDecoration, getLeftPosition, getOffsetPosition, getRelativePosition as getRelativeDirection, getRightPosition, moveCursorWithCommand, RelativeDirection, verticalScroll } from "../utilities/selection.util";
+import { cursorDecoration, getLeftPosition, getOffsetPosition, getRelativePosition as getRelativeDirection, getRightPosition, moveCursorWithCommand, RelativeDirection } from "../utilities/selection.util";
 
 /**
  * When in visual mode there are certain conditions when the anchor needs to be shifted
@@ -23,6 +23,7 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
 
     const currentPosition = vimEditor.editor.selection.active;
     const motionDirection = getRelativeDirection(currentPosition, newPosition);
+    const lastSelectionDirection = getRelativeDirection(vimEditor.editor.selection.anchor, currentPosition);
 
     let selectionDirection = getRelativeDirection(anchor, newPosition);
     const lineLength = vimEditor.editor.document.lineAt(newPosition.line).text.length;
@@ -40,10 +41,11 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
     if(visualMode && motionDirection !== RelativeDirection.Right && newPosition.line === anchor.line && newPosition.character === anchor.character + 1) {
         newPosition = getLeftPosition(newPosition);
         selectionDirection = getRelativeDirection(anchor, newPosition);
+        vimEditor.tags.set("lastCharacter", newPosition.character);
     }
 
     const lastAnchor = vimEditor.editor.selection.anchor;
-    const lastPosition = vimEditor.tags.get("lastEditorCharacter") || vimEditor.editor.selection.active;
+    const lastPosition = vimEditor.tags.get("lastEditorCharacter") || currentPosition;
     
     let promise: Promise<unknown>;
     let noSelectionSet = false;
@@ -62,8 +64,9 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
 
     if(!visualMode || selectionDirection === RelativeDirection.Right) {
         if(visualMode) {
-            if(motionDirection === RelativeDirection.Right && newPosition.line === anchor.line && newPosition.character === anchor.character + 1) {
+            if(motionDirection === RelativeDirection.Right && newPosition.line === anchor.line && newPosition.character === anchor.character + 1 || lastSelectionDirection === RelativeDirection.Left) {
                 newPosition = getRightPosition(newPosition);
+                vimEditor.tags.set("lastCharacter", newPosition.character);
             }
 
             if(newPosition.character <= 0 && lineLength > 0) {
@@ -90,10 +93,22 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
     }else {
         if(newPosition.character > lineLength - 1) {
             newPosition = getOffsetPosition(newPosition, 0, (lineLength - 1) - newPosition.character);
+            vimEditor.tags.set("lastCharacter", newPosition.character);
+        }
+        
+        if(selectionDirection !== RelativeDirection.Equal && lastSelectionDirection === RelativeDirection.Right) {
+            newPosition = getLeftPosition(newPosition);
+            vimEditor.tags.set("lastCharacter", newPosition.character);
+        }
+
+        const newAnchor = getRightPosition(anchor);
+
+        if(getRelativeDirection(lastAnchor, newAnchor) !== RelativeDirection.Equal) {
+            noSelectionSet = false;
         }
 
         if(!noSelectionSet) {
-            vimEditor.editor.selection = new vscode.Selection(getRightPosition(anchor), lastPosition);
+            vimEditor.editor.selection = new vscode.Selection(newAnchor, lastPosition);
         }
 
         promise = moveCursorWithCommand(vimEditor, newPosition, true);

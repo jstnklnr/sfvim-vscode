@@ -19,7 +19,7 @@ export class CommandMotionJump extends SFVimCommand {
     }
 
     public execute(vimEditor: SFVimEditor, line: number): void {
-        if(line == 0) {
+        if(line === 0) {
             return;
         }
         
@@ -41,7 +41,7 @@ export class CommandMotionJump extends SFVimCommand {
             newPosition = isAdjustedPostion(anchor, newPosition) ? getRightPosition(newPosition) : newPosition;
         }
     
-        handleSelection(vimEditor, newPosition);
         vimEditor.tags.set("lastCharacter", newPosition.character);
+        handleSelection(vimEditor, newPosition);
     }
 }

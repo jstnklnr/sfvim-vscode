@@ -9,21 +9,20 @@ export class CommandMotionRealLineStart extends SFVimCommand {
     }
 
     public execute(vimEditor: SFVimEditor, amplifier: number): void {
-        if(amplifier != 0) {
+        if(amplifier !== 0) {
             return;
         }
-    
+
+        const visualMode = vimEditor.mode & SFVimMode.VISUAL; 
         const currentPosition = vimEditor.editor.selection.active;
     
+        let anchor = vimEditor.tags.get("anchor") || currentPosition;
+        const wasAdjusted = visualMode && isAdjustedPostion(anchor, currentPosition);
+
         let newPosition = vimEditor.editor.selection.active.with(currentPosition.line, 0);
-        let anchor = newPosition;
+        newPosition = visualMode && wasAdjusted ? getRightPosition(newPosition) : newPosition;
     
-        if(vimEditor.mode & SFVimMode.VISUAL) {
-            anchor = vimEditor.tags.get("anchor") || newPosition;
-            newPosition = isAdjustedPostion(anchor, newPosition) ? getRightPosition(newPosition) : newPosition;
-        }
-    
-        handleSelection(vimEditor, newPosition);
         vimEditor.tags.set("lastCharacter", newPosition.character);
+        handleSelection(vimEditor, newPosition);
     }
 }

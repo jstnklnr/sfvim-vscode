@@ -8,7 +8,7 @@ export class CommandMotionDown extends SFVimCommand {
     }
 
     public execute(vimEditor: SFVimEditor, amplifier: number): void {
-        if(amplifier == 0) {
+        if(amplifier === 0) {
             amplifier = 1;
         }
     
@@ -19,12 +19,11 @@ export class CommandMotionDown extends SFVimCommand {
         const character = vimEditor.tags.get("lastCharacter") || currentPosition.character;
     
         const newPosition = vimEditor.editor.selection.active.with(currentPosition.line + offset, character);
-        let anchor = newPosition;
-    
+
         if(vimEditor.mode & SFVimMode.VISUAL) {
-            anchor = vimEditor.tags.get("anchor") || newPosition;
+            
         }
-    
+
         handleSelection(vimEditor, newPosition);
     }
 }

@@ -19,27 +19,27 @@ export class CommandMotionLineStart extends SFVimCommand {
     }
 
     public execute(vimEditor: SFVimEditor, amplifier: number): void {
-        if(amplifier != 0) {
+        if(amplifier !== 0) {
             return;
         }
     
+        const visualMode = vimEditor.mode & SFVimMode.VISUAL;
+
         const currentPosition = vimEditor.editor.selection.active;
         const lineText = vimEditor.editor.document.lineAt(currentPosition.line).text;
         let character = 0;
         
+        let anchor = vimEditor.tags.get("anchor") || currentPosition;
+        const isAdjusted = visualMode && isAdjustedPostion(anchor, currentPosition);
+
         while(character < lineText.length - 1 && /^\s$/.exec(lineText[character])?.length) {
             character++;
         }
     
         let newPosition = vimEditor.editor.selection.active.with(currentPosition.line, character);
-        let anchor = newPosition;
+        newPosition = visualMode && isAdjusted ? getRightPosition(newPosition) : newPosition;
     
-        if(vimEditor.mode & SFVimMode.VISUAL) {
-            anchor = vimEditor.tags.get("anchor") || newPosition;
-            newPosition = isAdjustedPostion(anchor, newPosition) ? getRightPosition(newPosition) : newPosition;
-        }
-    
-        handleSelection(vimEditor, newPosition);
         vimEditor.tags.set("lastCharacter", newPosition.character);
+        handleSelection(vimEditor, newPosition);
     }
 }

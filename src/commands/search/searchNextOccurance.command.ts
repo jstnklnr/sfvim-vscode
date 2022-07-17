@@ -39,9 +39,11 @@ export class CommandSearchNextOccurance extends SFVimCommand {
 
         const selection = vimEditor.editor.selection;
         let location = selection.active;
+        let wasAdjusted = false;
 
         if(vimEditor.mode & SFVimMode.VISUAL && isAdjustedPostion(selection.anchor, location)) {
             location = getLeftPosition(location);
+            wasAdjusted = true;
         }
         
         if(!occurances || occurances.length <= 0) {
@@ -70,11 +72,11 @@ export class CommandSearchNextOccurance extends SFVimCommand {
             }
         }
 
-        if(vimEditor.mode & SFVimMode.VISUAL && isAdjustedPostion(selection.anchor, location)) {
+        if(vimEditor.mode & SFVimMode.VISUAL && wasAdjusted) {
             location = getRightPosition(location);
         }
 
-        handleSelection(vimEditor, location);
         vimEditor.tags.set("lastCharacter", location.character);
+        handleSelection(vimEditor, location);
     }
 }

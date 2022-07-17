@@ -9,19 +9,14 @@ export class CommandMotionRight extends SFVimCommand {
     }
 
     public execute(vimEditor: SFVimEditor, amplifier: number): void {
-        if(amplifier == 0) {
+        if(amplifier === 0) {
             amplifier = 1;
         }
     
         const currentPosition = vimEditor.editor.selection.active;
         const newPosition = getOffsetPosition(currentPosition, 0, amplifier);
-        let anchor = newPosition;
     
-        if(vimEditor.mode & SFVimMode.VISUAL) {
-            anchor = vimEditor.tags.get("anchor") || newPosition;
-        }
-    
-        handleSelection(vimEditor, newPosition);
         vimEditor.tags.set("lastCharacter", newPosition.character);
+        handleSelection(vimEditor, newPosition);
     }
 }

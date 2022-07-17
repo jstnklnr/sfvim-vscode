@@ -24,7 +24,7 @@ export class CommandSelectWord extends SFVimCommand {
     }
 
     public selectWord(vimEditor: SFVimEditor, amplifier: number, includeSpecial: boolean = false) {
-        if(amplifier != 0) {
+        if(amplifier !== 0) {
             return;
         }
     

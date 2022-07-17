@@ -24,7 +24,7 @@ export class CommandSelectUntilNext extends SFVimCommand {
     }
 
     public selectUntilNext(vimEditor: SFVimEditor, amplifier: number, includeSpecial: boolean = false) {
-        if(amplifier == 0) {
+        if(amplifier === 0) {
             amplifier = 1;
         }
     
