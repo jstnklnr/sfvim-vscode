@@ -38,12 +38,6 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
         newPosition = getOffsetPosition(newPosition, 0, lineLength - newPosition.character);
     }
 
-    if(visualMode && motionDirection !== RelativeDirection.Right && newPosition.line === anchor.line && newPosition.character === anchor.character + 1) {
-        newPosition = getLeftPosition(newPosition);
-        selectionDirection = getRelativeDirection(anchor, newPosition);
-        vimEditor.tags.set("lastCharacter", newPosition.character);
-    }
-
     const lastAnchor = vimEditor.editor.selection.anchor;
     const lastPosition = vimEditor.tags.get("lastEditorCharacter") || currentPosition;
     
@@ -96,7 +90,7 @@ export function handleSelection(vimEditor: SFVimEditor, newPosition: vscode.Posi
             vimEditor.tags.set("lastCharacter", newPosition.character);
         }
         
-        if(selectionDirection !== RelativeDirection.Equal && lastSelectionDirection === RelativeDirection.Right) {
+        if(lastSelectionDirection === RelativeDirection.Right) {
             newPosition = getLeftPosition(newPosition);
             vimEditor.tags.set("lastCharacter", newPosition.character);
         }

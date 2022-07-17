@@ -1,3 +1,4 @@
+import { Selection } from "vscode";
 import { handleSelection } from "../../handlers/selection.handler";
 import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
@@ -23,11 +24,13 @@ export class CommandSelectionSwap extends SFVimCommand {
     
         if(isAdjustedPostion(anchor, active)) {
             active = getLeftPosition(active);
+            anchor = getRightPosition(anchor);
         }else {
             anchor = getRightPosition(anchor);
         }
     
         vimEditor.tags.set("anchor", active);
+        vimEditor.editor.selection = new Selection(active, vimEditor.editor.selection.active);
         handleSelection(vimEditor, anchor);
     }
 }

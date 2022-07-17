@@ -21,10 +21,12 @@ export class CommandDeleteLine extends SFVimCommand {
         const currentLine = vimEditor.editor.selection.active.line;
         const maxLine = vimEditor.editor.document.lineCount - 1;
         
+        const lastLine = vimEditor.editor.document.lineAt(Math.min(currentLine + amplifier - 1, maxLine));
+
         let firstRange = vimEditor.editor.document.lineAt(currentLine).rangeIncludingLineBreak;
-        const lastRange = vimEditor.editor.document.lineAt(Math.min(currentLine + amplifier - 1, maxLine)).rangeIncludingLineBreak;
+        const lastRange = lastLine.rangeIncludingLineBreak;
     
-        if(lastRange.end.line === maxLine && firstRange.start.line > 0) {
+        if(lastLine.range.end.line === maxLine && firstRange.start.line > 0) {
             firstRange = new Range(vimEditor.editor.document.lineAt(firstRange.start.line - 1).range.end, firstRange.end);
         }
 

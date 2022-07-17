@@ -1,3 +1,4 @@
+import { Selection } from "vscode";
 import { handleSelection } from "../../handlers/selection.handler";
 import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
@@ -36,6 +37,7 @@ export class CommandSelectWord extends SFVimCommand {
     
         CommandModeVisual.instance().execute(vimEditor, 0);
         vimEditor.tags.set("anchor", range.start);
+        vimEditor.editor.selection = new Selection(range.start, vimEditor.editor.selection.active);
         handleSelection(vimEditor, range.end);
     }
 }

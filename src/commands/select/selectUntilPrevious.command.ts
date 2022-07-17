@@ -1,3 +1,4 @@
+import { Selection } from "vscode";
 import { handleSelection } from "../../handlers/selection.handler";
 import { SFVimCommand } from "../../types/SFVimCommand";
 import { SFVimMode, SFVimEditor } from "../../types/SFVimEditor";
@@ -36,6 +37,7 @@ export class CommandSelectUntilPrevious extends SFVimCommand {
     
         CommandModeVisual.instance().execute(vimEditor, 0);
         vimEditor.tags.set("anchor", getLeftPosition(range.end));
+        vimEditor.editor.selection = new Selection(getLeftPosition(range.end), vimEditor.editor.selection.active);
         handleSelection(vimEditor, range.start);
     }
 }
