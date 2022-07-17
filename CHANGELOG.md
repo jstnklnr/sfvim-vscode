@@ -4,6 +4,12 @@
 
 Notes about all releases.
 
+### 1.0.6
+
+Last character not selected when cursor left of anchor - fixed
+
+Cursor shift when moving up or down in visual mode - fixed
+
 ### 1.0.5
 
 Changed default keybinding (commit history for further details)
