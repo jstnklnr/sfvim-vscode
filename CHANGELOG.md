@@ -4,6 +4,14 @@
 
 Notes about all releases.
 
+### 1.0.7
+
+Delete.Line removes necessary line breaks - fixed
+
+Select commands being on character off - fixed
+
+Cursor does not jump on set position - fixed
+
 ### 1.0.6
 
 Last character not selected when cursor left of anchor - fixed
